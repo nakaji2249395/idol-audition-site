@@ -114,7 +114,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
         <section className="mt-10 rounded-3xl bg-slate-950 p-6 text-white">
           <h2 className="text-2xl font-black">応募方法</h2>
           <p className="mt-3 leading-8 text-slate-200">
-            次のいずれかの方法でご応募ください。応募前に、費用・活動地域・選考フローを必ず確認してください。
+            以下の応募方法からエントリーしてください。応募前に、費用・活動地域・選考フローを必ず確認してください。
           </p>
 
           <div className="mt-6 grid gap-4">

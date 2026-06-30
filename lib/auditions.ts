@@ -41,14 +41,9 @@ export const auditions: Audition[] = [
       "HIRAETH.Tokyoの新メンバーを募集しています。ライブ活動、レッスン、SNS発信などを通じて、アイドルとして本気で成長したい方を歓迎します。",
     applicationMethods: [
       {
-        label: "LINEにて応募",
-        url: "https://lin.ee/zKuUwMo",
-        note: "LINE追加後、オーディション応募希望の旨を送信してください。"
-      },
-      {
-        label: "フォームより応募",
-        url: "https://audition-plus.nerim.info/f/235648b2176f8a9188d931f4f29c2792",
-        note: "必要事項を入力して送信してください。"
+        label: "LINE友だち追加で応募",
+        url: "https://lin.ee/NgGvMjx",
+        note: "下記リンクからLINE友だち追加をしてください。エントリーのための必要事項をお送りします。ご不明な点がある場合もお気軽にお問い合わせください。"
       }
     ]
   },
