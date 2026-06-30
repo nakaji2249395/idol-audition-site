@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { auditions } from "@/lib/auditions";
+import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 
 export const metadata: Metadata = {
   title: "費用なしのアイドルオーディション一覧",
@@ -31,6 +32,8 @@ export default function FreeAuditionPage() {
           応募無料でも、合格後の費用が発生する場合があるため、詳細ページで確認しましょう。
         </p>
       </header>
+
+      <FeaturedHiraeth />
 
       <div className="grid gap-5 md:grid-cols-3">
         {freeAuditions.map((audition) => (

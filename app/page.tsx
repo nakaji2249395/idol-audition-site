@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { auditions } from "@/lib/auditions";
+import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 
 const categories = [
   {
@@ -56,6 +57,8 @@ export default function Home() {
             </Link>
           </div>
         </header>
+
+        <FeaturedHiraeth />
 
         <section className="mb-16">
           <div className="mb-6 flex items-end justify-between gap-4">

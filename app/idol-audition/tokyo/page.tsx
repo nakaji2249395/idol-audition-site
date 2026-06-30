@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { auditions } from "@/lib/auditions";
+import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 
 export const metadata: Metadata = {
   title: "東京のアイドルオーディション一覧",
@@ -26,6 +27,8 @@ export default function TokyoAuditionPage() {
           都内ライブハウスや東京近郊で活動したい方向けのアイドル募集情報です。
         </p>
       </header>
+
+      <FeaturedHiraeth />
 
       <div className="grid gap-5 md:grid-cols-3">
         {tokyoAuditions.map((audition) => (

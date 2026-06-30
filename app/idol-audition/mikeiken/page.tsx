@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { auditions } from "@/lib/auditions";
+import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 
 export const metadata: Metadata = {
   title: "未経験OKのアイドルオーディション一覧",
@@ -28,6 +29,8 @@ export default function MikeikenAuditionPage() {
           歌やダンスの経験よりも、やる気・継続力・発信力を重視する募集をまとめています。
         </p>
       </header>
+
+      <FeaturedHiraeth />
 
       <div className="grid gap-5 md:grid-cols-3">
         {mikeikenAuditions.map((audition) => (
