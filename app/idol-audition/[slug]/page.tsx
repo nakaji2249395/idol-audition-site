@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
+import { fetchApprovedSubmissionAudition } from "@/lib/submissions";
 
 type PageProps = {
   params: Promise<{
@@ -18,7 +19,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const audition = auditions.find((item) => item.slug === slug);
+  let audition = auditions.find((item) => item.slug === slug);
+
+  if (!audition && slug.startsWith("submission-")) {
+    audition = await fetchApprovedSubmissionAudition(slug.replace("submission-", "")) ?? undefined;
+  }
 
   if (!audition) {
     return {
@@ -66,7 +71,11 @@ function InfoSection({
 
 export default async function AuditionDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const audition = auditions.find((item) => item.slug === slug);
+  let audition = auditions.find((item) => item.slug === slug);
+
+  if (!audition && slug.startsWith("submission-")) {
+    audition = await fetchApprovedSubmissionAudition(slug.replace("submission-", "")) ?? undefined;
+  }
 
   if (!audition) {
     notFound();

@@ -4,6 +4,7 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
+import { fetchApprovedAuditions } from "@/lib/submissions";
 
 export const metadata: Metadata = {
   title: "アイドルオーディション一覧｜未経験OK・東京・費用なしのアイドル募集",
@@ -88,12 +89,16 @@ const faq = [
   }
 ];
 
-export default function IdolAuditionPage() {
+export const dynamic = "force-dynamic";
+
+export default async function IdolAuditionPage() {
+  const approvedAuditions = await fetchApprovedAuditions();
+  const allAuditions = [...auditions, ...approvedAuditions];
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "アイドルオーディション一覧",
-    itemListElement: auditions.map((audition, index) => ({
+    itemListElement: allAuditions.map((audition, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: audition.title,
@@ -151,7 +156,7 @@ export default function IdolAuditionPage() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">
-          {auditions.map((audition) => (
+          {allAuditions.map((audition) => (
             <AuditionCard key={audition.slug} audition={audition} />
           ))}
         </div>
