@@ -13,9 +13,6 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: siteConfig.keywords,
-  alternates: {
-    canonical: "/"
-  },
   openGraph: {
     type: "website",
     locale: "ja_JP",
