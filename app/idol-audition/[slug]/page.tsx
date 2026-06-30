@@ -41,6 +41,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+function InfoSection({
+  title,
+  items
+}: {
+  title: string;
+  items?: string[];
+}) {
+  if (!items || items.length === 0) return null;
+
+  return (
+    <section className="mt-10">
+      <h2 className="text-2xl font-black text-slate-950">{title}</h2>
+      <div className="mt-5 grid gap-3">
+        {items.map((item) => (
+          <div key={item} className="rounded-2xl bg-slate-50 p-5 leading-8 text-slate-700">
+            {item}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default async function AuditionDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const audition = auditions.find((item) => item.slug === slug);
@@ -97,12 +120,12 @@ export default async function AuditionDetailPage({ params }: PageProps) {
         <dl className="mt-10 grid gap-4">
           {[
             ["活動地域", audition.area],
-            ["締切", audition.deadline],
-            ["募集年齢", audition.age],
+            ["募集締切", audition.deadline],
+            ["募集対象", audition.age],
             ["費用", audition.cost],
             ["報酬", audition.reward],
             ["経験", audition.experience],
-            ["学生との両立", audition.student]
+            ["学生・仕事との両立", audition.student]
           ].map(([label, value]) => (
             <div key={label} className="rounded-2xl bg-slate-50 p-5 sm:flex sm:justify-between sm:gap-8">
               <dt className="font-bold text-slate-500">{label}</dt>
@@ -110,6 +133,12 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             </div>
           ))}
         </dl>
+
+        <InfoSection title="募集内容" items={audition.recruitmentTypes} />
+        <InfoSection title="運営・プロジェクトの特徴" items={audition.highlights} />
+        <InfoSection title="選考フロー" items={audition.selectionFlow} />
+        <InfoSection title="合格後の流れ" items={audition.afterPassingFlow} />
+        <InfoSection title="応募資格" items={audition.eligibility} />
 
         <section className="mt-10 rounded-3xl bg-slate-950 p-6 text-white">
           <h2 className="text-2xl font-black">応募方法</h2>
@@ -137,6 +166,20 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             ))}
           </div>
         </section>
+
+        {audition.faq && audition.faq.length > 0 ? (
+          <section className="mt-10">
+            <h2 className="text-2xl font-black text-slate-950">よくある質問</h2>
+            <div className="mt-5 grid gap-4">
+              {audition.faq.map((item) => (
+                <div key={item.question} className="rounded-2xl border border-slate-200 bg-white p-5">
+                  <h3 className="font-black text-slate-950">Q. {item.question}</h3>
+                  <p className="mt-3 leading-8 text-slate-600">A. {item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="mt-10 rounded-3xl bg-pink-50 p-6">
           <h2 className="text-xl font-black text-slate-950">応募前チェック</h2>
