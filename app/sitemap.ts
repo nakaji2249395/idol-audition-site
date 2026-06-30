@@ -10,8 +10,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/idol-audition",
     "/idol-audition/tokyo",
     "/idol-audition/mikeiken",
+    "/idol-audition/free",
+    "/idol-audition/high-school",
     "/idol-audition/suspicious",
-    "/idol-audition/cost"
+    "/idol-audition/cost",
+    "/idol-audition/parents",
+    "/idol-audition/how-to-apply",
+    "/post",
+    "/about"
   ];
 
   const auditionRoutes = auditions.map((audition) => `/idol-audition/${audition.slug}`);

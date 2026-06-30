@@ -3,7 +3,7 @@ import Link from "next/link";
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-slate-200 bg-white/70">
-      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-4">
         <div>
           <p className="text-lg font-black text-slate-950">アイドルオーディションナビ</p>
           <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -17,6 +17,8 @@ export function Footer() {
             <Link href="/idol-audition" className="hover:text-pink-600">アイドルオーディション一覧</Link>
             <Link href="/idol-audition/tokyo" className="hover:text-pink-600">東京のオーディション</Link>
             <Link href="/idol-audition/mikeiken" className="hover:text-pink-600">未経験OK</Link>
+            <Link href="/idol-audition/free" className="hover:text-pink-600">費用なし</Link>
+            <Link href="/idol-audition/high-school" className="hover:text-pink-600">高校生OK</Link>
           </div>
         </div>
 
@@ -25,6 +27,16 @@ export function Footer() {
           <div className="mt-3 grid gap-2 text-sm font-semibold text-slate-600">
             <Link href="/idol-audition/suspicious" className="hover:text-pink-600">怪しい募集の見分け方</Link>
             <Link href="/idol-audition/cost" className="hover:text-pink-600">費用の注意点</Link>
+            <Link href="/idol-audition/parents" className="hover:text-pink-600">親への説明</Link>
+            <Link href="/idol-audition/how-to-apply" className="hover:text-pink-600">応募文の書き方</Link>
+          </div>
+        </div>
+
+        <div>
+          <p className="font-bold text-slate-950">運営者向け</p>
+          <div className="mt-3 grid gap-2 text-sm font-semibold text-slate-600">
+            <Link href="/post" className="hover:text-pink-600">掲載希望の方へ</Link>
+            <Link href="/about" className="hover:text-pink-600">このサイトについて</Link>
           </div>
         </div>
       </div>

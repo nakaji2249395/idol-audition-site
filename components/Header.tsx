@@ -4,8 +4,9 @@ const navItems = [
   { href: "/idol-audition", label: "募集一覧" },
   { href: "/idol-audition/tokyo", label: "東京" },
   { href: "/idol-audition/mikeiken", label: "未経験OK" },
+  { href: "/idol-audition/free", label: "費用なし" },
   { href: "/idol-audition/suspicious", label: "怪しい？" },
-  { href: "/idol-audition/cost", label: "費用" }
+  { href: "/post", label: "掲載希望" }
 ];
 
 export function Header() {

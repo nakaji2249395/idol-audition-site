@@ -1,3 +1,9 @@
+export type ApplicationMethod = {
+  label: string;
+  url: string;
+  note?: string;
+};
+
 export type Audition = {
   slug: string;
   title: string;
@@ -13,6 +19,7 @@ export type Audition = {
   experience: string;
   student: string;
   description: string;
+  applicationMethods: ApplicationMethod[];
 };
 
 export const auditions: Audition[] = [
@@ -31,7 +38,19 @@ export const auditions: Audition[] = [
     experience: "未経験OK",
     student: "学業との両立相談可",
     description:
-      "HIRAETH.Tokyoの新メンバーを募集しています。ライブ活動、レッスン、SNS発信などを通じて、アイドルとして本気で成長したい方を歓迎します。"
+      "HIRAETH.Tokyoの新メンバーを募集しています。ライブ活動、レッスン、SNS発信などを通じて、アイドルとして本気で成長したい方を歓迎します。",
+    applicationMethods: [
+      {
+        label: "LINEにて応募",
+        url: "https://lin.ee/zKuUwMo",
+        note: "LINE追加後、オーディション応募希望の旨を送信してください。"
+      },
+      {
+        label: "フォームより応募",
+        url: "https://audition-plus.nerim.info/f/235648b2176f8a9188d931f4f29c2792",
+        note: "必要事項を入力して送信してください。"
+      }
+    ]
   },
   {
     slug: "tokyo-new-idol-project",
@@ -48,7 +67,14 @@ export const auditions: Audition[] = [
     experience: "未経験OK",
     student: "高校生・大学生相談可",
     description:
-      "都内を中心に活動予定の新規アイドルグループです。歌やダンスの経験よりも、継続力や発信力を重視します。"
+      "都内を中心に活動予定の新規アイドルグループです。歌やダンスの経験よりも、継続力や発信力を重視します。",
+    applicationMethods: [
+      {
+        label: "掲載元の応募フォームより応募",
+        url: "/post",
+        note: "現在、応募先情報を確認中です。"
+      }
+    ]
   },
   {
     slug: "weekend-idol-audition",
@@ -65,6 +91,13 @@ export const auditions: Audition[] = [
     experience: "未経験OK",
     student: "社会人・学生どちらも可",
     description:
-      "週末を中心に活動するアイドル企画です。平日は学校や仕事をしながら、無理なく活動したい方に向いています。"
+      "週末を中心に活動するアイドル企画です。平日は学校や仕事をしながら、無理なく活動したい方に向いています。",
+    applicationMethods: [
+      {
+        label: "掲載元の応募フォームより応募",
+        url: "/post",
+        note: "現在、応募先情報を確認中です。"
+      }
+    ]
   }
 ];

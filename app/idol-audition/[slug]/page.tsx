@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auditions } from "@/lib/auditions";
+import { siteConfig } from "@/lib/site";
 
 type PageProps = {
   params: Promise<{
@@ -27,7 +28,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: audition.title,
-    description: audition.summary
+    description: audition.summary,
+    alternates: {
+      canonical: `/idol-audition/${audition.slug}`
+    },
+    openGraph: {
+      title: audition.title,
+      description: audition.summary,
+      url: `${siteConfig.url}/idol-audition/${audition.slug}`,
+      type: "article"
+    }
   };
 }
 
@@ -39,8 +49,29 @@ export default async function AuditionDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: audition.title,
+    description: audition.summary,
+    mainEntityOfPage: `${siteConfig.url}/idol-audition/${audition.slug}`,
+    author: {
+      "@type": "Organization",
+      name: "アイドルオーディションナビ"
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "アイドルオーディションナビ"
+    }
+  };
+
   return (
     <main className="mx-auto max-w-4xl px-5 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <Link href="/idol-audition" className="text-sm font-bold text-slate-500 hover:text-pink-600">
         ← オーディション一覧へ戻る
       </Link>
@@ -80,15 +111,42 @@ export default async function AuditionDetailPage({ params }: PageProps) {
           ))}
         </dl>
 
-        <div className="mt-10 rounded-3xl bg-slate-950 p-6 text-white">
-          <h2 className="text-xl font-black">応募前に確認したいこと</h2>
+        <section className="mt-10 rounded-3xl bg-slate-950 p-6 text-white">
+          <h2 className="text-2xl font-black">応募方法</h2>
           <p className="mt-3 leading-8 text-slate-200">
-            実際に応募する前に、費用、契約期間、活動頻度、報酬、未成年の場合の保護者同意について確認しましょう。
+            次のいずれかの方法でご応募ください。応募前に、費用・活動地域・選考フローを必ず確認してください。
           </p>
-          <button className="mt-5 rounded-full bg-white px-6 py-3 text-sm font-bold text-slate-950">
-            応募フォームは準備中
-          </button>
-        </div>
+
+          <div className="mt-6 grid gap-4">
+            {audition.applicationMethods.map((method, index) => (
+              <a
+                key={method.label}
+                href={method.url}
+                target={method.url.startsWith("http") ? "_blank" : undefined}
+                rel={method.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="rounded-2xl bg-white p-5 text-slate-950 transition hover:-translate-y-1 hover:shadow-lg"
+              >
+                <p className="text-sm font-black text-pink-600">
+                  {index + 1}. {method.label}
+                </p>
+                {method.note ? (
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{method.note}</p>
+                ) : null}
+                <p className="mt-3 text-sm font-bold text-slate-950">応募ページを開く →</p>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-10 rounded-3xl bg-pink-50 p-6">
+          <h2 className="text-xl font-black text-slate-950">応募前チェック</h2>
+          <ul className="mt-4 grid gap-3 text-sm leading-7 text-slate-700">
+            <li>✅ 登録料・レッスン費・衣装代などの費用を確認する</li>
+            <li>✅ 活動地域と活動頻度を確認する</li>
+            <li>✅ 未成年の場合は保護者同意の流れを確認する</li>
+            <li>✅ 契約期間、報酬、物販バックの有無を確認する</li>
+          </ul>
+        </section>
       </article>
     </main>
   );
