@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
-import { fetchApprovedSubmissionAudition } from "@/lib/submissions";
+import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
 
 type PageProps = {
   params: Promise<{
@@ -19,10 +19,10 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  let audition = auditions.find((item) => item.slug === slug);
+  let audition = await fetchApprovedAuditionBySlug(slug) ?? undefined;
 
-  if (!audition && slug.startsWith("submission-")) {
-    audition = await fetchApprovedSubmissionAudition(slug.replace("submission-", "")) ?? undefined;
+  if (!audition) {
+    audition = auditions.find((item) => item.slug === slug);
   }
 
   if (!audition) {
@@ -71,10 +71,10 @@ function InfoSection({
 
 export default async function AuditionDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  let audition = auditions.find((item) => item.slug === slug);
+  let audition = await fetchApprovedAuditionBySlug(slug) ?? undefined;
 
-  if (!audition && slug.startsWith("submission-")) {
-    audition = await fetchApprovedSubmissionAudition(slug.replace("submission-", "")) ?? undefined;
+  if (!audition) {
+    audition = auditions.find((item) => item.slug === slug);
   }
 
   if (!audition) {

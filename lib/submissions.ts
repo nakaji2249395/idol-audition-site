@@ -5,7 +5,13 @@ export type SubmissionRow = {
   id: string;
   created_at: string;
   updated_at: string;
-  status: "pending" | "approved" | "rejected" | string;
+  status: "pending" | "approved" | "rejected" | "archived" | string;
+
+  slug: string | null;
+  is_pinned: boolean;
+  is_featured: boolean;
+  display_order: number;
+  archived_at: string | null;
 
   group_name: string;
   title: string;
@@ -93,7 +99,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
   ].filter(Boolean);
 
   return {
-    slug: `submission-${row.id}`,
+    slug: row.slug || `submission-${row.id}`,
     title: row.title,
     group: row.group_name,
     imageUrl: row.image_url ?? undefined,
@@ -102,7 +108,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     deadline: row.deadline,
     age: row.age,
     features,
-    safetyScore: 4,
+    safetyScore: row.is_pinned ? 5 : 4,
     cost: row.cost,
     reward: row.reward,
     experience: row.experience,
@@ -111,12 +117,13 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     applicationMethods: buildApplicationMethods(row),
     highlights: splitLines(row.activity_content),
     selectionFlow: splitLines(row.selection_flow),
-    recruitmentTypes: ["掲載依頼による募集情報"],
+    recruitmentTypes: row.is_pinned
+      ? ["注目オーディション", "公式掲載"]
+      : ["掲載依頼による募集情報"],
     faq: [
       {
         question: "応募方法はどこで確認できますか？",
-        answer:
-          row.application_method || "掲載元の応募方法に従ってエントリーしてください。"
+        answer: row.application_method || "掲載元の応募方法に従ってエントリーしてください。"
       },
       {
         question: "費用はかかりますか？",
@@ -135,6 +142,8 @@ export async function fetchApprovedAuditions(): Promise<Audition[]> {
     .from("audition_submissions")
     .select("*")
     .eq("status", "approved")
+    .order("is_pinned", { ascending: false })
+    .order("display_order", { ascending: true })
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -145,11 +154,11 @@ export async function fetchApprovedAuditions(): Promise<Audition[]> {
   return ((data ?? []) as SubmissionRow[]).map(submissionToAudition);
 }
 
-export async function fetchApprovedSubmissionAudition(id: string): Promise<Audition | null> {
+export async function fetchApprovedAuditionBySlug(slug: string): Promise<Audition | null> {
   const { data, error } = await supabaseAdmin
     .from("audition_submissions")
     .select("*")
-    .eq("id", id)
+    .eq("slug", slug)
     .eq("status", "approved")
     .single();
 
@@ -164,6 +173,8 @@ export async function fetchAllSubmissions(): Promise<SubmissionRow[]> {
   const { data, error } = await supabaseAdmin
     .from("audition_submissions")
     .select("*")
+    .order("is_pinned", { ascending: false })
+    .order("display_order", { ascending: true })
     .order("created_at", { ascending: false });
 
   if (error) {

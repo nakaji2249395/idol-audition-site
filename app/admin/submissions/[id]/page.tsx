@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { approveSubmission, rejectSubmission } from "@/app/admin/actions";
+import {
+  approveSubmission,
+  archiveSubmission,
+  deleteSubmission,
+  rejectSubmission
+} from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/adminAuth";
 import { fetchSubmission } from "@/lib/submissions";
 
@@ -12,7 +17,7 @@ type PageProps = {
   }>;
 };
 
-function Row({ label, value }: { label: string; value: string | boolean | null }) {
+function Row({ label, value }: { label: string; value: string | number | boolean | null }) {
   return (
     <div className="rounded-2xl bg-slate-50 p-5">
       <dt className="text-sm font-black text-slate-500">{label}</dt>
@@ -42,32 +47,33 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
       <article className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-bold text-pink-600">
-              {submission.status === "approved"
-                ? "掲載中"
-                : submission.status === "rejected"
-                  ? "非掲載"
-                  : "審査中"}
-            </p>
+            <p className="text-sm font-bold text-pink-600">{submission.status}</p>
             <h1 className="mt-2 text-4xl font-black leading-tight text-slate-950">
               {submission.title}
             </h1>
-            <p className="mt-3 text-lg font-bold text-slate-700">
-              {submission.group_name}
-            </p>
+            <p className="mt-3 text-lg font-bold text-slate-700">{submission.group_name}</p>
+            <p className="mt-2 text-sm text-slate-500">slug: {submission.slug || "未設定"}</p>
           </div>
 
-          {submission.status === "approved" ? (
+          <div className="flex flex-wrap gap-3">
             <Link
-              href={`/idol-audition/submission-${submission.id}`}
-              target="_blank"
+              href={`/admin/submissions/${submission.id}/edit`}
               className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-pink-600"
             >
-              公開ページを見る
+              編集する
             </Link>
-          ) : null}
-        </div>
 
+            {submission.status === "approved" && submission.slug ? (
+              <Link
+                href={`/idol-audition/${submission.slug}`}
+                target="_blank"
+                className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 hover:text-pink-600"
+              >
+                公開ページを見る
+              </Link>
+            ) : null}
+          </div>
+        </div>
 
         {submission.image_url ? (
           <div className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-100">
@@ -87,13 +93,37 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
             </button>
           </form>
 
+          <form action={archiveSubmission}>
+            <input type="hidden" name="id" value={submission.id} />
+            <button className="rounded-full bg-slate-600 px-6 py-3 text-sm font-black text-white hover:bg-slate-700">
+              掲載停止
+            </button>
+          </form>
+
           <form action={rejectSubmission}>
             <input type="hidden" name="id" value={submission.id} />
             <button className="rounded-full bg-red-600 px-6 py-3 text-sm font-black text-white hover:bg-red-700">
               却下する
             </button>
           </form>
+
+          <form action={deleteSubmission}>
+            <input type="hidden" name="id" value={submission.id} />
+            <button className="rounded-full border border-red-300 bg-white px-6 py-3 text-sm font-black text-red-600 hover:bg-red-50">
+              完全削除
+            </button>
+          </form>
         </div>
+
+        <section className="mt-10">
+          <h2 className="text-2xl font-black text-slate-950">管理設定</h2>
+          <dl className="mt-5 grid gap-4 md:grid-cols-2">
+            <Row label="固定表示" value={submission.is_pinned} />
+            <Row label="注目表示" value={submission.is_featured} />
+            <Row label="表示順" value={submission.display_order} />
+            <Row label="掲載停止日時" value={submission.archived_at} />
+          </dl>
+        </section>
 
         <section className="mt-10">
           <h2 className="text-2xl font-black text-slate-950">掲載内容</h2>
@@ -125,15 +155,6 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
             <Row label="公式X URL" value={submission.official_x_url} />
             <Row label="公式Instagram URL" value={submission.official_instagram_url} />
             <Row label="公式TikTok URL" value={submission.official_tiktok_url} />
-          </dl>
-        </section>
-
-        <section className="mt-10">
-          <h2 className="text-2xl font-black text-slate-950">担当者情報</h2>
-          <dl className="mt-5 grid gap-4 md:grid-cols-2">
-            <Row label="担当者名" value={submission.organizer_name} />
-            <Row label="担当者メール" value={submission.organizer_email} />
-            <Row label="担当者電話番号" value={submission.organizer_phone} />
           </dl>
         </section>
       </article>

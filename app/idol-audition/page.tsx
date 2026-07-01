@@ -93,7 +93,9 @@ export const dynamic = "force-dynamic";
 
 export default async function IdolAuditionPage() {
   const approvedAuditions = await fetchApprovedAuditions();
-  const allAuditions = [...auditions, ...approvedAuditions];
+  const approvedSlugs = new Set(approvedAuditions.map((audition) => audition.slug));
+  const staticAuditions = auditions.filter((audition) => !approvedSlugs.has(audition.slug));
+  const allAuditions = [...approvedAuditions, ...staticAuditions];
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
