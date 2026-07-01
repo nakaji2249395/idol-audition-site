@@ -4,6 +4,9 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
+import { getAllAuditions } from "@/lib/auditionData";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "東京のアイドルオーディション一覧｜未経験OK・費用なしの募集",
@@ -100,8 +103,10 @@ const faq = [
   }
 ];
 
-export default function TokyoAuditionPage() {
-  const tokyoAuditions = auditions.filter((audition) =>
+export default async function TokyoAuditionPage() {
+  const allAuditions = await getAllAuditions();
+  const allAuditions = await getAllAuditions();
+  const tokyoAuditions = allAuditions.filter((audition) =>
     `${audition.area} ${audition.features.join(" ")}`.includes("東京") ||
     `${audition.area} ${audition.features.join(" ")}`.includes("関東")
   );

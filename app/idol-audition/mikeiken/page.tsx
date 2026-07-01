@@ -4,6 +4,9 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
+import { getAllAuditions } from "@/lib/auditionData";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "未経験OKのアイドルオーディション一覧｜初心者でも応募できる募集",
@@ -83,8 +86,10 @@ const faq = [
   }
 ];
 
-export default function MikeikenAuditionPage() {
-  const mikeikenAuditions = auditions.filter((audition) =>
+export default async function MikeikenAuditionPage() {
+  const allAuditions = await getAllAuditions();
+  const allAuditions = await getAllAuditions();
+  const mikeikenAuditions = allAuditions.filter((audition) =>
     audition.experience.includes("未経験") || audition.features.includes("未経験OK")
   );
 

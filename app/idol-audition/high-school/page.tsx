@@ -4,6 +4,9 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
+import { getAllAuditions } from "@/lib/auditionData";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "高校生OKのアイドルオーディション一覧｜未成年が応募前に確認すること",
@@ -83,8 +86,10 @@ const faq = [
   }
 ];
 
-export default function HighSchoolAuditionPage() {
-  const highSchoolAuditions = auditions.filter((audition) =>
+export default async function HighSchoolAuditionPage() {
+  const allAuditions = await getAllAuditions();
+  const allAuditions = await getAllAuditions();
+  const highSchoolAuditions = allAuditions.filter((audition) =>
     `${audition.features.join(" ")} ${audition.student}`.includes("高校生") ||
     `${audition.features.join(" ")} ${audition.student}`.includes("学生")
   );

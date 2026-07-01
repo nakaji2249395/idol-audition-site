@@ -4,6 +4,9 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
+import { getAllAuditions } from "@/lib/auditionData";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "費用なしのアイドルオーディション一覧｜レッスン無料・合格後費用なしの募集",
@@ -85,8 +88,10 @@ const faq = [
   }
 ];
 
-export default function FreeAuditionPage() {
-  const freeAuditions = auditions.filter((audition) =>
+export default async function FreeAuditionPage() {
+  const allAuditions = await getAllAuditions();
+  const allAuditions = await getAllAuditions();
+  const freeAuditions = allAuditions.filter((audition) =>
     `${audition.cost} ${audition.features.join(" ")}`.includes("なし") ||
     `${audition.cost} ${audition.features.join(" ")}`.includes("無料")
   );
