@@ -90,7 +90,6 @@ const faq = [
 
 export default async function FreeAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const allAuditions = await getAllAuditions();
   const freeAuditions = allAuditions.filter((audition) =>
     `${audition.cost} ${audition.features.join(" ")}`.includes("なし") ||
     `${audition.cost} ${audition.features.join(" ")}`.includes("無料")

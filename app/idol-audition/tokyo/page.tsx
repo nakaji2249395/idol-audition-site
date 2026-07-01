@@ -105,7 +105,6 @@ const faq = [
 
 export default async function TokyoAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const allAuditions = await getAllAuditions();
   const tokyoAuditions = allAuditions.filter((audition) =>
     `${audition.area} ${audition.features.join(" ")}`.includes("東京") ||
     `${audition.area} ${audition.features.join(" ")}`.includes("関東")

@@ -88,7 +88,6 @@ const faq = [
 
 export default async function MikeikenAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const allAuditions = await getAllAuditions();
   const mikeikenAuditions = allAuditions.filter((audition) =>
     audition.experience.includes("未経験") || audition.features.includes("未経験OK")
   );

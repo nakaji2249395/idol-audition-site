@@ -88,7 +88,6 @@ const faq = [
 
 export default async function HighSchoolAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const allAuditions = await getAllAuditions();
   const highSchoolAuditions = allAuditions.filter((audition) =>
     `${audition.features.join(" ")} ${audition.student}`.includes("高校生") ||
     `${audition.features.join(" ")} ${audition.student}`.includes("学生")
