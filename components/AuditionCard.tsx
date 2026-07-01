@@ -1,58 +1,72 @@
 import Link from "next/link";
 import type { Audition } from "@/lib/auditions";
 
-function SafetyStars({ score }: { score: number }) {
-  return (
-    <span aria-label={`安心度 ${score} / 5`}>
-      {"★".repeat(score)}
-      <span className="text-slate-300">{"★".repeat(5 - score)}</span>
-    </span>
-  );
-}
-
 export function AuditionCard({ audition }: { audition: Audition }) {
   return (
-    <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-      <div className="mb-4 flex flex-wrap gap-2">
-        {audition.features.map((feature) => (
-          <span
-            key={feature}
-            className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
-          >
-            {feature}
-          </span>
-        ))}
+    <Link
+      href={`/idol-audition/${audition.slug}`}
+      className="group overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-pink-100 via-white to-slate-100">
+        {audition.imageUrl ? (
+          <img
+            src={audition.imageUrl}
+            alt={`${audition.title}の画像`}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center px-6 text-center">
+            <div>
+              <p className="text-sm font-black text-pink-600">AUDITION</p>
+              <p className="mt-2 text-xl font-black text-slate-950">
+                {audition.group}
+              </p>
+            </div>
+          </div>
+        )}
+
+        <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-black text-slate-900 shadow-sm backdrop-blur">
+          {audition.area}
+        </div>
       </div>
 
-      <p className="text-sm font-semibold text-pink-600">{audition.group}</p>
-      <h3 className="mt-1 text-xl font-bold tracking-tight text-slate-950">
-        {audition.title}
-      </h3>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{audition.summary}</p>
+      <div className="p-6">
+        <div className="flex flex-wrap gap-2">
+          {audition.features.slice(0, 4).map((feature) => (
+            <span
+              key={feature}
+              className="rounded-full bg-pink-50 px-3 py-1 text-xs font-bold text-pink-700"
+            >
+              {feature}
+            </span>
+          ))}
+        </div>
 
-      <dl className="mt-5 grid gap-3 text-sm">
-        <div className="flex justify-between gap-4 border-t border-slate-100 pt-3">
-          <dt className="text-slate-500">活動地域</dt>
-          <dd className="font-semibold text-slate-900">{audition.area}</dd>
-        </div>
-        <div className="flex justify-between gap-4 border-t border-slate-100 pt-3">
-          <dt className="text-slate-500">費用</dt>
-          <dd className="font-semibold text-slate-900">{audition.cost}</dd>
-        </div>
-        <div className="flex justify-between gap-4 border-t border-slate-100 pt-3">
-          <dt className="text-slate-500">安心度</dt>
-          <dd className="font-semibold text-amber-500">
-            <SafetyStars score={audition.safetyScore} />
-          </dd>
-        </div>
-      </dl>
+        <p className="mt-5 text-sm font-bold text-pink-600">{audition.group}</p>
 
-      <Link
-        href={`/idol-audition/${audition.slug}`}
-        className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white transition hover:bg-pink-600"
-      >
-        詳細を見る
-      </Link>
-    </article>
+        <h3 className="mt-2 text-xl font-black leading-snug text-slate-950">
+          {audition.title}
+        </h3>
+
+        <p className="mt-3 line-clamp-3 text-sm leading-7 text-slate-600">
+          {audition.summary}
+        </p>
+
+        <div className="mt-5 grid gap-2 text-sm text-slate-600">
+          <p>
+            <span className="font-bold text-slate-900">締切：</span>
+            {audition.deadline}
+          </p>
+          <p>
+            <span className="font-bold text-slate-900">費用：</span>
+            {audition.cost}
+          </p>
+        </div>
+
+        <div className="mt-6 inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white transition group-hover:bg-pink-600">
+          詳細を見る
+        </div>
+      </div>
+    </Link>
   );
 }

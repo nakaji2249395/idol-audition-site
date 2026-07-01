@@ -68,6 +68,17 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
           ) : null}
         </div>
 
+
+        {submission.image_url ? (
+          <div className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-100">
+            <img
+              src={submission.image_url}
+              alt={`${submission.title}の画像`}
+              className="h-auto w-full object-cover"
+            />
+          </div>
+        ) : null}
+
         <div className="mt-8 flex flex-wrap gap-3">
           <form action={approveSubmission}>
             <input type="hidden" name="id" value={submission.id} />

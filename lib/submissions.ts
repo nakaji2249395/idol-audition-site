@@ -41,6 +41,9 @@ export type SubmissionRow = {
   organizer_phone: string | null;
 
   admin_note: string | null;
+
+  image_url: string | null;
+  image_path: string | null;
 };
 
 function splitLines(value: string) {
@@ -93,6 +96,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     slug: `submission-${row.id}`,
     title: row.title,
     group: row.group_name,
+    imageUrl: row.image_url ?? undefined,
     summary: row.summary,
     area: row.area,
     deadline: row.deadline,

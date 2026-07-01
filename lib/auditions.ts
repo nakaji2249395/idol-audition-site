@@ -8,6 +8,7 @@ export type Audition = {
   slug: string;
   title: string;
   group: string;
+  imageUrl?: string;
   summary: string;
   area: string;
   deadline: string;

@@ -93,7 +93,7 @@ export default function PostPage() {
         </p>
       </header>
 
-      <form action={createSubmission} className="mt-8 grid gap-8">
+      <form action={createSubmission} encType="multipart/form-data" className="mt-8 grid gap-8">
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">基本情報</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -153,6 +153,25 @@ export default function PostPage() {
               placeholder="例：LINE友だち追加後、エントリーに必要な情報を送信"
             />
           </div>
+        </section>
+
+
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-2xl font-black text-slate-950">掲載画像</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">
+            一覧カードや詳細ページに表示するメイン画像を1枚アップロードできます。
+            横長のフライヤー画像やアーティスト写真がおすすめです。jpg、png、webp、5MB以内に対応しています。
+          </p>
+
+          <label className="mt-6 grid gap-2">
+            <span className="text-sm font-black text-slate-800">メイン画像</span>
+            <input
+              name="image"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none file:mr-4 file:rounded-full file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-pink-600"
+            />
+          </label>
         </section>
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
