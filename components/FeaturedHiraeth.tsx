@@ -12,70 +12,65 @@ export async function FeaturedHiraeth() {
   }
 
   return (
-    <section className="mb-16 overflow-hidden rounded-[2rem] border border-pink-200 bg-white shadow-sm">
-      <div className="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
-        <div className="relative min-h-64 bg-gradient-to-br from-pink-100 via-white to-slate-100">
+    <section className="mb-10 overflow-hidden rounded-[1.6rem] border border-pink-200 bg-white shadow-sm">
+      <div className="grid gap-0 md:grid-cols-[0.85fr_1.15fr]">
+        <div className="relative aspect-[16/9] bg-gradient-to-br from-pink-100 via-white to-slate-100 md:aspect-auto md:min-h-56">
           {audition.imageUrl ? (
             <img
               src={audition.imageUrl}
               alt={`${audition.title}の画像`}
-              className="h-full min-h-64 w-full object-cover"
+              className="h-full w-full object-cover"
             />
           ) : (
-            <div className="flex h-full min-h-64 items-center justify-center px-6 text-center">
+            <div className="flex h-full items-center justify-center px-4 text-center">
               <div>
-                <p className="text-sm font-black text-pink-600">FEATURED AUDITION</p>
-                <p className="mt-3 text-3xl font-black text-slate-950">
+                <p className="text-xs font-black text-pink-600">FEATURED</p>
+                <p className="mt-1 text-xl font-black text-slate-950">
                   {audition.group}
                 </p>
               </div>
             </div>
           )}
 
-          <div className="absolute left-5 top-5 rounded-full bg-pink-600 px-4 py-2 text-xs font-black text-white shadow-sm">
-            注目オーディション
+          <div className="absolute left-3 top-3 rounded-full bg-pink-600 px-3 py-1.5 text-[11px] font-black text-white shadow-sm">
+            注目
           </div>
         </div>
 
-        <div className="p-6 sm:p-8">
-          <p className="text-sm font-black text-pink-600">{audition.group}</p>
+        <div className="p-4 sm:p-5">
+          <p className="text-xs font-black text-pink-600">注目オーディション</p>
 
-          <h2 className="mt-3 text-3xl font-black leading-tight text-slate-950">
+          <h2 className="mt-1.5 line-clamp-2 text-xl font-black leading-snug text-slate-950 sm:text-2xl">
             {audition.title}
           </h2>
 
-          <p className="mt-5 leading-8 text-slate-600">
+          <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">
             {audition.summary}
           </p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
-            {audition.features.slice(0, 6).map((feature) => (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {audition.features.slice(0, 5).map((feature) => (
               <span
                 key={feature}
-                className="rounded-full bg-pink-50 px-3 py-1 text-xs font-black text-pink-700"
+                className="rounded-full bg-pink-50 px-2.5 py-1 text-[11px] font-black text-pink-700"
               >
                 {feature}
               </span>
             ))}
           </div>
 
-          <div className="mt-6 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <span className="font-black text-slate-500">活動地域</span>
-              <p className="mt-1 font-black text-slate-950">{audition.area}</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <span className="font-black text-slate-500">費用</span>
-              <p className="mt-1 font-black text-slate-950">{audition.cost}</p>
-            </div>
-          </div>
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <p className="line-clamp-1 text-xs font-bold text-slate-500">
+              {audition.area} / {audition.deadline}
+            </p>
 
-          <Link
-            href={`/idol-audition/${audition.slug}`}
-            className="mt-7 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white transition hover:bg-pink-600"
-          >
-            詳細を見る
-          </Link>
+            <Link
+              href={`/idol-audition/${audition.slug}`}
+              className="shrink-0 rounded-full bg-slate-950 px-4 py-2.5 text-xs font-black text-white transition hover:bg-pink-600"
+            >
+              詳細
+            </Link>
+          </div>
         </div>
       </div>
     </section>
