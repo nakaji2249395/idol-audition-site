@@ -202,33 +202,19 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             </section>
           ) : null}
 
-          <section className="mt-10 rounded-[2rem] bg-pink-50 p-6">
-            <h2 className="text-2xl font-black text-slate-950">応募方法</h2>
-            <p className="mt-3 leading-8 text-slate-700">
-              応募前に、費用・活動地域・応募条件・保護者同意の有無を確認してください。
+          <section className="mt-10 rounded-[1.6rem] bg-pink-50 p-5 sm:p-6">
+            <h2 className="text-xl font-black text-slate-950">応募方法</h2>
+            <p className="mt-2 text-sm leading-7 text-slate-700">
+              応募にはアイドルオーディションナビ公式LINEを使用します。
+              追加後、選択したオーディションの応募案内をLINEでお送りします。
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-3">
-              {audition.applicationMethods.map((method) => (
-                <a
-                  key={method.url}
-                  href={method.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white transition hover:bg-pink-600"
-                >
-                  {method.label}
-                </a>
-              ))}
-            </div>
-
-            {audition.applicationMethods.map((method) =>
-              method.note ? (
-                <p key={method.label} className="mt-4 text-sm leading-7 text-slate-600">
-                  {method.note}
-                </p>
-              ) : null
-            )}
+            <Link
+              href={`/apply/${audition.slug}`}
+              className="mt-5 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white transition hover:bg-pink-600"
+            >
+              LINEで応募する
+            </Link>
           </section>
 
           {audition.faq && audition.faq.length > 0 ? (

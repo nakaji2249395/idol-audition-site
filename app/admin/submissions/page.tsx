@@ -40,6 +40,13 @@ export default async function AdminSubmissionsPage() {
           <h1 className="mt-2 text-4xl font-black text-slate-950">掲載依頼一覧</h1>
         </div>
 
+        <Link
+          href="/admin/applications"
+          className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-pink-600"
+        >
+          応募者一覧
+        </Link>
+
         <form action={logoutAdmin}>
           <button className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 hover:text-pink-600">
             ログアウト
