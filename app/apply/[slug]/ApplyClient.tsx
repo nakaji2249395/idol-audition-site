@@ -93,7 +93,7 @@ export function ApplyClient({
         setMessage("応募するオーディションを確認しています。");
 
         const urlSlug = new URLSearchParams(window.location.search).get("slug") || "";
-        const slugFromStorage = window.sessionStorage.getItem(STORAGE_KEY) || "";
+        const slugFromStorage = window.sessionStorage.getItem(STORAGE_KEY) || window.localStorage.getItem(STORAGE_KEY) || "";
         const auditionSlug = initialAuditionSlug || urlSlug || slugFromStorage;
 
         setDebugMessage(
@@ -105,6 +105,7 @@ export function ApplyClient({
         }
 
         window.sessionStorage.setItem(STORAGE_KEY, auditionSlug);
+        window.localStorage.setItem(STORAGE_KEY, auditionSlug);
 
         setState("loading_audition");
         setMessage("オーディション情報を取得しています。");
@@ -129,6 +130,7 @@ export function ApplyClient({
           const redirectUrl = `${window.location.origin}/apply?slug=${encodeURIComponent(auditionSlug)}`;
 
           window.sessionStorage.setItem(STORAGE_KEY, auditionSlug);
+        window.localStorage.setItem(STORAGE_KEY, auditionSlug);
 
           liff.login({
             redirectUri: redirectUrl

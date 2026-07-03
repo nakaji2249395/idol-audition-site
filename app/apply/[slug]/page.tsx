@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getApplyUrl } from "@/lib/applyUrl";
 
 type PageProps = {
   params: Promise<{
@@ -8,5 +9,5 @@ type PageProps = {
 
 export default async function LegacyApplyPage({ params }: PageProps) {
   const { slug } = await params;
-  redirect(`/apply?slug=${slug}`);
+  redirect(getApplyUrl(slug));
 }
