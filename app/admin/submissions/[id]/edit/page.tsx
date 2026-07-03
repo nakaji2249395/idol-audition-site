@@ -210,14 +210,15 @@ export default async function EditSubmissionPage({ params }: PageProps) {
         </section>
 
         <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="text-2xl font-black text-slate-950">応募URL・公式SNS</h2>
+          <h2 className="text-2xl font-black text-slate-950">公式リンク</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">
+            応募方法は「応募方法」欄に記載します。
+            ここには公開ページに表示する公式サイト・公式Xだけを設定します。
+          </p>
+
           <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <Field label="LINE応募URL" name="line_url" defaultValue={submission.line_url} required={false} />
-            <Field label="フォーム応募URL" name="form_url" defaultValue={submission.form_url} required={false} />
             <Field label="公式サイトURL" name="official_site_url" defaultValue={submission.official_site_url} required={false} />
             <Field label="公式X URL" name="official_x_url" defaultValue={submission.official_x_url} required={false} />
-            <Field label="公式Instagram URL" name="official_instagram_url" defaultValue={submission.official_instagram_url} required={false} />
-            <Field label="公式TikTok URL" name="official_tiktok_url" defaultValue={submission.official_tiktok_url} required={false} />
           </div>
         </section>
 

@@ -103,6 +103,8 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     title: row.title,
     group: row.group_name,
     imageUrl: row.image_url ?? undefined,
+    officialSiteUrl: row.official_site_url ?? undefined,
+    officialXUrl: row.official_x_url ?? undefined,
     summary: row.summary,
     area: row.area,
     deadline: row.deadline,

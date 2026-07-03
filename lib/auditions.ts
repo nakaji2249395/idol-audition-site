@@ -9,6 +9,8 @@ export type Audition = {
   title: string;
   group: string;
   imageUrl?: string;
+  officialSiteUrl?: string;
+  officialXUrl?: string;
   summary: string;
   area: string;
   deadline: string;

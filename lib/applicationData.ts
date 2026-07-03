@@ -28,12 +28,7 @@ export async function fetchApplyAuditionBySlug(slug: string): Promise<ApplyAudit
       application_cta_label?: string | null;
     };
 
-    const externalUrl =
-      row.application_external_url ||
-      row.line_url ||
-      row.form_url ||
-      row.official_site_url ||
-      null;
+    const externalUrl = row.application_external_url || null;
 
     return {
       slug: row.slug || `submission-${row.id}`,
@@ -45,7 +40,8 @@ export async function fetchApplyAuditionBySlug(slug: string): Promise<ApplyAudit
       applicationCtaLabel: row.application_cta_label || "応募案内を見る",
       applicationReplyMessage:
         row.application_reply_message ||
-        `${row.title}への応募案内です。下記の案内に沿って応募してください。`
+        [`${row.title}への応募案内です。`, "", row.application_method].filter(Boolean).join("
+")
     };
   }
 
