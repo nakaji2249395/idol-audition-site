@@ -40,8 +40,9 @@ export async function fetchApplyAuditionBySlug(slug: string): Promise<ApplyAudit
       applicationCtaLabel: row.application_cta_label || "応募案内を見る",
       applicationReplyMessage:
         row.application_reply_message ||
-        [`${row.title}への応募案内です。`, "", row.application_method].filter(Boolean).join("
-")
+        [`${row.title}への応募案内です。`, "", row.application_method]
+          .filter(Boolean)
+          .join("\n")
     };
   }
 
@@ -59,10 +60,10 @@ export async function fetchApplyAuditionBySlug(slug: string): Promise<ApplyAudit
     group: staticAudition.group,
     summary: staticAudition.summary,
     imageUrl: staticAudition.imageUrl,
-    applicationExternalUrl: firstMethod?.url ?? null,
+    applicationExternalUrl: null,
     applicationCtaLabel: firstMethod?.label ?? "応募案内を見る",
     applicationReplyMessage:
-      `${staticAudition.title}への応募案内です。下記リンクから応募手続きを進めてください。`
+      `${staticAudition.title}への応募案内です。\n\n${firstMethod?.note || "詳細ページの案内に沿って応募してください。"}`
   };
 }
 
