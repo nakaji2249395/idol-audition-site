@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
+import { getApplyUrl } from "@/lib/applyUrl";
 
 export const dynamic = "force-dynamic";
 
@@ -210,7 +211,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             </p>
 
             <Link
-              href={`/apply?slug=${audition.slug}`}
+              href={getApplyUrl(audition.slug)}
               className="mt-5 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white transition hover:bg-pink-600"
             >
               LINEで応募する

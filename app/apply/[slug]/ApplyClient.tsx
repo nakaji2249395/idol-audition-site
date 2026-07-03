@@ -31,6 +31,25 @@ type ApplyState =
 
 const STORAGE_KEY = "idol_audition_apply_slug";
 
+async function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error(`${label}がタイムアウトしました。LINEアプリ内で開き直してください。`));
+    }, ms);
+  });
+
+  try {
+    return await Promise.race([promise, timeout]);
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
+}
+
+
 export function ApplyClient({
   initialAuditionSlug = "",
   officialLineUrl
@@ -43,6 +62,8 @@ export function ApplyClient({
   const [pushMessageError, setPushMessageError] = useState<string | null>(null);
 
   const liffId = process.env.NEXT_PUBLIC_LINE_LIFF_ID;
+  const retrySlug = audition?.slug || initialAuditionSlug;
+  const retryLiffUrl = liffId && retrySlug ? `https://liff.line.me/${liffId}?slug=${encodeURIComponent(retrySlug)}` : "";
   const canStart = useMemo(() => Boolean(liffId), [liffId]);
 
   useEffect(() => {
@@ -97,7 +118,7 @@ export function ApplyClient({
         setState("initializing");
         setMessage("LINE連携を初期化しています。");
 
-        await liff.init({ liffId });
+        await withTimeout(liff.init({ liffId }), 12000, "LINE連携の初期化");
 
         if (cancelled) return;
 
@@ -284,6 +305,16 @@ export function ApplyClient({
               <div className="rounded-2xl bg-red-50 p-4 text-sm font-bold leading-7 text-red-600">
                 {message}
               </div>
+
+
+              {retryLiffUrl ? (
+                <a
+                  href={retryLiffUrl}
+                  className="rounded-full bg-slate-950 px-5 py-3 text-center text-sm font-black text-white"
+                >
+                  LINEで開き直す
+                </a>
+              ) : null}
 
               {officialLineUrl ? (
                 <a
