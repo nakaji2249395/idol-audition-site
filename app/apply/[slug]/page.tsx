@@ -1,5 +1,16 @@
-import { redirect } from "next/navigation";
-import { getApplyUrl } from "@/lib/applyUrl";
+import type { Metadata } from "next";
+import { ApplyClient } from "@/app/apply/[slug]/ApplyClient";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "LINEで応募｜アイドルオーディションナビ",
+  description: "アイドルオーディションナビ公式LINEで応募案内を受け取れます。",
+  robots: {
+    index: false,
+    follow: false
+  }
+};
 
 type PageProps = {
   params: Promise<{
@@ -7,7 +18,13 @@ type PageProps = {
   }>;
 };
 
-export default async function LegacyApplyPage({ params }: PageProps) {
+export default async function ApplySlugPage({ params }: PageProps) {
   const { slug } = await params;
-  redirect(getApplyUrl(slug));
+
+  return (
+    <ApplyClient
+      initialAuditionSlug={slug}
+      officialLineUrl={process.env.NEXT_PUBLIC_LINE_OFFICIAL_URL}
+    />
+  );
 }

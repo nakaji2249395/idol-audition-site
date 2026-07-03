@@ -15,15 +15,47 @@ export const metadata: Metadata = {
 type ApplyPageProps = {
   searchParams?: Promise<{
     slug?: string;
+    "liff.state"?: string;
   }>;
 };
 
+function extractSlugFromLiffState(liffState?: string) {
+  if (!liffState) return "";
+
+  try {
+    const decoded = decodeURIComponent(liffState);
+
+    if (decoded.startsWith("?")) {
+      return new URLSearchParams(decoded).get("slug") || "";
+    }
+
+    if (decoded.includes("?")) {
+      const query = decoded.split("?")[1];
+      const slug = new URLSearchParams(query).get("slug");
+
+      if (slug) return slug;
+    }
+
+    const cleaned = decoded
+      .replace(/^\/apply\//, "")
+      .replace(/^\/apply/, "")
+      .replace(/^\//, "")
+      .split("?")[0]
+      .trim();
+
+    return cleaned;
+  } catch {
+    return "";
+  }
+}
+
 export default async function ApplyPage({ searchParams }: ApplyPageProps) {
   const params = await searchParams;
+  const slug = params?.slug || extractSlugFromLiffState(params?.["liff.state"]);
 
   return (
     <ApplyClient
-      initialAuditionSlug={params?.slug || ""}
+      initialAuditionSlug={slug || ""}
       officialLineUrl={process.env.NEXT_PUBLIC_LINE_OFFICIAL_URL}
     />
   );

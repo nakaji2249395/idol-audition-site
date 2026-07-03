@@ -31,6 +31,37 @@ type ApplyState =
 
 const STORAGE_KEY = "idol_audition_apply_slug";
 
+function extractSlugFromLiffState(liffState: string | null) {
+  if (!liffState) return "";
+
+  try {
+    const decoded = decodeURIComponent(liffState);
+
+    if (decoded.startsWith("?")) {
+      return new URLSearchParams(decoded).get("slug") || "";
+    }
+
+    if (decoded.includes("?")) {
+      const query = decoded.split("?")[1];
+      const slug = new URLSearchParams(query).get("slug");
+
+      if (slug) return slug;
+    }
+
+    const cleaned = decoded
+      .replace(/^\/apply\//, "")
+      .replace(/^\/apply/, "")
+      .replace(/^\//, "")
+      .split("?")[0]
+      .trim();
+
+    return cleaned;
+  } catch {
+    return "";
+  }
+}
+
+
 async function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
