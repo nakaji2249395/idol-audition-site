@@ -152,6 +152,7 @@ export function ApplyClient({
         }
 
         const idToken = liff.getIDToken();
+        const accessToken = liff.getAccessToken();
 
         if (!idToken) {
           throw new Error("LINE IDトークンを取得できませんでした。LINEアプリ内で開き直してください。");
@@ -167,6 +168,7 @@ export function ApplyClient({
           },
           body: JSON.stringify({
             idToken,
+            accessToken,
             auditionSlug,
             sourceUrl: window.location.href
           })

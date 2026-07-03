@@ -95,3 +95,56 @@ export async function fetchApplicationRows() {
     line_user: userMap.get(application.line_user_id) ?? null
   }));
 }
+
+export async function fetchApplicationById(id: string) {
+  const { data: application, error } = await supabaseAdmin
+    .from("audition_applications")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !application) {
+    return null;
+  }
+
+  const { data: user } = await supabaseAdmin
+    .from("line_users")
+    .select("*")
+    .eq("line_user_id", application.line_user_id)
+    .single();
+
+  return {
+    ...application,
+    line_user: user ?? null
+  };
+}
+
+export async function fetchApplicationsByLineUserId(lineUserId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("audition_applications")
+    .select("*")
+    .eq("line_user_id", lineUserId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return data ?? [];
+}
+
+export async function fetchLineMessages(lineUserId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("line_messages")
+    .select("*")
+    .eq("line_user_id", lineUserId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return data ?? [];
+}

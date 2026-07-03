@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
 import { fetchApplyAuditionBySlug } from "@/lib/applicationData";
-import { verifyLineIdToken, pushLineTextMessage } from "@/lib/line";
+import {
+  getLineProfileByAccessToken,
+  pushLineTextMessage,
+  verifyLineIdToken
+} from "@/lib/line";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
 
 type ApplyRequest = {
   idToken?: string;
+  accessToken?: string;
   auditionSlug?: string;
   sourceUrl?: string;
 };
@@ -31,8 +36,23 @@ export async function POST(request: Request) {
       );
     }
 
-    const profile = await verifyLineIdToken(body.idToken);
-    const lineUserId = profile.sub;
+    const idProfile = await verifyLineIdToken(body.idToken);
+
+    let lineUserId = idProfile.sub;
+    let displayName: string | null = idProfile.name ?? null;
+    let pictureUrl: string | null = idProfile.picture ?? null;
+
+    if (body.accessToken) {
+      try {
+        const accessTokenProfile = await getLineProfileByAccessToken(body.accessToken);
+
+        lineUserId = accessTokenProfile.userId || lineUserId;
+        displayName = accessTokenProfile.displayName ?? displayName;
+        pictureUrl = accessTokenProfile.pictureUrl ?? pictureUrl;
+      } catch (profileError) {
+        console.warn(profileError);
+      }
+    }
 
     const now = new Date().toISOString();
 
@@ -41,8 +61,8 @@ export async function POST(request: Request) {
       .upsert(
         {
           line_user_id: lineUserId,
-          display_name: profile.name ?? null,
-          picture_url: profile.picture ?? null,
+          display_name: displayName,
+          picture_url: pictureUrl,
           updated_at: now,
           last_seen_at: now
         },
@@ -104,12 +124,17 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error(error);
       pushMessageError =
-        "公式LINEの友だち追加が完了していない可能性があります。画面上の案内から公式LINEを追加してください。";
+        "公式LINEの友だち追加が完了していない、またはブロックされている可能性があります。画面上の案内から公式LINEを追加してください。";
     }
 
     return NextResponse.json({
       ok: true,
       audition,
+      lineUser: {
+        lineUserId,
+        displayName,
+        pictureUrl
+      },
       pushMessageSent,
       pushMessageError
     });

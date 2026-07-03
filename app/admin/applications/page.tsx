@@ -32,9 +32,10 @@ export default async function AdminApplicationsPage() {
           </div>
         ) : (
           applications.map((application) => (
-            <div
+            <Link
               key={application.id}
-              className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+              href={`/admin/applications/${application.id}`}
+              className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="flex flex-wrap items-start gap-4">
                 {application.line_user?.picture_url ? (
@@ -61,8 +62,12 @@ export default async function AdminApplicationsPage() {
                     応募日時: {new Date(application.created_at).toLocaleString("ja-JP")}
                   </p>
                 </div>
+
+                <span className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white">
+                  詳細・送信
+                </span>
               </div>
-            </div>
+            </Link>
           ))
         )}
       </section>

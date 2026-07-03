@@ -5,6 +5,13 @@ export type LineVerifyProfile = {
   aud?: string;
 };
 
+export type LineProfile = {
+  userId: string;
+  displayName?: string;
+  pictureUrl?: string;
+  statusMessage?: string;
+};
+
 export async function verifyLineIdToken(idToken: string): Promise<LineVerifyProfile> {
   const channelId = process.env.LINE_LOGIN_CHANNEL_ID;
 
@@ -36,6 +43,52 @@ export async function verifyLineIdToken(idToken: string): Promise<LineVerifyProf
 
   if (profile.aud && profile.aud !== channelId) {
     throw new Error("LINE ID token audience mismatch");
+  }
+
+  return profile;
+}
+
+export async function getLineProfileByAccessToken(accessToken: string): Promise<LineProfile> {
+  const channelId = process.env.LINE_LOGIN_CHANNEL_ID;
+
+  if (!channelId) {
+    throw new Error("LINE_LOGIN_CHANNEL_ID is not set");
+  }
+
+  const verifyResponse = await fetch(
+    `https://api.line.me/oauth2/v2.1/verify?access_token=${encodeURIComponent(accessToken)}`
+  );
+
+  if (!verifyResponse.ok) {
+    const text = await verifyResponse.text();
+    throw new Error(`LINE access token verify failed: ${text}`);
+  }
+
+  const verifyResult = (await verifyResponse.json()) as {
+    client_id?: string;
+    expires_in?: number;
+    scope?: string;
+  };
+
+  if (verifyResult.client_id && verifyResult.client_id !== channelId) {
+    throw new Error("LINE access token client_id mismatch");
+  }
+
+  const profileResponse = await fetch("https://api.line.me/v2/profile", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+
+  if (!profileResponse.ok) {
+    const text = await profileResponse.text();
+    throw new Error(`LINE profile fetch failed: ${text}`);
+  }
+
+  const profile = (await profileResponse.json()) as LineProfile;
+
+  if (!profile.userId) {
+    throw new Error("LINE profile userId was not returned");
   }
 
   return profile;
