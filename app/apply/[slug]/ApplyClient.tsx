@@ -4,48 +4,95 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import liff from "@line/liff";
 
+type ApplyAudition = {
+  slug: string;
+  title: string;
+  group: string;
+  summary: string;
+  imageUrl?: string;
+  applicationExternalUrl?: string | null;
+  applicationCtaLabel?: string | null;
+};
+
 type ApplyClientProps = {
-  auditionSlug: string;
-  auditionTitle: string;
-  auditionGroup: string;
-  auditionSummary: string;
-  auditionImageUrl?: string;
+  initialAuditionSlug?: string;
   officialLineUrl?: string;
 };
 
 type ApplyState =
   | "initializing"
+  | "recovering_slug"
+  | "loading_audition"
   | "logging_in"
   | "requesting_friendship"
   | "saving"
   | "done"
   | "error";
 
+const STORAGE_KEY = "idol_audition_apply_slug";
+
 export function ApplyClient({
-  auditionSlug,
-  auditionTitle,
-  auditionGroup,
-  auditionSummary,
-  auditionImageUrl,
+  initialAuditionSlug = "",
   officialLineUrl
 }: ApplyClientProps) {
   const [state, setState] = useState<ApplyState>("initializing");
   const [message, setMessage] = useState("LINE応募の準備をしています。");
+  const [debugMessage, setDebugMessage] = useState("");
+  const [audition, setAudition] = useState<ApplyAudition | null>(null);
   const [externalUrl, setExternalUrl] = useState<string | null>(null);
   const [pushMessageError, setPushMessageError] = useState<string | null>(null);
 
   const liffId = process.env.NEXT_PUBLIC_LINE_LIFF_ID;
-
   const canStart = useMemo(() => Boolean(liffId), [liffId]);
 
   useEffect(() => {
     let cancelled = false;
+
+    async function fetchAudition(slug: string) {
+      const response = await fetch(`/api/apply/audition?slug=${encodeURIComponent(slug)}`, {
+        cache: "no-store"
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.message || "オーディション情報の取得に失敗しました");
+      }
+
+      return result.audition as ApplyAudition;
+    }
 
     async function run() {
       try {
         if (!liffId) {
           throw new Error("NEXT_PUBLIC_LINE_LIFF_ID is not set");
         }
+
+        setState("recovering_slug");
+        setMessage("応募するオーディションを確認しています。");
+
+        const urlSlug = new URLSearchParams(window.location.search).get("slug") || "";
+        const slugFromStorage = window.sessionStorage.getItem(STORAGE_KEY) || "";
+        const auditionSlug = initialAuditionSlug || urlSlug || slugFromStorage;
+
+        setDebugMessage(
+          `slug確認: initial=${initialAuditionSlug || "なし"} / url=${urlSlug || "なし"} / storage=${slugFromStorage || "なし"}`
+        );
+
+        if (!auditionSlug) {
+          throw new Error("応募するオーディションが見つかりません。詳細ページからもう一度「LINEで応募する」を押してください。");
+        }
+
+        window.sessionStorage.setItem(STORAGE_KEY, auditionSlug);
+
+        setState("loading_audition");
+        setMessage("オーディション情報を取得しています。");
+
+        const auditionData = await fetchAudition(auditionSlug);
+
+        if (cancelled) return;
+
+        setAudition(auditionData);
 
         setState("initializing");
         setMessage("LINE連携を初期化しています。");
@@ -57,8 +104,13 @@ export function ApplyClient({
         if (!liff.isLoggedIn()) {
           setState("logging_in");
           setMessage("LINEログインへ移動します。");
+
+          const redirectUrl = `${window.location.origin}/apply?slug=${encodeURIComponent(auditionSlug)}`;
+
+          window.sessionStorage.setItem(STORAGE_KEY, auditionSlug);
+
           liff.login({
-            redirectUri: window.location.href
+            redirectUri: redirectUrl
           });
           return;
         }
@@ -81,7 +133,7 @@ export function ApplyClient({
         const idToken = liff.getIDToken();
 
         if (!idToken) {
-          throw new Error("LINE IDトークンを取得できませんでした");
+          throw new Error("LINE IDトークンを取得できませんでした。LINEアプリ内で開き直してください。");
         }
 
         setState("saving");
@@ -107,7 +159,7 @@ export function ApplyClient({
 
         if (cancelled) return;
 
-        setExternalUrl(result.audition?.applicationExternalUrl ?? null);
+        setExternalUrl(result.audition?.applicationExternalUrl ?? auditionData.applicationExternalUrl ?? null);
         setPushMessageError(result.pushMessageError ?? null);
         setState("done");
         setMessage("応募案内を受け付けました。公式LINEをご確認ください。");
@@ -132,32 +184,38 @@ export function ApplyClient({
     return () => {
       cancelled = true;
     };
-  }, [auditionSlug, canStart, liffId]);
+  }, [canStart, initialAuditionSlug, liffId]);
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-10">
-      <Link href={`/idol-audition/${auditionSlug}`} className="text-sm font-bold text-slate-500 hover:text-pink-600">
-        ← オーディション詳細へ戻る
+      <Link href="/idol-audition" className="text-sm font-bold text-slate-500 hover:text-pink-600">
+        ← オーディション一覧へ戻る
       </Link>
 
       <section className="mt-6 overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-sm">
-        {auditionImageUrl ? (
+        {audition?.imageUrl ? (
           <img
-            src={auditionImageUrl}
-            alt={`${auditionTitle}の画像`}
+            src={audition.imageUrl}
+            alt={`${audition.title}の画像`}
             className="h-auto w-full"
           />
         ) : null}
 
         <div className="p-5 sm:p-7">
           <p className="text-xs font-black text-pink-600">LINE応募</p>
+
           <h1 className="mt-2 text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
-            {auditionTitle}
+            {audition?.title || "LINE応募"}
           </h1>
-          <p className="mt-2 text-sm font-bold text-pink-600">{auditionGroup}</p>
-          <p className="mt-4 text-sm leading-7 text-slate-600">
-            {auditionSummary}
-          </p>
+
+          {audition ? (
+            <>
+              <p className="mt-2 text-sm font-bold text-pink-600">{audition.group}</p>
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                {audition.summary}
+              </p>
+            </>
+          ) : null}
 
           <div className="mt-6 rounded-2xl bg-slate-50 p-5">
             <p className="text-sm font-black text-slate-950">{message}</p>
@@ -165,6 +223,10 @@ export function ApplyClient({
             <p className="mt-3 text-xs leading-6 text-slate-500">
               応募にはアイドルオーディションナビ公式LINEの追加が必要です。
               追加後、選択したオーディションの応募案内をLINEでお送りします。
+            </p>
+
+            <p className="mt-3 break-all text-[11px] leading-5 text-slate-400">
+              debug: {state} / {debugMessage}
             </p>
           </div>
 
