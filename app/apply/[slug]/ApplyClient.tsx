@@ -87,9 +87,7 @@ export function ApplyClient({
 }: ApplyClientProps) {
   const [state, setState] = useState<ApplyState>("initializing");
   const [message, setMessage] = useState("LINE応募の準備をしています。");
-  const [debugMessage, setDebugMessage] = useState("");
   const [audition, setAudition] = useState<ApplyAudition | null>(null);
-  const [externalUrl, setExternalUrl] = useState<string | null>(null);
   const [pushMessageError, setPushMessageError] = useState<string | null>(null);
 
   const liffId = process.env.NEXT_PUBLIC_LINE_LIFF_ID;
@@ -126,10 +124,6 @@ export function ApplyClient({
         const urlSlug = new URLSearchParams(window.location.search).get("slug") || "";
         const slugFromStorage = window.sessionStorage.getItem(STORAGE_KEY) || window.localStorage.getItem(STORAGE_KEY) || "";
         const auditionSlug = initialAuditionSlug || urlSlug || slugFromStorage;
-
-        setDebugMessage(
-          `slug確認: initial=${initialAuditionSlug || "なし"} / url=${urlSlug || "なし"} / storage=${slugFromStorage || "なし"}`
-        );
 
         if (!auditionSlug) {
           throw new Error("応募するオーディションが見つかりません。詳細ページからもう一度「LINEで応募する」を押してください。");
@@ -214,8 +208,6 @@ export function ApplyClient({
         }
 
         if (cancelled) return;
-
-        setExternalUrl(result.audition?.applicationExternalUrl ?? auditionData.applicationExternalUrl ?? null);
         setPushMessageError(result.pushMessageError ?? null);
         setState("done");
         setMessage("応募案内を受け付けました。公式LINEをご確認ください。");
@@ -281,9 +273,6 @@ export function ApplyClient({
               追加後、選択したオーディションの応募案内をLINEでお送りします。
             </p>
 
-            <p className="mt-3 break-all text-[11px] leading-5 text-slate-400">
-              debug: {state} / {debugMessage}
-            </p>
           </div>
 
           {state !== "done" && state !== "error" ? (
@@ -315,16 +304,6 @@ export function ApplyClient({
                 </a>
               ) : null}
 
-              {externalUrl ? (
-                <a
-                  href={externalUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-slate-950 px-5 py-3 text-center text-sm font-black text-white"
-                >
-                  応募案内を開く
-                </a>
-              ) : null}
 
               <Link
                 href="/idol-audition"
