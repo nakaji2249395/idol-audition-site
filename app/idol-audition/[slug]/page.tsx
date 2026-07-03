@@ -210,7 +210,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             </p>
 
             <Link
-              href={`/apply/${audition.slug}`}
+              href={`/apply?slug=${audition.slug}`}
               className="mt-5 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white transition hover:bg-pink-600"
             >
               LINEで応募する
