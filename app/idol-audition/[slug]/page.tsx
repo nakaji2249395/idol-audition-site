@@ -63,7 +63,9 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-slate-50 p-4">
       <dt className="text-xs font-black text-slate-500">{label}</dt>
-      <dd className="mt-1 text-sm font-black leading-6 text-slate-950">{value}</dd>
+      <dd className="mt-1 whitespace-pre-wrap text-sm font-black leading-6 text-slate-950">
+        {value}
+      </dd>
     </div>
   );
 }
@@ -135,11 +137,14 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             {audition.title}
           </h1>
 
-          <p className="mt-4 text-sm leading-7 text-slate-600">
-            {audition.description}
-          </p>
+          <section className="mt-5 rounded-[1.4rem] bg-slate-50 p-4">
+            <h2 className="text-sm font-black text-slate-950">募集概要</h2>
+            <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-slate-700">
+              {audition.summary}
+            </p>
+          </section>
 
-          <section className="mt-6">
+          <section className="mt-5">
             <dl className="grid gap-3 sm:grid-cols-2">
               <InfoRow label="活動地域" value={audition.area} />
               <InfoRow label="募集締切" value={audition.deadline} />
@@ -147,7 +152,15 @@ export default async function AuditionDetailPage({ params }: PageProps) {
               <InfoRow label="費用" value={audition.cost} />
               <InfoRow label="報酬" value={audition.reward} />
               <InfoRow label="経験" value={audition.experience} />
+              <InfoRow label="学生・両立" value={audition.student} />
             </dl>
+          </section>
+
+          <section className="mt-6">
+            <h2 className="text-lg font-black text-slate-950">募集詳細</h2>
+            <div className="mt-3 whitespace-pre-wrap rounded-[1.4rem] border border-slate-200 bg-white p-4 text-sm leading-7 text-slate-700">
+              {audition.description}
+            </div>
           </section>
 
           {audition.officialSiteUrl || audition.officialXUrl ? (
@@ -184,7 +197,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
               <h2 className="text-lg font-black text-slate-950">活動内容・特徴</h2>
               <div className="mt-3 grid gap-2">
                 {audition.highlights.slice(0, 8).map((item) => (
-                  <div key={item} className="rounded-2xl bg-slate-50 p-3 text-sm leading-6 text-slate-700">
+                  <div key={item} className="whitespace-pre-wrap rounded-2xl bg-slate-50 p-3 text-sm leading-6 text-slate-700">
                     ✅ {item}
                   </div>
                 ))}
@@ -197,7 +210,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
               <h2 className="text-lg font-black text-slate-950">選考フロー</h2>
               <div className="mt-3 grid gap-2">
                 {audition.selectionFlow.map((item, index) => (
-                  <div key={`${item}-${index}`} className="rounded-2xl bg-slate-50 p-3 text-sm leading-6 text-slate-700">
+                  <div key={`${item}-${index}`} className="whitespace-pre-wrap rounded-2xl bg-slate-50 p-3 text-sm leading-6 text-slate-700">
                     <span className="mr-2 font-black text-pink-600">STEP {index + 1}</span>
                     {item}
                   </div>
@@ -228,7 +241,9 @@ export default async function AuditionDetailPage({ params }: PageProps) {
                 {audition.faq.map((item) => (
                   <div key={item.question} className="rounded-2xl border border-slate-200 bg-white p-4">
                     <h3 className="text-sm font-black text-slate-950">Q. {item.question}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">A. {item.answer}</p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600">
+                      A. {item.answer}
+                    </p>
                   </div>
                 ))}
               </div>
