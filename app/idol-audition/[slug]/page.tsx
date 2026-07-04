@@ -208,13 +208,8 @@ export default async function AuditionDetailPage({ params }: PageProps) {
           {audition.selectionFlow && audition.selectionFlow.length > 0 ? (
             <section className="mt-6">
               <h2 className="text-lg font-black text-slate-950">選考フロー</h2>
-              <div className="mt-3 grid gap-2">
-                {audition.selectionFlow.map((item, index) => (
-                  <div key={`${item}-${index}`} className="whitespace-pre-wrap rounded-2xl bg-slate-50 p-3 text-sm leading-6 text-slate-700">
-                    <span className="mr-2 font-black text-pink-600">STEP {index + 1}</span>
-                    {item}
-                  </div>
-                ))}
+              <div className="mt-3 whitespace-pre-wrap rounded-[1.4rem] bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                {audition.selectionFlow.join("\n")}
               </div>
             </section>
           ) : null}

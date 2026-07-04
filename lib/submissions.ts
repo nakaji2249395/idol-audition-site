@@ -118,7 +118,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     description: row.description,
     applicationMethods: buildApplicationMethods(row),
     highlights: splitLines(row.activity_content),
-    selectionFlow: splitLines(row.selection_flow),
+    selectionFlow: row.selection_flow ? [row.selection_flow] : [],
     recruitmentTypes: row.is_pinned
       ? ["注目オーディション", "公式掲載"]
       : ["掲載依頼による募集情報"],
