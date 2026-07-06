@@ -171,19 +171,7 @@ export default async function Home() {
           </div>
         </header>
 
-        <section className="mb-14 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <p className="text-sm font-bold text-pink-600">Search Intent</p>
-          <h2 className="mt-2 text-3xl font-black text-slate-950">
-            こんな人に向けたアイドルオーディション情報サイトです
-          </h2>
-          <div className="mt-6 grid gap-3 md:grid-cols-2">
-            {searchIntents.map((intent) => (
-              <div key={intent} className="rounded-2xl bg-slate-50 p-4 leading-8 text-slate-700">
-                ✅ {intent}
-              </div>
-            ))}
-          </div>
-        </section>
+        
 
         <FeaturedHiraeth />
 
@@ -241,6 +229,21 @@ export default async function Home() {
           </div>
         </section>
       </section>
-    </main>
+    
+
+      <section className="mb-14 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <p className="text-sm font-bold text-pink-600">Search Intent</p>
+          <h2 className="mt-2 text-3xl font-black text-slate-950">
+            こんな人に向けたアイドルオーディション情報サイトです
+          </h2>
+          <div className="mt-6 grid gap-3 md:grid-cols-2">
+            {searchIntents.map((intent) => (
+              <div key={intent} className="rounded-2xl bg-slate-50 p-4 leading-8 text-slate-700">
+                ✅ {intent}
+              </div>
+            ))}
+          </div>
+        </section>
+</main>
   );
 }
