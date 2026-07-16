@@ -156,6 +156,30 @@ export async function fetchApprovedAuditions(): Promise<Audition[]> {
   return ((data ?? []) as SubmissionRow[]).map(submissionToAudition);
 }
 
+export type ApprovedSitemapEntry = {
+  slug: string;
+  updated_at: string;
+  image_url: string | null;
+};
+
+export async function fetchApprovedSitemapEntries(): Promise<ApprovedSitemapEntry[]> {
+  const { data, error } = await supabaseAdmin
+    .from("audition_submissions")
+    .select("slug, updated_at, image_url")
+    .eq("status", "approved")
+    .not("slug", "is", null)
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return (data ?? []).filter(
+    (entry): entry is ApprovedSitemapEntry => Boolean(entry.slug)
+  );
+}
+
 export async function fetchApprovedAuditionBySlug(slug: string): Promise<Audition | null> {
   const { data, error } = await supabaseAdmin
     .from("audition_submissions")

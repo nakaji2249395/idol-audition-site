@@ -29,6 +29,16 @@ const categories = [
     text: "都内・関東近郊で活動できる募集を探す"
   },
   {
+    title: "大阪のアイドルオーディション",
+    href: "/idol-audition/osaka",
+    text: "大阪・関西で活動するアイドル募集を探す"
+  },
+  {
+    title: "名古屋のアイドルオーディション",
+    href: "/idol-audition/nagoya",
+    text: "名古屋・愛知・東海で活動する募集を探す"
+  },
+  {
     title: "未経験OKのオーディション",
     href: "/idol-audition/mikeiken",
     text: "歌やダンスが初めてでも応募しやすい募集"

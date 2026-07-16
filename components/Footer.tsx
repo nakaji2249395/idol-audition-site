@@ -16,6 +16,8 @@ export function Footer() {
           <div className="mt-3 grid gap-2 text-sm font-semibold text-slate-600">
             <Link href="/idol-audition" className="hover:text-pink-600">アイドルオーディション一覧</Link>
             <Link href="/idol-audition/tokyo" className="hover:text-pink-600">東京のオーディション</Link>
+            <Link href="/idol-audition/osaka" className="hover:text-pink-600">大阪のオーディション</Link>
+            <Link href="/idol-audition/nagoya" className="hover:text-pink-600">名古屋のオーディション</Link>
             <Link href="/idol-audition/mikeiken" className="hover:text-pink-600">未経験OK</Link>
             <Link href="/idol-audition/free" className="hover:text-pink-600">費用なし</Link>
             <Link href="/idol-audition/high-school" className="hover:text-pink-600">高校生OK</Link>

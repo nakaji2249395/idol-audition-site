@@ -88,6 +88,10 @@ async function uploadImageIfExists(formData: FormData) {
 async function revalidateSubmissionPages(slug?: string | null) {
   revalidatePath("/");
   revalidatePath("/idol-audition");
+  revalidatePath("/idol-audition/tokyo");
+  revalidatePath("/idol-audition/osaka");
+  revalidatePath("/idol-audition/nagoya");
+  revalidatePath("/sitemap.xml");
 
   if (slug) {
     revalidatePath(`/idol-audition/${slug}`);

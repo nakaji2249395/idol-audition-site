@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import { AuditionCard } from "@/components/AuditionCard";
+import { getAllAuditions } from "@/lib/auditionData";
+import {
+  auditionRegions,
+  getAuditionRegion,
+  getRelatedAuditions
+} from "@/lib/auditionDiscovery";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
@@ -14,7 +22,7 @@ type PageProps = {
   }>;
 };
 
-async function getAudition(slug: string) {
+const getAudition = cache(async (slug: string) => {
   const dbAudition = await fetchApprovedAuditionBySlug(slug);
 
   if (dbAudition) {
@@ -22,7 +30,7 @@ async function getAudition(slug: string) {
   }
 
   return auditions.find((item) => item.slug === slug);
-}
+});
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -78,6 +86,11 @@ export default async function AuditionDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const allAuditions = await getAllAuditions();
+  const relatedAuditions = getRelatedAuditions(audition, allAuditions);
+  const auditionRegion = getAuditionRegion(audition);
+  const region = auditionRegion ? auditionRegions[auditionRegion] : null;
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -96,17 +109,25 @@ export default async function AuditionDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-8 sm:px-5">
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-5">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <Link href="/idol-audition" className="text-xs font-bold text-slate-500 hover:text-pink-600">
-        ← オーディション一覧へ戻る
-      </Link>
+      <nav className="text-xs font-bold text-slate-500" aria-label="パンくずリスト">
+        <Link href="/" className="hover:text-pink-600">トップ</Link>
+        <span className="mx-2">/</span>
+        <Link href="/idol-audition" className="hover:text-pink-600">募集一覧</Link>
+        {region ? (
+          <>
+            <span className="mx-2">/</span>
+            <Link href={region.href} className="hover:text-pink-600">{region.label}</Link>
+          </>
+        ) : null}
+      </nav>
 
-      <article className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-sm">
+      <article className="mx-auto mt-5 max-w-4xl overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-sm">
         {audition.imageUrl ? (
           <div className="relative w-full overflow-hidden bg-slate-100">
             <img
@@ -246,6 +267,36 @@ export default async function AuditionDetailPage({ params }: PageProps) {
           ) : null}
         </div>
       </article>
+
+      {relatedAuditions.length > 0 ? (
+        <section className="mt-14" aria-labelledby="related-auditions-title">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-sm font-bold text-pink-600">Related Auditions</p>
+              <h2 id="related-auditions-title" className="mt-1 text-3xl font-black text-slate-950">
+                この募集に近いオーディション
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                活動地域や未経験可否、費用条件が近い募集中の情報です。
+              </p>
+            </div>
+            {region ? (
+              <Link href={region.href} className="text-sm font-black text-pink-600 hover:underline">
+                {region.label}の募集をすべて見る →
+              </Link>
+            ) : (
+              <Link href="/idol-audition" className="text-sm font-black text-pink-600 hover:underline">
+                募集一覧を見る →
+              </Link>
+            )}
+          </div>
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
+            {relatedAuditions.map((related) => (
+              <AuditionCard key={related.slug} audition={related} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

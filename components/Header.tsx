@@ -3,6 +3,8 @@ import Link from "next/link";
 const navItems = [
   { href: "/idol-audition", label: "募集一覧" },
   { href: "/idol-audition/tokyo", label: "東京" },
+  { href: "/idol-audition/osaka", label: "大阪" },
+  { href: "/idol-audition/nagoya", label: "名古屋" },
   { href: "/idol-audition/mikeiken", label: "未経験OK" },
   { href: "/idol-audition/free", label: "費用なし" },
   { href: "/idol-audition/suspicious", label: "怪しい？" },
