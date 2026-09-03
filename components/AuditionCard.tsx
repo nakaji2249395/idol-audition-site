@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Audition } from "@/lib/auditions";
 import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
@@ -23,9 +24,11 @@ export async function AuditionCard({ audition }: { audition: Audition }) {
     >
       <div className="relative aspect-[4/3] overflow-hidden border-b border-slate-200 bg-pink-50">
         {displayAudition.imageUrl ? (
-          <img
+          <Image
             src={displayAudition.imageUrl}
             alt={`${displayAudition.title}の画像`}
+            fill
+            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
             className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
           />
         ) : (

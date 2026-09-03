@@ -5,6 +5,20 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: "6mb"
     }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "qpblyjszkqiurtipyhie.supabase.co",
+        pathname: "/storage/v1/object/public/**"
+      },
+      {
+        protocol: "https",
+        hostname: "audition-plus.nerim.info",
+        pathname: "/img/audition/**"
+      }
+    ]
   }
 };
 
