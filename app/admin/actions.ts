@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { clearAdminCookie, requireAdmin, setAdminCookie } from "@/lib/adminAuth";
+import { sendApprovalEmail } from "@/lib/approvalEmail";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const IMAGE_BUCKET = "audition-images";
@@ -91,6 +92,11 @@ async function revalidateSubmissionPages(slug?: string | null) {
   revalidatePath("/idol-audition/tokyo");
   revalidatePath("/idol-audition/osaka");
   revalidatePath("/idol-audition/nagoya");
+  revalidatePath("/idol-audition/fukuoka");
+  revalidatePath("/idol-audition/nationwide");
+  revalidatePath("/idol-audition/mikeiken");
+  revalidatePath("/idol-audition/free");
+  revalidatePath("/idol-audition/high-school");
   revalidatePath("/sitemap.xml");
 
   if (slug) {
@@ -123,15 +129,24 @@ export async function approveSubmission(formData: FormData) {
     throw new Error("id is required");
   }
 
-  const { data: current } = await supabaseAdmin
+  const { data: current, error: currentError } = await supabaseAdmin
     .from("audition_submissions")
-    .select("slug")
+    .select("slug, status, organizer_email, organizer_name, group_name, title")
     .eq("id", id)
     .single();
 
+  if (currentError || !current) {
+    console.error(currentError);
+    throw new Error("掲載依頼が見つかりません");
+  }
+
   const slug = current?.slug || `submission-${id}`;
 
-  const { error } = await supabaseAdmin
+  if (current.status === "approved") {
+    redirect("/admin/submissions?approvalEmail=already-approved");
+  }
+
+  const { data: approvedSubmission, error } = await supabaseAdmin
     .from("audition_submissions")
     .update({
       status: "approved",
@@ -139,15 +154,32 @@ export async function approveSubmission(formData: FormData) {
       archived_at: null,
       updated_at: new Date().toISOString()
     })
-    .eq("id", id);
+    .eq("id", id)
+    .neq("status", "approved")
+    .select("id")
+    .maybeSingle();
 
   if (error) {
     console.error(error);
     throw new Error("承認に失敗しました");
   }
 
+  if (!approvedSubmission) {
+    redirect("/admin/submissions?approvalEmail=already-approved");
+  }
+
   await revalidateSubmissionPages(slug);
-  redirect("/admin/submissions");
+
+  const emailResult = await sendApprovalEmail({
+    submissionId: id,
+    organizerEmail: current.organizer_email,
+    organizerName: current.organizer_name,
+    groupName: current.group_name,
+    title: current.title,
+    slug
+  });
+
+  redirect(`/admin/submissions?approvalEmail=${emailResult}`);
 }
 
 export async function rejectSubmission(formData: FormData) {

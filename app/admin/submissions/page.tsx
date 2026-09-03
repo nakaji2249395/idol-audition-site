@@ -6,6 +6,33 @@ import { formatJstDateTime } from "@/lib/dateTime";
 
 export const dynamic = "force-dynamic";
 
+type PageProps = {
+  searchParams: Promise<{ approvalEmail?: string }>;
+};
+
+const approvalEmailMessages: Record<string, { text: string; style: string }> = {
+  sent: {
+    text: "掲載を承認し、担当者へ掲載完了メールを送信しました。",
+    style: "border-green-200 bg-green-50 text-green-800"
+  },
+  "not-configured": {
+    text: "掲載は承認しました。メールサービスが未設定のため、掲載完了メールは送信していません。",
+    style: "border-amber-200 bg-amber-50 text-amber-800"
+  },
+  "missing-email": {
+    text: "掲載は承認しましたが、担当者メールアドレスがないためメールは送信していません。",
+    style: "border-amber-200 bg-amber-50 text-amber-800"
+  },
+  failed: {
+    text: "掲載は承認しましたが、掲載完了メールの送信に失敗しました。送信設定を確認してください。",
+    style: "border-red-200 bg-red-50 text-red-800"
+  },
+  "already-approved": {
+    text: "この募集はすでに掲載中です。重複メールは送信していません。",
+    style: "border-slate-200 bg-slate-50 text-slate-700"
+  }
+};
+
 function StatusBadge({ status }: { status: string }) {
   const style =
     status === "approved"
@@ -28,9 +55,13 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={`rounded-full px-3 py-1 text-xs font-black ${style}`}>{label}</span>;
 }
 
-export default async function AdminSubmissionsPage() {
+export default async function AdminSubmissionsPage({ searchParams }: PageProps) {
   await requireAdmin();
 
+  const { approvalEmail } = await searchParams;
+  const approvalEmailMessage = approvalEmail
+    ? approvalEmailMessages[approvalEmail]
+    : undefined;
   const submissions = await fetchAllSubmissions();
 
   return (
@@ -54,6 +85,15 @@ export default async function AdminSubmissionsPage() {
           </button>
         </form>
       </div>
+
+      {approvalEmailMessage ? (
+        <p
+          role="status"
+          className={`mt-6 rounded-2xl border px-5 py-4 text-sm font-bold ${approvalEmailMessage.style}`}
+        >
+          {approvalEmailMessage.text}
+        </p>
+      ) : null}
 
       <section className="mt-8 grid gap-4">
         {submissions.length === 0 ? (
@@ -82,6 +122,19 @@ export default async function AdminSubmissionsPage() {
 
                   <h2 className="mt-3 text-2xl font-black text-slate-950">{submission.title}</h2>
                   <p className="mt-2 text-sm font-bold text-pink-600">{submission.group_name}</p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    担当：{submission.organizer_name || "未入力"} /{" "}
+                    {submission.organizer_email ? (
+                      <a
+                        href={`mailto:${submission.organizer_email}`}
+                        className="font-bold text-slate-900 hover:text-pink-600 hover:underline"
+                      >
+                        {submission.organizer_email}
+                      </a>
+                    ) : (
+                      "メール未入力"
+                    )}
+                  </p>
                   <p className="mt-3 max-w-3xl leading-8 text-slate-600">{submission.summary}</p>
                 </div>
 

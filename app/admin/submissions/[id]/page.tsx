@@ -126,6 +126,29 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
         </section>
 
         <section className="mt-10">
+          <h2 className="text-2xl font-black text-slate-950">掲載担当者情報</h2>
+          <dl className="mt-5 grid gap-4 md:grid-cols-2">
+            <Row label="担当者名" value={submission.organizer_name} />
+            <div className="rounded-2xl bg-slate-50 p-5">
+              <dt className="text-sm font-black text-slate-500">担当者メールアドレス</dt>
+              <dd className="mt-2 break-words leading-8 text-slate-900">
+                {submission.organizer_email ? (
+                  <a
+                    href={`mailto:${submission.organizer_email}`}
+                    className="font-bold text-pink-600 hover:underline"
+                  >
+                    {submission.organizer_email}
+                  </a>
+                ) : (
+                  "未入力"
+                )}
+              </dd>
+            </div>
+            <Row label="担当者電話番号" value={submission.organizer_phone} />
+          </dl>
+        </section>
+
+        <section className="mt-10">
           <h2 className="text-2xl font-black text-slate-950">掲載内容</h2>
           <dl className="mt-5 grid gap-4 md:grid-cols-2">
             <Row label="募集概要" value={submission.summary} />
