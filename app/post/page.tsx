@@ -32,7 +32,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-pink-400"
+        className="min-h-12 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-pink-500"
       />
     </label>
   );
@@ -60,7 +60,7 @@ function Textarea({
         placeholder={placeholder}
         required={required}
         rows={5}
-        className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 outline-none focus:border-pink-400"
+        className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 outline-none transition focus:border-pink-500"
       />
     </label>
   );
@@ -68,7 +68,7 @@ function Textarea({
 
 function Checkbox({ name, label }: { name: string; label: string }) {
   return (
-    <label className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4 text-sm font-bold text-slate-700">
+    <label className="flex items-center gap-3 border-t border-slate-200 py-4 text-sm font-bold text-slate-700 first:border-0">
       <input name={name} type="checkbox" className="h-5 w-5" />
       {label}
     </label>
@@ -77,24 +77,24 @@ function Checkbox({ name, label }: { name: string; label: string }) {
 
 export default function PostPage() {
   return (
-    <main className="mx-auto max-w-5xl px-5 py-12">
+    <main className="mx-auto max-w-[980px] px-4 py-10 sm:px-6 sm:py-14">
       <Link href="/" className="text-sm font-bold text-slate-500 hover:text-pink-600">
         ← トップへ戻る
       </Link>
 
-      <header className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-        <p className="text-sm font-bold text-pink-600">For Organizers</p>
-        <h1 className="mt-2 text-4xl font-black leading-tight text-slate-950">
+      <header className="mt-8 border-b border-slate-200 pb-10 sm:pb-12">
+        <p className="editorial-kicker">For Organizers</p>
+        <h1 className="mt-3 text-4xl font-black leading-[1.1] tracking-[-0.045em] text-slate-950 sm:text-6xl">
           アイドルオーディション掲載依頼フォーム
         </h1>
-        <p className="mt-6 leading-8 text-slate-600">
+        <p className="mt-6 max-w-3xl leading-8 text-slate-600">
           アイドルオーディションナビへの掲載を希望する運営者・事務所・プロジェクト担当者向けフォームです。
           応募者が安心して比較できるよう、費用・活動地域・応募方法・運営情報の入力をお願いします。
         </p>
       </header>
 
-      <form action={createSubmission} encType="multipart/form-data" className="mt-8 grid gap-8">
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+      <form action={createSubmission} className="mt-10 grid gap-6">
+        <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">基本情報</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2">
             <Field label="グループ名・プロジェクト名" name="group_name" placeholder="例：HIRAETH.Tokyo" />
@@ -118,9 +118,9 @@ export default function PostPage() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">募集条件</h2>
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
+          <div className="mt-6 grid border-y border-slate-200 md:grid-cols-3 md:divide-x md:divide-slate-200">
             <Checkbox name="is_beginner_ok" label="未経験OK" />
             <Checkbox name="is_high_school_ok" label="高校生・学生相談可" />
             <Checkbox name="is_no_cost" label="費用なし・費用負担少なめ" />
@@ -134,7 +134,7 @@ export default function PostPage() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">活動内容・選考</h2>
           <div className="mt-6 grid gap-5">
             <Textarea
@@ -156,7 +156,7 @@ export default function PostPage() {
         </section>
 
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">掲載画像</h2>
           <p className="mt-3 text-sm leading-7 text-slate-600">
             一覧カードや詳細ページに表示するメイン画像を1枚アップロードできます。
@@ -169,12 +169,12 @@ export default function PostPage() {
               name="image"
               type="file"
               accept="image/jpeg,image/png,image/webp"
-              className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none file:mr-4 file:rounded-full file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-pink-600"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none file:mr-4 file:rounded-full file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-pink-600"
             />
           </label>
         </section>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">公式リンク</h2>
           <p className="mt-3 text-sm leading-7 text-slate-600">
             応募方法は上の「応募方法」欄に記載してください。
@@ -187,7 +187,7 @@ export default function PostPage() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">掲載担当者情報</h2>
           <p className="mt-3 text-sm leading-7 text-slate-600">
             この情報は掲載内容の確認用です。公開ページには原則表示しません。
@@ -199,7 +199,7 @@ export default function PostPage() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-pink-200 bg-pink-50 p-6 shadow-sm sm:p-8">
+        <section className="rounded-[18px] border border-pink-300 bg-pink-50 p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">掲載前の確認</h2>
           <p className="mt-3 leading-8 text-slate-700">
             送信された内容は一度審査し、問題がないと判断した募集のみ掲載します。
@@ -214,7 +214,7 @@ export default function PostPage() {
 
         <button
           type="submit"
-          className="rounded-full bg-slate-950 px-8 py-4 text-sm font-black text-white transition hover:bg-pink-600"
+          className="min-h-14 rounded-full bg-pink-500 px-8 py-4 text-sm font-black text-white transition hover:bg-pink-700"
         >
           掲載依頼を送信する
         </button>

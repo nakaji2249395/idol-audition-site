@@ -9,14 +9,14 @@ type ArticlePageProps = {
 
 export function ArticlePage({ label, title, description, children }: ArticlePageProps) {
   return (
-    <main className="mx-auto max-w-4xl px-5 py-12">
+    <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
       <Link href="/" className="text-sm font-bold text-slate-500 hover:text-pink-600">
         ← トップへ戻る
       </Link>
 
-      <article className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-        <p className="text-sm font-bold text-pink-600">{label}</p>
-        <h1 className="mt-2 text-4xl font-black leading-tight text-slate-950">
+      <article className="paper-panel mt-8 overflow-hidden p-6 sm:p-10">
+        <p className="editorial-kicker">{label}</p>
+        <h1 className="mt-3 text-4xl font-black leading-[1.08] tracking-[-0.045em] text-slate-950 sm:text-5xl">
           {title}
         </h1>
         <p className="mt-6 leading-8 text-slate-600">{description}</p>
@@ -25,14 +25,14 @@ export function ArticlePage({ label, title, description, children }: ArticlePage
           {children}
         </div>
 
-        <div className="mt-10 rounded-3xl bg-slate-950 p-6 text-white">
+        <div className="mt-12 border-t border-slate-200 bg-pink-50 p-6 sm:p-8">
           <h2 className="text-xl font-black">募集中のアイドルオーディションを探す</h2>
-          <p className="mt-3 leading-8 text-slate-200">
+          <p className="mt-3 leading-8 text-slate-700">
             費用、活動地域、未経験可否、応募方法を確認しながら、自分に合う募集を探せます。
           </p>
           <Link
             href="/idol-audition"
-            className="mt-5 inline-flex rounded-full bg-white px-6 py-3 text-sm font-bold text-slate-950 hover:text-pink-600"
+            className="mt-5 inline-flex rounded-full bg-pink-500 px-6 py-3 text-sm font-black text-white transition hover:bg-pink-700"
           >
             オーディション一覧を見る
           </Link>

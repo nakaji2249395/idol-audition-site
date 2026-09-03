@@ -104,6 +104,10 @@ export default async function Home() {
   const approvedSlugs = new Set(approvedAuditions.map((audition) => audition.slug));
   const staticAuditions = auditions.filter((audition) => !approvedSlugs.has(audition.slug));
   const allAuditions = [...approvedAuditions, ...staticAuditions];
+  const heroAudition = allAuditions.find((audition) => audition.imageUrl) ?? allAuditions[0];
+  const previewAuditions = allAuditions
+    .filter((audition) => audition.slug !== "hiraeth-tokyo-new-member")
+    .slice(0, 9);
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -140,120 +144,175 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
 
-      <section className="mx-auto max-w-6xl px-5 pb-16 pt-10 sm:pt-16">
-        <header className="mb-14 rounded-[2rem] border border-white/70 bg-white/85 px-6 py-12 shadow-sm backdrop-blur sm:px-10 sm:py-16">
-          <p className="mb-4 inline-flex rounded-full bg-pink-100 px-4 py-2 text-sm font-bold text-pink-700">
-            アイドルオーディションを、安心して比較。
-          </p>
+      <section className="mx-auto max-w-[1180px] px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
+        <header className="grid items-center gap-10 border-b border-slate-200 pb-16 pt-6 lg:grid-cols-[1.04fr_0.96fr] lg:gap-16 lg:pb-20 lg:pt-12">
+          <div>
+            <p className="editorial-kicker">Find your next stage</p>
+            <h1 className="display-heading mt-5">
+              アイドルに
+              <br />
+              なりたい。その一歩を、
+              <br />
+              <span className="border-b-[6px] border-pink-200 text-pink-500">ちゃんと選ぶ。</span>
+            </h1>
+            <p className="mt-7 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
+              募集中のアイドルオーディションを、地域・費用・年齢・未経験可否で比較。
+              応募前に知りたい条件を整理して、あなたに合う募集を見つけられます。
+            </p>
 
-          <h1 className="max-w-4xl text-4xl font-black tracking-tight text-slate-950 sm:text-6xl">
-            アイドルオーディション・
-            <span className="text-pink-600">アイドル募集</span>を探すなら
-          </h1>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/idol-audition"
+                className="min-h-12 rounded-full bg-pink-500 px-7 py-4 text-center text-sm font-black text-white transition hover:bg-pink-700"
+              >
+                募集中のオーディションを見る →
+              </Link>
+              <Link
+                href="/idol-audition/suspicious"
+                className="min-h-12 rounded-full border border-slate-950 bg-transparent px-7 py-4 text-center text-sm font-black text-slate-950 transition hover:bg-white"
+              >
+                安心できる募集の選び方
+              </Link>
+            </div>
 
-          <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
-            アイドルオーディションナビは、アイドルになりたい方が募集情報を比較できるサイトです。
-            未経験OK、東京、費用なし、高校生相談可、新規グループ初期メンバー、地下アイドル募集など、
-            応募前に知りたい条件を分かりやすく整理しています。
-          </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/idol-audition"
-              className="rounded-full bg-slate-950 px-6 py-4 text-center text-sm font-bold text-white transition hover:bg-pink-600"
-            >
-              募集中のアイドルオーディションを見る
-            </Link>
-            <Link
-              href="/idol-audition/suspicious"
-              className="rounded-full border border-slate-300 bg-white px-6 py-4 text-center text-sm font-bold text-slate-950 transition hover:border-pink-300 hover:text-pink-600"
-            >
-              怪しい募集の見分け方を見る
-            </Link>
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            {["未経験OK", "東京・関東近郊", "費用なし"].map((label) => (
-              <div key={label} className="rounded-2xl bg-slate-50 p-4 text-center text-sm font-black text-slate-800">
-                {label}
+            <dl className="mt-10 grid max-w-lg grid-cols-3 border-y border-slate-200 py-5">
+              <div>
+                <dt className="text-2xl font-black tracking-[-0.05em] text-slate-950">{allAuditions.length}</dt>
+                <dd className="mt-1 text-[10px] font-bold text-slate-500">掲載中</dd>
               </div>
-            ))}
+              <div className="border-l border-slate-200 pl-5">
+                <dt className="text-2xl font-black tracking-[-0.05em] text-slate-950">3</dt>
+                <dd className="mt-1 text-[10px] font-bold text-slate-500">主要エリア</dd>
+              </div>
+              <div className="border-l border-slate-200 pl-5">
+                <dt className="text-2xl font-black tracking-[-0.05em] text-slate-950">無料</dt>
+                <dd className="mt-1 text-[10px] font-bold text-slate-500">検索・応募</dd>
+              </div>
+            </dl>
           </div>
+
+          {heroAudition ? (
+            <Link
+              href={`/idol-audition/${heroAudition.slug}`}
+              className="group relative mx-auto block w-full max-w-lg pb-7 pl-4 pr-2 pt-3 lg:max-w-none"
+              aria-label={`${heroAudition.title}の詳細を見る`}
+            >
+              <span className="absolute right-0 top-0 z-10 rotate-[5deg] rounded-lg border border-slate-950 bg-[#fffefd] px-4 py-2 text-[11px] font-black text-pink-700 shadow-[2px_2px_0_#241b24]">
+                NEW AUDITION
+              </span>
+              <div className="overflow-hidden rounded-[18px] border border-slate-950 bg-pink-50 shadow-[7px_8px_0_#241b24]">
+                <div className="aspect-[4/3] overflow-hidden border-b border-slate-950">
+                  {heroAudition.imageUrl ? (
+                    <img
+                      src={heroAudition.imageUrl}
+                      alt={`${heroAudition.title}の画像`}
+                      className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div className="grid h-full place-items-center text-7xl text-pink-500" aria-hidden="true">✦</div>
+                  )}
+                </div>
+                <div className="bg-white p-5 sm:p-6">
+                  <p className="text-[11px] font-black uppercase tracking-[0.1em] text-pink-700">{heroAudition.group}</p>
+                  <p className="mt-2 text-xl font-black leading-snug tracking-[-0.035em] text-slate-950 sm:text-2xl">
+                    {heroAudition.title}
+                  </p>
+                  <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4 text-xs font-bold text-slate-600">
+                    <span>{heroAudition.area}</span>
+                    <span className="text-pink-700">詳しく見る →</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ) : null}
         </header>
 
-        
+        <nav aria-label="条件から探す" className="hide-scrollbar -mx-4 flex gap-2 overflow-x-auto border-b border-slate-200 px-4 py-5 sm:mx-0 sm:flex-wrap sm:px-0">
+          {categories.slice(0, 6).map((category) => (
+            <Link key={category.href} href={category.href} className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-700 transition hover:border-pink-300 hover:text-pink-700">
+              {category.title.replace("のアイドルオーディション", "").replace("のオーディション", "")}
+            </Link>
+          ))}
+        </nav>
 
-        <FeaturedHiraeth />
+        <div className="pt-16 sm:pt-20">
+          <FeaturedHiraeth />
+        </div>
 
-        <section className="mb-16">
-          <div className="mb-6 flex items-end justify-between gap-4">
+        <section className="mb-20">
+          <div className="mb-7 flex flex-wrap items-end justify-between gap-5 border-b border-slate-200 pb-5">
             <div>
-              <p className="text-sm font-bold text-pink-600">New Auditions</p>
-              <h2 className="mt-1 text-3xl font-black text-slate-950">
-                注目のアイドルオーディション
-              </h2>
+              <p className="editorial-kicker">Latest files</p>
+              <h2 className="section-heading mt-2">新着オーディション</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">応募条件を見比べて、自分に合う募集を選べます。</p>
             </div>
-            <Link href="/idol-audition" className="text-sm font-bold text-slate-700 hover:text-pink-600">
-              すべて見る →
+            <Link href="/idol-audition" className="rounded-full border border-slate-950 px-5 py-3 text-xs font-black text-slate-950 transition hover:bg-white">
+              全{allAuditions.length}件を見る →
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {allAuditions.map((audition) => (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {previewAuditions.map((audition) => (
               <AuditionCard key={audition.slug} audition={audition} />
             ))}
           </div>
         </section>
 
-        <section className="mb-16">
-          <p className="text-sm font-bold text-pink-600">Category</p>
-          <h2 className="mt-1 text-3xl font-black text-slate-950">
-            条件からアイドルオーディションを探す
-          </h2>
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
-            {categories.map((category) => (
+        <section className="mb-20 grid gap-10 border-y border-slate-200 py-14 lg:grid-cols-[0.75fr_1.25fr] lg:py-16">
+          <div>
+            <p className="editorial-kicker">Choose your way</p>
+            <h2 className="section-heading mt-3">条件から探す</h2>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-slate-600">
+              住んでいる場所や経験、費用の条件から、無理なく続けられる募集を探しましょう。
+            </p>
+          </div>
+          <div className="grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 sm:grid-cols-2">
+            {categories.map((category, index) => (
               <Link
                 key={category.href}
                 href={category.href}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="group bg-white p-5 transition hover:bg-pink-50 sm:p-6"
               >
-                <h3 className="text-lg font-black text-slate-950">{category.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{category.text}</p>
+                <span className="text-[10px] font-black tracking-[0.16em] text-pink-600">{String(index + 1).padStart(2, "0")}</span>
+                <h3 className="mt-3 text-base font-black tracking-[-0.025em] text-slate-950">{category.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{category.text}</p>
+                <span className="mt-4 inline-block text-sm font-black text-slate-950 transition group-hover:translate-x-1">→</span>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <p className="text-sm font-bold text-pink-600">FAQ</p>
-          <h2 className="mt-2 text-3xl font-black text-slate-950">
-            アイドルオーディションのよくある質問
-          </h2>
-          <div className="mt-6 grid gap-4">
-            {faq.map((item) => (
-              <div key={item.question} className="rounded-2xl bg-slate-50 p-5">
-                <h3 className="font-black text-slate-950">Q. {item.question}</h3>
-                <p className="mt-3 leading-8 text-slate-600">A. {item.answer}</p>
-              </div>
-            ))}
+        <section className="mb-20 grid gap-10 lg:grid-cols-2">
+          <div className="rounded-[20px] bg-slate-950 p-7 text-white sm:p-9">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-pink-300">For you</p>
+            <h2 className="mt-3 text-3xl font-black leading-tight tracking-[-0.045em]">こんな「なりたい」に応えます</h2>
+            <div className="mt-7 grid gap-0">
+              {searchIntents.map((intent, index) => (
+                <div key={intent} className="flex gap-4 border-t border-white/15 py-4 text-sm leading-7 text-slate-200">
+                  <span className="font-black text-pink-300">{String(index + 1).padStart(2, "0")}</span>
+                  <span>{intent}</span>
+                </div>
+              ))}
+            </div>
           </div>
+
+          <section className="paper-panel p-7 sm:p-9">
+            <p className="editorial-kicker">FAQ</p>
+            <h2 className="section-heading mt-3">応募前のよくある質問</h2>
+            <div className="mt-7 divide-y divide-slate-200 border-y border-slate-200">
+              {faq.map((item) => (
+                <div key={item.question} className="py-5">
+                  <h3 className="flex gap-3 font-black leading-7 text-slate-950">
+                    <span className="text-pink-600">Q.</span>
+                    {item.question}
+                  </h3>
+                  <p className="mt-3 pl-8 text-sm leading-7 text-slate-600">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         </section>
       </section>
-    
-
-      <section className="mb-14 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <p className="text-sm font-bold text-pink-600">Search Intent</p>
-          <h2 className="mt-2 text-3xl font-black text-slate-950">
-            こんな人に向けたアイドルオーディション情報サイトです
-          </h2>
-          <div className="mt-6 grid gap-3 md:grid-cols-2">
-            {searchIntents.map((intent) => (
-              <div key={intent} className="rounded-2xl bg-slate-50 p-4 leading-8 text-slate-700">
-                ✅ {intent}
-              </div>
-            ))}
-          </div>
-        </section>
-</main>
+    </main>
   );
 }

@@ -132,7 +132,7 @@ export default async function IdolAuditionPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-5 py-12">
+    <main className="mx-auto max-w-[1180px] px-4 py-10 sm:px-6 sm:py-14">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
@@ -142,59 +142,68 @@ export default async function IdolAuditionPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <Link href="/" className="text-sm font-bold text-slate-500 hover:text-pink-600">
+      <Link href="/" className="text-xs font-black text-slate-500 hover:text-pink-600">
         ← トップへ戻る
       </Link>
 
-      <header className="mt-8 mb-10 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-bold text-pink-600">Audition List</p>
-        <h1 className="mt-2 text-4xl font-black leading-tight text-slate-950">
+      <header className="mb-14 mt-8 grid gap-7 border-b border-slate-200 pb-12 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+        <p className="editorial-kicker">Audition directory</p>
+        <h1 className="mt-3 text-5xl font-black leading-[1.05] tracking-[-0.055em] text-slate-950 sm:text-6xl">
           アイドルオーディション一覧
         </h1>
-        <p className="mt-4 max-w-3xl leading-8 text-slate-600">
+        <p className="mt-5 max-w-3xl leading-8 text-slate-600">
           募集中のアイドルオーディションを、活動地域、費用、未経験可否、高校生相談可、応募方法で比較できます。
           東京・関東近郊の地下アイドル募集、新規グループ初期メンバー、既存グループ追加メンバーを探している方に向けた一覧ページです。
         </p>
+        </div>
+        <div className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center text-white shadow-[3px_3px_0_#241b24]">
+          <span className="block text-3xl font-black">{allAuditions.length}</span>
+          <span className="text-[10px] font-black tracking-wider">NOW OPEN</span>
+        </div>
       </header>
 
       <FeaturedHiraeth />
 
-      <section className="mb-16">
-        <div className="mb-6">
-          <p className="text-sm font-bold text-pink-600">Now Recruiting</p>
-          <h2 className="mt-1 text-3xl font-black text-slate-950">
+      <section className="mb-20">
+        <div className="mb-7 border-b border-slate-200 pb-5">
+          <p className="editorial-kicker">Now recruiting</p>
+          <h2 className="section-heading mt-2">
             募集中のアイドルオーディション
           </h2>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {allAuditions.map((audition) => (
             <AuditionCard key={audition.slug} audition={audition} />
           ))}
         </div>
       </section>
 
-      <section className="mb-16 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-bold text-pink-600">Guide</p>
-        <h2 className="mt-2 text-3xl font-black text-slate-950">
+      <section className="mb-20 border-y border-slate-200 py-12 sm:py-16">
+        <p className="editorial-kicker">Find by condition</p>
+        <h2 className="section-heading mt-2">
           条件別にアイドルオーディションを探す
         </h2>
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
-          {guideLinks.map((guide) => (
+        <div className="mt-7 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 md:grid-cols-2 lg:grid-cols-3">
+          {guideLinks.map((guide, index) => (
             <Link
               key={guide.href}
               href={guide.href}
-              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              className="group bg-white p-6 transition hover:bg-pink-50"
             >
+              <span className="text-[10px] font-black tracking-[0.16em] text-pink-600">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="text-lg font-black text-slate-950">{guide.title}</h3>
               <p className="mt-3 text-sm leading-7 text-slate-600">{guide.text}</p>
+              <span className="mt-4 inline-block font-black transition group-hover:translate-x-1">→</span>
             </Link>
           ))}
         </div>
       </section>
 
-      <article className="mb-16 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-        <h2 className="text-3xl font-black leading-tight text-slate-950">
+      <article className="paper-panel mb-16 p-6 sm:p-10">
+        <p className="editorial-kicker">Before you apply</p>
+        <h2 className="section-heading mt-3">
           アイドルオーディションを選ぶときのチェックポイント
         </h2>
 
@@ -205,8 +214,9 @@ export default async function IdolAuditionPage() {
 
         <div className="mt-6 grid gap-3">
           {checks.map((check) => (
-            <div key={check} className="rounded-2xl bg-slate-50 p-4 leading-8 text-slate-700">
-              ✅ {check}
+            <div key={check} className="flex gap-3 border-t border-slate-200 py-4 leading-8 text-slate-700">
+              <span className="mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-pink-100 text-xs font-black text-pink-700">✓</span>
+              {check}
             </div>
           ))}
         </div>

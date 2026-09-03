@@ -18,68 +18,64 @@ export async function AuditionCard({ audition }: { audition: Audition }) {
   return (
     <Link
       href={`/idol-audition/${displayAudition.slug}`}
-      className="group overflow-hidden rounded-[1.4rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+      aria-label={`${displayAudition.title}の詳細を見る`}
+      className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_8px_24px_rgba(36,27,36,0.05)] transition duration-200 hover:-translate-y-[3px] hover:border-slate-300 hover:shadow-[0_14px_34px_rgba(36,27,36,0.09)]"
     >
-      <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-pink-100 via-white to-slate-100">
+      <div className="relative aspect-[4/3] overflow-hidden border-b border-slate-200 bg-pink-50">
         {displayAudition.imageUrl ? (
           <img
             src={displayAudition.imageUrl}
             alt={`${displayAudition.title}の画像`}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="flex h-full items-center justify-center px-4 text-center">
             <div>
-              <p className="text-xs font-black text-pink-600">AUDITION</p>
-              <p className="mt-1 text-lg font-black text-slate-950">
+              <span aria-hidden="true" className="text-4xl text-pink-500">✦</span>
+              <p className="mt-3 text-[10px] font-black uppercase tracking-[0.2em] text-pink-700">Audition File</p>
+              <p className="mt-2 text-lg font-black text-slate-950">
                 {displayAudition.group}
               </p>
             </div>
           </div>
         )}
 
-        <div className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-black text-slate-900 shadow-sm backdrop-blur">
+        <div className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] truncate rounded-full border border-slate-200 bg-[#fffefd]/95 px-3 py-1.5 text-[11px] font-black text-slate-900">
           {displayAudition.area}
         </div>
       </div>
 
-      <div className="p-4 sm:p-5">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
         <div className="flex flex-wrap gap-1.5">
-          {displayAudition.features.slice(0, 4).map((feature) => (
+          {displayAudition.features.slice(0, 3).map((feature) => (
             <span
               key={feature}
-              className="rounded-full bg-pink-50 px-2.5 py-1 text-[11px] font-bold text-pink-700"
+              className="rounded-full bg-pink-50 px-2.5 py-1 text-[10px] font-bold text-pink-700"
             >
               {feature}
             </span>
           ))}
         </div>
 
-        <p className="mt-4 text-xs font-bold text-pink-600">
+        <p className="mt-5 text-[11px] font-black uppercase tracking-[0.08em] text-pink-700">
           {displayAudition.group}
         </p>
 
-        <h3 className="mt-1.5 line-clamp-2 text-lg font-black leading-snug text-slate-950 sm:text-xl">
+        <h3 className="mt-2 line-clamp-2 text-xl font-black leading-snug tracking-[-0.035em] text-slate-950">
           {displayAudition.title}
         </h3>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">
+        <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
           {displayAudition.summary}
         </p>
 
-        <div className="mt-4 grid gap-1.5 text-xs leading-5 text-slate-600">
-          <p className="line-clamp-1">
-            <span className="font-bold text-slate-900">締切：</span>
-            {displayAudition.deadline}
+        <div className="mt-auto flex items-center justify-between gap-4 border-t border-slate-200 pt-5 text-xs">
+          <p className="min-w-0 line-clamp-1 text-slate-600">
+            <span className="font-black text-slate-900">締切</span> {displayAudition.deadline}
           </p>
-          <p className="line-clamp-1">
-            <span className="font-bold text-slate-900">費用：</span>
-            {displayAudition.cost}
-          </p>
-        </div>
-
-        <div className="mt-4 inline-flex rounded-full bg-slate-950 px-4 py-2.5 text-xs font-bold text-white transition group-hover:bg-pink-600">
-          詳細を見る
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-slate-950 bg-white text-base font-black text-slate-950 transition group-hover:bg-pink-500 group-hover:text-white">
+            →
+          </span>
         </div>
       </div>
     </Link>
