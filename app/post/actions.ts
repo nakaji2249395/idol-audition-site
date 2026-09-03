@@ -7,6 +7,9 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const IMAGE_BUCKET = "audition-images";
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const DUPLICATE_WINDOW_MINUTES = 10;
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function getString(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -82,13 +85,52 @@ async function uploadImageIfExists(formData: FormData) {
 }
 
 export async function createSubmission(formData: FormData) {
+  const requestedSubmissionId = getString(formData, "submission_id");
+  const submissionId = UUID_PATTERN.test(requestedSubmissionId)
+    ? requestedSubmissionId
+    : randomUUID();
+  const groupName = getString(formData, "group_name");
+  const title = getString(formData, "title");
+  const organizerEmail = getString(formData, "organizer_email").toLowerCase();
+
+  const duplicateWindowStart = new Date(
+    Date.now() - DUPLICATE_WINDOW_MINUTES * 60_000
+  ).toISOString();
+  const [idCheck, contentCheck] = await Promise.all([
+    supabaseAdmin
+      .from("audition_submissions")
+      .select("id")
+      .eq("id", submissionId)
+      .limit(1)
+      .maybeSingle(),
+    supabaseAdmin
+      .from("audition_submissions")
+      .select("id")
+      .eq("group_name", groupName)
+      .eq("title", title)
+      .eq("organizer_email", organizerEmail)
+      .gte("created_at", duplicateWindowStart)
+      .limit(1)
+      .maybeSingle()
+  ]);
+
+  if (idCheck.error || contentCheck.error) {
+    console.error(
+      "Submission duplicate check failed",
+      idCheck.error ?? contentCheck.error
+    );
+  } else if (idCheck.data || contentCheck.data) {
+    redirect("/post/thanks");
+  }
+
   const uploadedImage = await uploadImageIfExists(formData);
 
   const payload = {
+    id: submissionId,
     status: "pending",
 
-    group_name: getString(formData, "group_name"),
-    title: getString(formData, "title"),
+    group_name: groupName,
+    title,
     summary: getString(formData, "summary"),
     description: getString(formData, "description"),
 
@@ -117,7 +159,7 @@ export async function createSubmission(formData: FormData) {
     official_tiktok_url: getNullableString(formData, "official_tiktok_url"),
 
     organizer_name: getString(formData, "organizer_name"),
-    organizer_email: getString(formData, "organizer_email"),
+    organizer_email: organizerEmail,
     organizer_phone: getNullableString(formData, "organizer_phone"),
 
     image_url: uploadedImage.image_url,
@@ -162,6 +204,20 @@ export async function createSubmission(formData: FormData) {
     .single();
 
   if (error) {
+    if (error.code === "23505") {
+      if (uploadedImage.image_path) {
+        const { error: cleanupError } = await supabaseAdmin.storage
+          .from(IMAGE_BUCKET)
+          .remove([uploadedImage.image_path]);
+
+        if (cleanupError) {
+          console.error("Duplicate submission image cleanup failed", cleanupError);
+        }
+      }
+
+      redirect("/post/thanks");
+    }
+
     console.error(error);
     throw new Error("掲載依頼の送信に失敗しました");
   }

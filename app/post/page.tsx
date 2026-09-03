@@ -1,6 +1,9 @@
+import { randomUUID } from "node:crypto";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { connection } from "next/server";
 import { createSubmission } from "@/app/post/actions";
+import { SubmitButton } from "@/app/post/SubmitButton";
 
 export const metadata: Metadata = {
   title: "アイドルオーディション掲載依頼フォーム",
@@ -75,7 +78,10 @@ function Checkbox({ name, label }: { name: string; label: string }) {
   );
 }
 
-export default function PostPage() {
+export default async function PostPage() {
+  await connection();
+  const submissionId = randomUUID();
+
   return (
     <main className="mx-auto max-w-[980px] px-4 py-10 sm:px-6 sm:py-14">
       <Link href="/" className="text-sm font-bold text-slate-500 hover:text-pink-600">
@@ -94,6 +100,7 @@ export default function PostPage() {
       </header>
 
       <form action={createSubmission} className="mt-10 grid gap-6">
+        <input type="hidden" name="submission_id" value={submissionId} />
         <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">基本情報</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -212,12 +219,7 @@ export default function PostPage() {
           </label>
         </section>
 
-        <button
-          type="submit"
-          className="min-h-14 rounded-full bg-pink-500 px-8 py-4 text-sm font-black text-white transition hover:bg-pink-700"
-        >
-          掲載依頼を送信する
-        </button>
+        <SubmitButton />
       </form>
     </main>
   );
