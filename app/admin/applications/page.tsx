@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/adminAuth";
 import { fetchApplicationRows } from "@/lib/applicationData";
+import { formatJstDateTime } from "@/lib/dateTime";
 
 export const dynamic = "force-dynamic";
 
@@ -59,7 +60,7 @@ export default async function AdminApplicationsPage() {
                     LINE userId: {application.line_user_id}
                   </p>
                   <p className="mt-2 text-xs text-slate-500">
-                    応募日時: {new Date(application.created_at).toLocaleString("ja-JP")}
+                    応募日時: {formatJstDateTime(application.created_at)}（日本時間）
                   </p>
                 </div>
 

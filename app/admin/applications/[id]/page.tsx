@@ -7,6 +7,7 @@ import {
   fetchApplicationsByLineUserId,
   fetchLineMessages
 } from "@/lib/applicationData";
+import { formatJstDateTime } from "@/lib/dateTime";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +69,7 @@ export default async function AdminApplicationDetailPage({
               最新応募: {application.audition_title || application.audition_slug}
             </p>
             <p className="mt-2 text-xs text-slate-500">
-              応募日時: {new Date(application.created_at).toLocaleString("ja-JP")}
+              応募日時: {formatJstDateTime(application.created_at)}（日本時間）
             </p>
           </div>
         </div>
@@ -124,7 +125,7 @@ export default async function AdminApplicationDetailPage({
                 {item.audition_title || item.audition_slug}
               </p>
               <p className="mt-2 text-xs text-slate-500">
-                {new Date(item.created_at).toLocaleString("ja-JP")}
+                {formatJstDateTime(item.created_at)}（日本時間）
               </p>
             </div>
           ))}
@@ -144,7 +145,7 @@ export default async function AdminApplicationDetailPage({
               <div key={message.id} className="rounded-2xl bg-slate-50 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <p className="text-xs font-black text-slate-500">
-                    {new Date(message.created_at).toLocaleString("ja-JP")}
+                    {formatJstDateTime(message.created_at)}（日本時間）
                   </p>
                   <span
                     className={

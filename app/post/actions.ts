@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
+import { notifyNewSubmission } from "@/lib/adminLineNotification";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const IMAGE_BUCKET = "audition-images";
@@ -154,13 +155,27 @@ export async function createSubmission(formData: FormData) {
     throw new Error("掲載条件への同意が必要です");
   }
 
-  const { error } = await supabaseAdmin
+  const { data: submission, error } = await supabaseAdmin
     .from("audition_submissions")
-    .insert(payload);
+    .insert(payload)
+    .select("id, created_at")
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("掲載依頼の送信に失敗しました");
+  }
+
+  try {
+    await notifyNewSubmission({
+      submissionId: submission.id,
+      title: payload.title,
+      groupName: payload.group_name,
+      organizerName: payload.organizer_name,
+      createdAt: submission.created_at
+    });
+  } catch (notificationError) {
+    console.error("Admin LINE submission notification failed", notificationError);
   }
 
   redirect("/post/thanks");

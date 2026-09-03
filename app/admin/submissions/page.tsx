@@ -2,6 +2,7 @@ import Link from "next/link";
 import { logoutAdmin } from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/adminAuth";
 import { fetchAllSubmissions } from "@/lib/submissions";
+import { formatJstDateTime } from "@/lib/dateTime";
 
 export const dynamic = "force-dynamic";
 
@@ -75,7 +76,7 @@ export default async function AdminSubmissionsPage() {
                       </span>
                     ) : null}
                     <p className="text-sm font-bold text-slate-500">
-                      {new Date(submission.created_at).toLocaleString("ja-JP")}
+                      {formatJstDateTime(submission.created_at)}（日本時間）
                     </p>
                   </div>
 

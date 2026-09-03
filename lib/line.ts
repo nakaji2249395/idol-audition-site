@@ -94,6 +94,36 @@ export async function getLineProfileByAccessToken(accessToken: string): Promise<
   return profile;
 }
 
+export async function getLineProfileByMessagingApi(lineUserId: string): Promise<LineProfile> {
+  const token = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+
+  if (!token) {
+    throw new Error("LINE_CHANNEL_ACCESS_TOKEN is not set");
+  }
+
+  const response = await fetch(
+    `https://api.line.me/v2/bot/profile/${encodeURIComponent(lineUserId)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`LINE Messaging API profile fetch failed: ${text}`);
+  }
+
+  const profile = (await response.json()) as LineProfile;
+
+  if (!profile.userId) {
+    throw new Error("LINE Messaging API profile userId was not returned");
+  }
+
+  return profile;
+}
+
 export async function pushLineTextMessage({
   to,
   text
