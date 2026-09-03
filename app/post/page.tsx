@@ -71,7 +71,7 @@ function Textarea({
 
 function Checkbox({ name, label }: { name: string; label: string }) {
   return (
-    <label className="flex items-center gap-3 border-t border-slate-200 py-4 text-sm font-bold text-slate-700 first:border-0">
+    <label className="flex min-h-20 items-center gap-3 px-4 py-4 text-sm font-bold text-slate-700 sm:px-5">
       <input name={name} type="checkbox" className="h-5 w-5" />
       {label}
     </label>
@@ -127,7 +127,7 @@ export default async function PostPage() {
 
         <section className="paper-panel p-6 sm:p-8">
           <h2 className="text-2xl font-black text-slate-950">募集条件</h2>
-          <div className="mt-6 grid border-y border-slate-200 md:grid-cols-3 md:divide-x md:divide-slate-200">
+          <div className="mt-6 grid divide-y divide-slate-200 border-y border-slate-200 md:grid-cols-3 md:divide-x md:divide-y-0">
             <Checkbox name="is_beginner_ok" label="未経験OK" />
             <Checkbox name="is_high_school_ok" label="高校生・学生相談可" />
             <Checkbox name="is_no_cost" label="費用なし・費用負担少なめ" />

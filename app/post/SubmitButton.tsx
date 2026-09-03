@@ -25,15 +25,15 @@ export function SubmitButton() {
           "掲載依頼を送信する"
         )}
       </button>
-      <p
-        role="status"
-        aria-live="polite"
-        className="min-h-6 text-center text-sm font-bold text-slate-600"
-      >
-        {pending
-          ? "画像のアップロードを含むため、完了画面に切り替わるまでそのままお待ちください。"
-          : "送信は1回だけ押してください。完了すると受付完了画面に切り替わります。"}
-      </p>
+      {pending ? (
+        <p
+          role="status"
+          aria-live="polite"
+          className="text-center text-sm font-bold text-slate-600"
+        >
+          画像のアップロードを含むため、完了画面に切り替わるまでそのままお待ちください。
+        </p>
+      ) : null}
     </div>
   );
 }
