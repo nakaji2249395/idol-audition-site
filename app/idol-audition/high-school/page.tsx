@@ -2,21 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
-import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "高校生OKのアイドルオーディション一覧｜未成年が応募前に確認すること",
+  title: "高校生のアイドルオーディション一覧【2026年最新】未経験OK・募集中",
   description:
-    "高校生OKのアイドルオーディションを探せます。未成年が応募前に確認すべき保護者同意、費用、活動時間、学業との両立、面接時の注意点を解説します。",
+    "高校生が応募できるアイドルオーディションを掲載。2026年現在募集中の情報を、未経験、費用、地域、保護者同意、学業との両立条件で比較できます。",
   alternates: {
     canonical: "/idol-audition/high-school"
   },
   openGraph: {
-    title: "高校生OKのアイドルオーディション一覧｜未成年が応募前に確認すること",
+    title: "高校生のアイドルオーディション一覧【2026年最新】",
     description:
       "高校生OKのアイドルオーディション、未成年が応募前に確認すべきポイントを解説します。",
     url: `${siteConfig.url}/idol-audition/high-school`,
@@ -89,8 +88,9 @@ const faq = [
 export default async function HighSchoolAuditionPage() {
   const allAuditions = await getAllAuditions();
   const highSchoolAuditions = allAuditions.filter((audition) =>
-    `${audition.features.join(" ")} ${audition.student}`.includes("高校生") ||
-    `${audition.features.join(" ")} ${audition.student}`.includes("学生")
+    `${audition.features.join(" ")} ${audition.student} ${audition.age}`.match(
+      /高校生|中高生|未成年応募可|高校生相談可/
+    )
   );
 
   const faqJsonLd = {
@@ -109,7 +109,7 @@ export default async function HighSchoolAuditionPage() {
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "高校生OKのアイドルオーディション一覧｜未成年が応募前に確認すること",
+    headline: "高校生のアイドルオーディション一覧【2026年最新】未経験OK・募集中",
     description:
       "高校生OKのアイドルオーディション、未成年が応募前に確認すべき保護者同意、費用、活動時間、学業との両立を解説します。",
     mainEntityOfPage: `${siteConfig.url}/idol-audition/high-school`,
@@ -122,6 +122,37 @@ export default async function HighSchoolAuditionPage() {
       name: "アイドルオーディションナビ"
     }
   };
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "高校生が応募できるアイドルオーディション",
+    numberOfItems: highSchoolAuditions.length,
+    itemListElement: highSchoolAuditions.map((audition, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: audition.title,
+      url: `${siteConfig.url}/idol-audition/${audition.slug}`
+    }))
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: siteConfig.url },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "アイドルオーディション一覧",
+        item: `${siteConfig.url}/idol-audition`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "高校生のアイドルオーディション",
+        item: `${siteConfig.url}/idol-audition/high-school`
+      }
+    ]
+  };
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-12">
@@ -133,21 +164,44 @@ export default async function HighSchoolAuditionPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
-      <Link href="/" className="text-sm font-bold text-slate-500 hover:text-pink-600">
-        ← トップへ戻る
-      </Link>
+      <nav className="text-sm font-bold text-slate-500" aria-label="パンくずリスト">
+        <Link href="/" className="hover:text-pink-600">トップ</Link>
+        <span className="mx-2">/</span>
+        <Link href="/idol-audition" className="hover:text-pink-600">募集一覧</Link>
+        <span className="mx-2">/</span>
+        <Link href="/idol-audition/age" className="hover:text-pink-600">年齢別</Link>
+      </nav>
 
       <header className="mt-8 mb-10">
         <p className="text-sm font-bold text-pink-600">High School Student</p>
-        <h1 className="mt-2 text-4xl font-black leading-tight text-slate-950">
-          高校生OKのアイドルオーディション一覧
+        <h1 className="mt-2 break-words text-4xl font-black leading-tight text-slate-950 sm:break-keep sm:text-5xl">
+          高校生の アイドルオーディション一覧【2026年最新】
         </h1>
         <p className="mt-4 max-w-3xl leading-8 text-slate-600">
           高校生や未成年でも応募しやすいアイドルオーディションをまとめています。
           応募前に確認したい保護者同意、費用、活動時間、学業との両立についても解説します。
         </p>
+        <p className="mt-4 text-xs font-bold text-slate-500">
+          2026年9月更新・現在{highSchoolAuditions.length}件掲載
+        </p>
       </header>
+
+      <nav aria-label="年齢・生活条件" className="mb-10 flex flex-wrap gap-2">
+        <Link href="/idol-audition/high-school" className="rounded-full bg-pink-500 px-4 py-2 text-xs font-black text-white">高校生OK</Link>
+        <Link href="/idol-audition/20s" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:text-pink-700">20代</Link>
+        <Link href="/idol-audition/30s" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:text-pink-700">30代</Link>
+        <Link href="/idol-audition/age-limit-none" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:text-pink-700">年齢制限なし</Link>
+        <Link href="/idol-audition/working-adult" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:text-pink-700">社会人OK</Link>
+      </nav>
 
       <FeaturedHiraeth />
 
@@ -157,6 +211,9 @@ export default async function HighSchoolAuditionPage() {
           <h2 className="mt-1 text-3xl font-black text-slate-950">
             高校生・学生相談可の募集
           </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">
+            募集要項に高校生・未成年の応募可否が記載された情報です。年齢条件は応募前に必ず最新の公式案内でも確認してください。
+          </p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">

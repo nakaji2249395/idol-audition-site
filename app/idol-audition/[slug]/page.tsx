@@ -13,6 +13,7 @@ import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
 import { getApplyUrl } from "@/lib/applyUrl";
+import { getAudienceLinks } from "@/lib/auditionAudience";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +91,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
   const relatedAuditions = getRelatedAuditions(audition, allAuditions);
   const auditionRegion = getAuditionRegion(audition);
   const region = auditionRegion ? auditionRegions[auditionRegion] : null;
+  const audienceLinks = getAudienceLinks(audition);
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -272,6 +274,24 @@ export default async function AuditionDetailPage({ params }: PageProps) {
           <p className="mt-3 text-center text-[11px] leading-5 text-slate-500">検索・応募は無料です</p>
         </aside>
       </article>
+
+      {audienceLinks.length > 0 ? (
+        <nav className="mt-10 border-y border-slate-200 py-6" aria-label="年齢・生活条件が近い募集">
+          <p className="editorial-kicker">Find by condition</p>
+          <h2 className="mt-2 text-xl font-black text-slate-950">この募集に合う条件から探す</h2>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {audienceLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-700 transition hover:border-pink-300 hover:text-pink-700"
+              >
+                {link.label} →
+              </Link>
+            ))}
+          </div>
+        </nav>
+      ) : null}
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-[#fffefd]/95 p-3 backdrop-blur lg:hidden">
         <Link href={getApplyUrl(audition.slug)} className="mx-auto flex min-h-12 max-w-md items-center justify-center rounded-full bg-pink-500 px-6 text-sm font-black text-white shadow-lg">

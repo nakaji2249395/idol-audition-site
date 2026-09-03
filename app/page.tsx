@@ -64,6 +64,31 @@ const categories = [
     text: "未成年・学生が応募前に確認したい募集"
   },
   {
+    title: "年齢からオーディションを探す",
+    href: "/idol-audition/age",
+    text: "高校生・20代・30代・年齢制限なしで比較"
+  },
+  {
+    title: "20代のオーディション",
+    href: "/idol-audition/20s",
+    text: "20代前半・後半から応募できる募集"
+  },
+  {
+    title: "30代のオーディション",
+    href: "/idol-audition/30s",
+    text: "30歳以上が応募条件に入る募集"
+  },
+  {
+    title: "年齢制限なしのオーディション",
+    href: "/idol-audition/age-limit-none",
+    text: "年齢不問・上限なしと明記された募集"
+  },
+  {
+    title: "社会人OKのオーディション",
+    href: "/idol-audition/working-adult",
+    text: "仕事・会社員・ダブルワークとの両立で探す"
+  },
+  {
     title: "怪しい募集の見分け方",
     href: "/idol-audition/suspicious",
     text: "費用・契約・運営情報の確認ポイント"
@@ -238,7 +263,7 @@ export default async function Home() {
         </header>
 
         <nav aria-label="条件から探す" className="hide-scrollbar -mx-4 flex gap-2 overflow-x-auto border-b border-slate-200 px-4 py-5 sm:mx-0 sm:flex-wrap sm:px-0">
-          {categories.slice(0, 8).map((category) => (
+          {categories.map((category) => (
             <Link key={category.href} href={category.href} className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-700 transition hover:border-pink-300 hover:text-pink-700">
               {category.title.replace("のアイドルオーディション", "").replace("のオーディション", "")}
             </Link>

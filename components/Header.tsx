@@ -7,6 +7,7 @@ const navItems = [
   { href: "/idol-audition/osaka", label: "大阪" },
   { href: "/idol-audition/nagoya", label: "名古屋" },
   { href: "/idol-audition/mikeiken", label: "未経験OK" },
+  { href: "/idol-audition/age", label: "年齢別" },
   { href: "/idol-audition/suspicious", label: "応募前ガイド" }
 ];
 
@@ -14,6 +15,8 @@ const mobileNavItems = [
   ...navItems,
   { href: "/idol-audition/free", label: "費用なし" },
   { href: "/idol-audition/high-school", label: "高校生OK" },
+  { href: "/idol-audition/30s", label: "30代" },
+  { href: "/idol-audition/age-limit-none", label: "年齢不問" },
   { href: "/post", label: "掲載希望" }
 ];
 

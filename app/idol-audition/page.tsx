@@ -64,6 +64,31 @@ const guideLinks = [
     text: "未成年・学生が応募前に確認したい募集"
   },
   {
+    href: "/idol-audition/age",
+    title: "年齢からアイドルオーディションを探す",
+    text: "高校生・20代・30代・年齢不問で比較"
+  },
+  {
+    href: "/idol-audition/20s",
+    title: "20代のアイドルオーディション",
+    text: "20代前半・後半から応募できる募集"
+  },
+  {
+    href: "/idol-audition/30s",
+    title: "30代のアイドルオーディション",
+    text: "30歳以上でも応募条件に入る募集"
+  },
+  {
+    href: "/idol-audition/age-limit-none",
+    title: "年齢制限なしのアイドルオーディション",
+    text: "年齢不問・上限なしと明記された募集"
+  },
+  {
+    href: "/idol-audition/working-adult",
+    title: "社会人OKのアイドルオーディション",
+    text: "仕事やダブルワークとの両立で探す"
+  },
+  {
     href: "/idol-audition/suspicious",
     title: "怪しい募集の見分け方",
     text: "費用・契約・運営情報の確認ポイント"
