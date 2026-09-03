@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { logoutAdmin } from "@/app/admin/actions";
+import { logoutAdmin, testApprovalEmail } from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/adminAuth";
 import { fetchAllSubmissions } from "@/lib/submissions";
 import { formatJstDateTime } from "@/lib/dateTime";
@@ -30,6 +30,22 @@ const approvalEmailMessages: Record<string, { text: string; style: string }> = {
   "already-approved": {
     text: "この募集はすでに掲載中です。重複メールは送信していません。",
     style: "border-slate-200 bg-slate-50 text-slate-700"
+  },
+  "test-sent": {
+    text: "Customer.ioの接続テストメールを返信先アドレスへ送信しました。",
+    style: "border-green-200 bg-green-50 text-green-800"
+  },
+  "test-not-configured": {
+    text: "Customer.ioの環境変数が不足しているため、テストメールを送信できませんでした。",
+    style: "border-amber-200 bg-amber-50 text-amber-800"
+  },
+  "test-missing-email": {
+    text: "返信先メールアドレスが未設定のため、テストメールを送信できませんでした。",
+    style: "border-amber-200 bg-amber-50 text-amber-800"
+  },
+  "test-failed": {
+    text: "Customer.ioの接続テストに失敗しました。APIキー、送信元ドメイン、リージョンを確認してください。",
+    style: "border-red-200 bg-red-50 text-red-800"
   }
 };
 
@@ -72,18 +88,26 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
           <h1 className="mt-2 text-4xl font-black text-slate-950">掲載依頼一覧</h1>
         </div>
 
-        <Link
-          href="/admin/applications"
-          className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-pink-600"
-        >
-          応募者一覧
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <form action={testApprovalEmail}>
+            <button className="rounded-full border border-pink-300 bg-pink-50 px-5 py-3 text-sm font-bold text-pink-700 hover:bg-pink-100">
+              メール接続テスト
+            </button>
+          </form>
 
-        <form action={logoutAdmin}>
-          <button className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 hover:text-pink-600">
-            ログアウト
-          </button>
-        </form>
+          <Link
+            href="/admin/applications"
+            className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-pink-600"
+          >
+            応募者一覧
+          </Link>
+
+          <form action={logoutAdmin}>
+            <button className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 hover:text-pink-600">
+              ログアウト
+            </button>
+          </form>
+        </div>
       </div>
 
       {approvalEmailMessage ? (

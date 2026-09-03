@@ -123,3 +123,57 @@ export async function sendApprovalEmail({
     return "failed";
   }
 }
+
+export async function sendCustomerIoTestEmail(): Promise<ApprovalEmailResult> {
+  const apiKey = process.env.CUSTOMERIO_APP_API_KEY;
+  const from = process.env.CUSTOMERIO_EMAIL_FROM;
+  const to = process.env.CUSTOMERIO_EMAIL_REPLY_TO;
+
+  if (!to) {
+    return "missing-email";
+  }
+
+  if (!apiKey || !from) {
+    return "not-configured";
+  }
+
+  const apiBaseUrl =
+    process.env.CUSTOMERIO_REGION?.toLowerCase() === "eu"
+      ? "https://api-eu.customer.io"
+      : "https://api.customer.io";
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/v1/send/email`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        transactional_message_id: "audition_navi_connection_test",
+        auto_create: true,
+        from,
+        to,
+        identifiers: { email: to },
+        reply_to: to,
+        subject: "【テスト送信】アイドルオーディションナビ",
+        body: "<p>Customer.ioとの接続テストに成功しました。</p><p>掲載承認時の自動メール送信を利用できます。</p>",
+        body_plain:
+          "Customer.ioとの接続テストに成功しました。掲載承認時の自動メール送信を利用できます。",
+        send_to_unsubscribed: true,
+        tracked: true,
+        queue_draft: false
+      })
+    });
+
+    if (!response.ok) {
+      console.error("Customer.io test email failed", response.status, await response.text());
+      return "failed";
+    }
+
+    return "sent";
+  } catch (error) {
+    console.error("Customer.io test email failed", error);
+    return "failed";
+  }
+}

@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { clearAdminCookie, requireAdmin, setAdminCookie } from "@/lib/adminAuth";
-import { sendApprovalEmail } from "@/lib/approvalEmail";
+import { sendApprovalEmail, sendCustomerIoTestEmail } from "@/lib/approvalEmail";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const IMAGE_BUCKET = "audition-images";
@@ -118,6 +118,13 @@ export async function loginAdmin(formData: FormData) {
 export async function logoutAdmin() {
   await clearAdminCookie();
   redirect("/admin");
+}
+
+export async function testApprovalEmail() {
+  await requireAdmin();
+
+  const result = await sendCustomerIoTestEmail();
+  redirect(`/admin/submissions?approvalEmail=test-${result}`);
 }
 
 export async function approveSubmission(formData: FormData) {
