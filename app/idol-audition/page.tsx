@@ -39,6 +39,16 @@ const guideLinks = [
     text: "名古屋・愛知・東海で活動できる募集"
   },
   {
+    href: "/idol-audition/fukuoka",
+    title: "福岡のアイドルオーディション",
+    text: "福岡・九州で活動できる募集"
+  },
+  {
+    href: "/idol-audition/nationwide",
+    title: "全国のアイドルオーディション",
+    text: "全国から応募できる募集"
+  },
+  {
     href: "/idol-audition/mikeiken",
     title: "未経験OKのアイドルオーディション",
     text: "歌やダンスが初めてでも応募しやすい募集"

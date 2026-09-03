@@ -1,6 +1,6 @@
 import type { Audition } from "@/lib/auditions";
 
-export type AuditionRegion = "tokyo" | "osaka" | "nagoya";
+export type AuditionRegion = "tokyo" | "osaka" | "nagoya" | "fukuoka" | "nationwide";
 
 export const auditionRegions: Record<
   AuditionRegion,
@@ -20,6 +20,16 @@ export const auditionRegions: Record<
     href: "/idol-audition/nagoya",
     label: "名古屋・東海",
     keywords: ["名古屋", "愛知", "東海", "岐阜", "三重", "静岡"]
+  },
+  fukuoka: {
+    href: "/idol-audition/fukuoka",
+    label: "福岡・九州",
+    keywords: ["福岡", "九州", "博多", "天神", "北九州", "熊本", "佐賀", "長崎", "大分", "宮崎", "鹿児島"]
+  },
+  nationwide: {
+    href: "/idol-audition/nationwide",
+    label: "全国・オンライン",
+    keywords: ["全国", "オンライン", "全国各地"]
   }
 };
 

@@ -15,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/idol-audition/tokyo",
     "/idol-audition/osaka",
     "/idol-audition/nagoya",
+    "/idol-audition/fukuoka",
+    "/idol-audition/nationwide",
     "/idol-audition/mikeiken",
     "/idol-audition/free",
     "/idol-audition/high-school",

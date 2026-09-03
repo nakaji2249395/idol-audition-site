@@ -39,6 +39,16 @@ const categories = [
     text: "名古屋・愛知・東海で活動する募集を探す"
   },
   {
+    title: "福岡のアイドルオーディション",
+    href: "/idol-audition/fukuoka",
+    text: "福岡・九州で活動するアイドル募集を探す"
+  },
+  {
+    title: "全国のアイドルオーディション",
+    href: "/idol-audition/nationwide",
+    text: "居住地を問わず応募しやすい全国募集を探す"
+  },
+  {
     title: "未経験OKのオーディション",
     href: "/idol-audition/mikeiken",
     text: "歌やダンスが初めてでも応募しやすい募集"
@@ -181,7 +191,7 @@ export default async function Home() {
                 <dd className="mt-1 text-[10px] font-bold text-slate-500">掲載中</dd>
               </div>
               <div className="border-l border-slate-200 pl-5">
-                <dt className="text-2xl font-black tracking-[-0.05em] text-slate-950">3</dt>
+                <dt className="text-2xl font-black tracking-[-0.05em] text-slate-950">5</dt>
                 <dd className="mt-1 text-[10px] font-bold text-slate-500">主要エリア</dd>
               </div>
               <div className="border-l border-slate-200 pl-5">
@@ -228,7 +238,7 @@ export default async function Home() {
         </header>
 
         <nav aria-label="条件から探す" className="hide-scrollbar -mx-4 flex gap-2 overflow-x-auto border-b border-slate-200 px-4 py-5 sm:mx-0 sm:flex-wrap sm:px-0">
-          {categories.slice(0, 6).map((category) => (
+          {categories.slice(0, 8).map((category) => (
             <Link key={category.href} href={category.href} className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-700 transition hover:border-pink-300 hover:text-pink-700">
               {category.title.replace("のアイドルオーディション", "").replace("のオーディション", "")}
             </Link>
