@@ -6,7 +6,7 @@ const navItems = [
   { href: "/idol-audition/tokyo", label: "東京" },
   { href: "/idol-audition/osaka", label: "大阪" },
   { href: "/idol-audition/nagoya", label: "名古屋" },
-  { href: "/idol-audition/mikeiken", label: "未経験OK" },
+  { href: "/idol-audition/mikeiken", label: "未経験・初心者" },
   { href: "/idol-audition/age", label: "年齢別" },
   { href: "/idol-audition/suspicious", label: "応募前ガイド" }
 ];

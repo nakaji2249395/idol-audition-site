@@ -62,6 +62,25 @@ export type AudienceLink = {
 export function getAudienceLinks(audition: Audition): AudienceLink[] {
   const links: AudienceLink[] = [];
 
+  if (
+    /未経験(?:者)?(?:OK|可|歓迎)|経験不問|初心者歓迎/.test(
+      `${audition.experience} ${audition.features.join(" ")} ${audition.description}`
+    )
+  ) {
+    links.push({
+      href: "/idol-audition/mikeiken",
+      label: "未経験・初心者OKの募集"
+    });
+  }
+
+  if (
+    /費用なし|無料|かかりません|掛かりません/.test(
+      `${audition.cost} ${audition.features.join(" ")}`
+    )
+  ) {
+    links.push({ href: "/idol-audition/free", label: "費用なしの募集" });
+  }
+
   if (`${audition.features.join(" ")} ${audition.student}`.match(/高校生|学生/)) {
     links.push({ href: "/idol-audition/high-school", label: "高校生OK" });
   }

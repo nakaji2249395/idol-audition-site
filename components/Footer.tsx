@@ -22,7 +22,7 @@ export function Footer() {
             <Link href="/idol-audition/tokyo" className="hover:text-pink-300">東京の募集</Link>
             <Link href="/idol-audition/osaka" className="hover:text-pink-300">大阪の募集</Link>
             <Link href="/idol-audition/nagoya" className="hover:text-pink-300">名古屋の募集</Link>
-            <Link href="/idol-audition/mikeiken" className="hover:text-pink-300">未経験OK</Link>
+            <Link href="/idol-audition/mikeiken" className="hover:text-pink-300">未経験・初心者OK</Link>
             <Link href="/idol-audition/free" className="hover:text-pink-300">費用なし</Link>
             <Link href="/idol-audition/high-school" className="hover:text-pink-300">高校生OK</Link>
             <Link href="/idol-audition/age" className="hover:text-pink-300">年齢から探す</Link>

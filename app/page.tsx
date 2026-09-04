@@ -54,9 +54,9 @@ const categories = [
     text: "居住地を問わず応募しやすい全国募集を探す"
   },
   {
-    title: "未経験OKのオーディション",
+    title: "未経験・初心者OKのオーディション",
     href: "/idol-audition/mikeiken",
-    text: "歌やダンスが初めてでも応募しやすい募集"
+    text: "歌やダンスを習ったことがなくても応募しやすい募集"
   },
   {
     title: "費用なしのオーディション",

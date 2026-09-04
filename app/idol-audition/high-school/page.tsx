@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { SearchIntentLinks } from "@/components/SearchIntentLinks";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
 
@@ -82,6 +83,24 @@ const faq = [
     question: "高校生で未経験でも受かりますか？",
     answer:
       "未経験OKの募集であれば可能性はあります。歌やダンスの経験だけでなく、やる気、継続力、礼儀、SNS発信への意欲、活動への理解が見られます。"
+  }
+];
+
+const relatedLinks = [
+  {
+    href: "/idol-audition/mikeiken",
+    label: "高校生・未経験OKのアイドルオーディション",
+    description: "歌やダンスが初めてでも応募しやすい募集を探す"
+  },
+  {
+    href: "/idol-audition/free",
+    label: "高校生が確認したい費用なしの募集",
+    description: "応募料、レッスン費、衣装代などの条件で比較する"
+  },
+  {
+    href: "/idol-audition/parents",
+    label: "親への説明と保護者同意のポイント",
+    description: "応募前に費用、活動時間、契約について相談する"
   }
 ];
 
@@ -223,7 +242,13 @@ export default async function HighSchoolAuditionPage() {
         </div>
       </section>
 
-      <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
+      <SearchIntentLinks
+        title="高校生のアイドル応募を条件別に確認する"
+        description="未経験、費用、保護者同意など、応募前に気になる条件をまとめて確認できます。"
+        links={relatedLinks}
+      />
+
+      <article className="paper-panel mt-16 p-6 sm:p-10">
         <h2 className="text-3xl font-black leading-tight text-slate-950">
           高校生でもアイドルオーディションに応募できる？
         </h2>

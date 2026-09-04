@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
+import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import type { Audition } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 
@@ -13,6 +14,7 @@ export type AudiencePageContent = {
   guideParagraphs: string[];
   checks: string[];
   faq: { question: string; answer: string }[];
+  relatedLinks?: SearchIntentLink[];
 };
 
 const ageLinks = [
@@ -141,7 +143,15 @@ export function AudienceAuditionPage({
         )}
       </section>
 
-      <article className="paper-panel p-6 sm:p-10">
+      {content.relatedLinks?.length ? (
+        <SearchIntentLinks
+          title={`${content.title.replace(/\s+/g, " ")}を条件別に探す`}
+          description="経験、費用、地域など、応募前に気になる条件を組み合わせて比較できます。"
+          links={content.relatedLinks}
+        />
+      ) : null}
+
+      <article className={`paper-panel p-6 sm:p-10 ${content.relatedLinks?.length ? "mt-16" : ""}`}>
         <p className="editorial-kicker">Age guide</p>
         <h2 className="section-heading mt-3">{content.guideTitle}</h2>
         {content.guideParagraphs.map((paragraph) => (

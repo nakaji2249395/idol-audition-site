@@ -5,13 +5,13 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "大阪のアイドルオーディション一覧｜関西の新メンバー募集",
+  title: "大阪・関西のアイドルオーディション一覧【2026年】未経験OKの募集",
   description:
-    "大阪・関西で活動できるアイドルオーディション一覧。未経験OK、費用なし、新規グループ初期メンバー、既存グループ追加メンバーなどを比較できます。",
+    "大阪・関西のアイドルオーディション・メンバー募集一覧。2026年現在募集中の情報を、未経験、年齢、費用、新規グループ初期メンバー、追加メンバーなどの条件で比較できます。",
   alternates: { canonical: "/idol-audition/osaka" },
   openGraph: {
-    title: "大阪のアイドルオーディション一覧｜関西の新メンバー募集",
-    description: "大阪・関西で募集中のアイドルオーディションを条件別に比較できます。",
+    title: "大阪・関西のアイドルオーディション一覧【2026年】",
+    description: "大阪のアイドル募集を、未経験、年齢、費用などの条件別に比較できます。",
     url: `${siteConfig.url}/idol-audition/osaka`,
     type: "article"
   }
@@ -23,9 +23,9 @@ export default function OsakaAuditionPage() {
       content={{
         region: "osaka",
         eyebrow: "Osaka / Kansai Audition",
-        title: "大阪のアイドルオーディション一覧",
+        title: "大阪・関西のアイドルオーディション一覧",
         lead:
-          "大阪・関西を拠点に活動するアイドルグループの新メンバー募集をまとめています。活動地域、年齢、未経験可否、費用、報酬、選考方法を比較して、自分に合う募集を探せます。",
+          "大阪・関西を拠点に活動するアイドルグループのオーディション・新メンバー募集をまとめています。未経験OK、新規グループ初期メンバー、追加メンバーなどを、活動地域、年齢、費用、報酬、選考方法で比較できます。",
         listTitle: "大阪・関西で募集中のアイドルオーディション",
         guideTitle: "大阪・関西でアイドルオーディションを探すポイント",
         guideParagraphs: [

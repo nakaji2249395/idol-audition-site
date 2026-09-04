@@ -57,6 +57,23 @@ const content = {
       question: "仕事を辞めないと応募できませんか？",
       answer: "募集によります。仕事との両立相談可の募集も、活動最優先を求める募集もあるため、稼働条件を確認してください。"
     }
+  ],
+  relatedLinks: [
+    {
+      href: "/idol-audition/mikeiken",
+      label: "20代・未経験から応募できる募集",
+      description: "歌やダンスが初めてでも応募しやすいオーディションを比較する"
+    },
+    {
+      href: "/idol-audition/working-adult",
+      label: "社会人から応募できるアイドル募集",
+      description: "仕事やダブルワークとの両立条件で探す"
+    },
+    {
+      href: "/idol-audition/age-limit-none",
+      label: "年齢制限なしのオーディション",
+      description: "年齢不問・上限なしと明記された募集を確認する"
+    }
   ]
 };
 

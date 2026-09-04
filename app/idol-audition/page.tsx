@@ -50,8 +50,8 @@ const guideLinks = [
   },
   {
     href: "/idol-audition/mikeiken",
-    title: "未経験OKのアイドルオーディション",
-    text: "歌やダンスが初めてでも応募しやすい募集"
+    title: "未経験・初心者OKのアイドルオーディション",
+    text: "歌やダンスを習ったことがなくても応募しやすい募集"
   },
   {
     href: "/idol-audition/free",
