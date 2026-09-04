@@ -89,9 +89,25 @@ function buildApplicationMethods(row: SubmissionRow): ApplicationMethod[] {
   return methods;
 }
 
+function buildAudienceFeatures(row: SubmissionRow) {
+  const features: string[] = [];
+  const hasNoAgeLimit = /年齢(?:制限)?不問|年齢制限なし|年齢上限なし|上限なし/.test(row.age);
+
+  if (hasNoAgeLimit) {
+    features.push("年齢制限なし", "30代OK");
+  }
+
+  if (/社会人|会社員|仕事.{0,8}両立|ダブルワーク/.test(row.student)) {
+    features.push("社会人OK");
+  }
+
+  return features;
+}
+
 export function submissionToAudition(row: SubmissionRow): Audition {
   const features = [
     row.area.includes("東京") ? "東京" : row.area,
+    ...buildAudienceFeatures(row),
     row.is_beginner_ok ? "未経験OK" : "",
     row.is_high_school_ok ? "高校生相談可" : "",
     row.is_no_cost ? "費用なし" : "",
