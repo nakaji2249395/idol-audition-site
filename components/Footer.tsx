@@ -40,6 +40,7 @@ export function Footer() {
             <Link href="/idol-audition/cost" className="hover:text-pink-300">費用の注意点</Link>
             <Link href="/idol-audition/parents" className="hover:text-pink-300">親への説明</Link>
             <Link href="/idol-audition/how-to-apply" className="hover:text-pink-300">応募文の書き方</Link>
+            <Link href="/idol-audition/agency-guide" className="hover:text-pink-300">アイドル事務所の選び方</Link>
           </div>
         </div>
 

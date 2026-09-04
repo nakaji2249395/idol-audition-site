@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { GlobalActionFeedback } from "@/components/GlobalActionFeedback";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -44,7 +46,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="ja">
+    <html lang="ja" data-scroll-behavior="smooth">
       <body>
         <script
           type="application/ld+json"
@@ -53,6 +55,9 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Suspense fallback={null}>
+          <GlobalActionFeedback />
+        </Suspense>
         <Analytics />
       </body>
     </html>

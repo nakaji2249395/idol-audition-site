@@ -11,6 +11,8 @@ export function SubmitButton() {
         type="submit"
         disabled={pending}
         aria-disabled={pending}
+        aria-busy={pending}
+        data-pending-managed="true"
         className="flex min-h-14 items-center justify-center gap-3 rounded-full bg-pink-500 px-8 py-4 text-sm font-black text-white transition hover:bg-pink-700 disabled:cursor-wait disabled:bg-pink-300"
       >
         {pending ? (

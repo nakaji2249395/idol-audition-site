@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { fetchApplyAuditionBySlug } from "@/lib/applicationData";
 import {
+  getLineOfficialAccountChatUrl,
   getLineProfileByAccessToken,
   getLineProfileByMessagingApi,
   pushLineTextMessage,
@@ -151,6 +152,7 @@ export async function POST(request: Request) {
 
     let pushMessageSent = false;
     let pushMessageError: string | null = null;
+    let officialLineChatUrl: string | null = null;
 
     try {
       await pushLineTextMessage({
@@ -158,6 +160,12 @@ export async function POST(request: Request) {
         text: messageText
       });
       pushMessageSent = true;
+
+      try {
+        officialLineChatUrl = await getLineOfficialAccountChatUrl();
+      } catch (botInfoError) {
+        console.warn(botInfoError);
+      }
     } catch (error) {
       console.error(error);
       pushMessageError =
@@ -186,7 +194,8 @@ export async function POST(request: Request) {
         pictureUrl
       },
       pushMessageSent,
-      pushMessageError
+      pushMessageError,
+      officialLineChatUrl
     });
   } catch (error) {
     console.error(error);

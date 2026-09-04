@@ -61,6 +61,45 @@ a {
   text-decoration: none;
 }
 
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:active,
+button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.ui-action-pending {
+  position: relative !important;
+  cursor: wait !important;
+  pointer-events: none !important;
+  opacity: 0.78;
+}
+
+.ui-action-pending::after {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 10;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid rgb(255 255 255 / 88%);
+  border-top-color: var(--brand);
+  border-radius: 999px;
+  background: rgb(36 27 36 / 72%);
+  box-shadow: 0 0 0 5px rgb(255 255 255 / 45%);
+  content: "";
+  transform: translate(-50%, -50%);
+  animation: ui-action-spin 700ms linear infinite;
+}
+
+@keyframes ui-action-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 ::selection {
   background: var(--brand-wash);
   color: var(--ink);
@@ -125,5 +164,9 @@ a {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .ui-action-pending::after {
+    animation-duration: 1.4s !important;
   }
 }

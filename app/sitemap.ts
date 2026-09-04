@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/idol-audition/cost",
     "/idol-audition/parents",
     "/idol-audition/how-to-apply",
+    "/idol-audition/agency-guide",
     "/post",
     "/about"
   ];

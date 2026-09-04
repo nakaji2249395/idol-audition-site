@@ -12,6 +12,36 @@ export type LineProfile = {
   statusMessage?: string;
 };
 
+type LineBotInfo = {
+  basicId: string;
+  premiumId?: string;
+};
+
+export async function getLineOfficialAccountChatUrl() {
+  const token = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+
+  if (!token) return null;
+
+  const response = await fetch("https://api.line.me/v2/bot/info", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`LINE bot info fetch failed: ${text}`);
+  }
+
+  const bot = (await response.json()) as LineBotInfo;
+  const officialAccountId = bot.premiumId || bot.basicId;
+
+  if (!officialAccountId) return null;
+
+  return `https://line.me/R/oaMessage/${encodeURIComponent(officialAccountId)}`;
+}
+
 export async function verifyLineIdToken(idToken: string): Promise<LineVerifyProfile> {
   const channelId = process.env.LINE_LOGIN_CHANNEL_ID;
 

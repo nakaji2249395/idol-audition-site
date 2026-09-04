@@ -89,6 +89,7 @@ export function ApplyClient({
   const [message, setMessage] = useState("LINE応募の準備をしています。");
   const [audition, setAudition] = useState<ApplyAudition | null>(null);
   const [pushMessageError, setPushMessageError] = useState<string | null>(null);
+  const [officialLineChatUrl, setOfficialLineChatUrl] = useState<string | null>(null);
 
   const liffId = process.env.NEXT_PUBLIC_LINE_LIFF_ID;
   const retrySlug = audition?.slug || initialAuditionSlug;
@@ -97,6 +98,7 @@ export function ApplyClient({
 
   useEffect(() => {
     let cancelled = false;
+    let chatRedirectTimer: ReturnType<typeof setTimeout> | undefined;
 
     async function fetchAudition(slug: string) {
       const response = await fetch(`/api/apply/audition?slug=${encodeURIComponent(slug)}`, {
@@ -209,8 +211,19 @@ export function ApplyClient({
 
         if (cancelled) return;
         setPushMessageError(result.pushMessageError ?? null);
+        setOfficialLineChatUrl(result.officialLineChatUrl ?? null);
         setState("done");
-        setMessage("応募案内を受け付けました。公式LINEをご確認ください。");
+        setMessage(
+          result.pushMessageSent
+            ? "応募案内を公式LINEへ送信しました。トーク画面を開きます。"
+            : "応募情報を受け付けました。公式LINEを友だち追加してください。"
+        );
+
+        if (result.pushMessageSent && result.officialLineChatUrl) {
+          chatRedirectTimer = setTimeout(() => {
+            window.location.assign(result.officialLineChatUrl);
+          }, 900);
+        }
       } catch (error) {
         console.error(error);
 
@@ -231,6 +244,7 @@ export function ApplyClient({
 
     return () => {
       cancelled = true;
+      if (chatRedirectTimer) clearTimeout(chatRedirectTimer);
     };
   }, [canStart, initialAuditionSlug, liffId]);
 
@@ -293,7 +307,7 @@ export function ApplyClient({
                 </div>
               )}
 
-              {officialLineUrl ? (
+              {officialLineUrl && !officialLineChatUrl ? (
                 <a
                   href={officialLineUrl}
                   target="_blank"
@@ -301,6 +315,15 @@ export function ApplyClient({
                   className="rounded-full bg-green-600 px-5 py-3 text-center text-sm font-black text-white"
                 >
                   オーディションナビ公式LINEを追加する
+                </a>
+              ) : null}
+
+              {officialLineChatUrl ? (
+                <a
+                  href={officialLineChatUrl}
+                  className="rounded-full bg-green-600 px-5 py-3 text-center text-sm font-black text-white"
+                >
+                  公式LINEのトークを開く
                 </a>
               ) : null}
 

@@ -7,16 +7,16 @@ import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditions } from "@/lib/submissions";
 
 export const metadata: Metadata = {
-  title: "アイドルオーディション一覧｜未経験OK・東京・費用なしのアイドル募集",
+  title: "女性アイドルオーディション一覧｜2026年最新・未経験OKの募集",
   description:
-    "アイドルオーディション一覧。未経験OK、東京、費用なし、高校生相談可、新規グループ初期メンバー、地下アイドル募集など、アイドルになりたい方に向けた募集情報を比較できます。",
+    "女性向けアイドルオーディション一覧。未経験OK、東京・大阪・名古屋、費用なし、高校生相談可、新規グループ初期メンバーなど、2026年募集中の情報を比較できます。",
   alternates: {
     canonical: "/idol-audition"
   },
   openGraph: {
-    title: "アイドルオーディション一覧｜未経験OK・東京・費用なしのアイドル募集",
+    title: "女性アイドルオーディション一覧｜2026年最新・未経験OKの募集",
     description:
-      "未経験OK、東京、費用なし、高校生相談可などのアイドルオーディションを比較できます。",
+      "女性向けの募集中アイドルオーディションを、地域・年齢・費用・未経験可否で比較できます。",
     url: `${siteConfig.url}/idol-audition`,
     type: "article"
   }
@@ -89,6 +89,11 @@ const guideLinks = [
     text: "仕事やダブルワークとの両立で探す"
   },
   {
+    href: "/idol-audition/agency-guide",
+    title: "アイドル事務所の選び方",
+    text: "アイドルになりたい人が所属先を比較するポイント"
+  },
+  {
     href: "/idol-audition/suspicious",
     title: "怪しい募集の見分け方",
     text: "費用・契約・運営情報の確認ポイント"
@@ -131,6 +136,11 @@ const faq = [
     question: "応募方法はどこで確認できますか？",
     answer:
       "各オーディションの詳細ページに、LINE応募、フォーム応募、メール応募などの応募方法を掲載しています。"
+  },
+  {
+    question: "女性向けのアイドルオーディションを掲載していますか？",
+    answer:
+      "はい。女性メンバーを募集するアイドルオーディションを中心に掲載しています。対象年齢、活動地域、費用、未経験可否は募集ごとに異なるため、詳細ページで確認してください。"
   }
 ];
 
@@ -144,7 +154,7 @@ export default async function IdolAuditionPage() {
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "アイドルオーディション一覧",
+    name: "女性アイドルオーディション一覧",
     itemListElement: allAuditions.map((audition, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -185,11 +195,11 @@ export default async function IdolAuditionPage() {
         <div>
         <p className="editorial-kicker">Audition directory</p>
         <h1 className="mt-3 text-5xl font-black leading-[1.05] tracking-[-0.055em] text-slate-950 sm:text-6xl">
-          アイドルオーディション一覧
+          女性アイドルオーディション一覧
         </h1>
         <p className="mt-5 max-w-3xl leading-8 text-slate-600">
-          募集中のアイドルオーディションを、活動地域、費用、未経験可否、高校生相談可、応募方法で比較できます。
-          東京・関東近郊の地下アイドル募集、新規グループ初期メンバー、既存グループ追加メンバーを探している方に向けた一覧ページです。
+          女性メンバーを募集しているアイドルオーディションを、活動地域、費用、年齢、未経験可否、応募方法で比較できます。
+          東京・大阪・名古屋・福岡をはじめ、新規グループの初期メンバーや既存グループの追加メンバーを探している方に向けた2026年の募集一覧です。
         </p>
         </div>
         <div className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center text-white shadow-[3px_3px_0_#241b24]">
@@ -200,11 +210,23 @@ export default async function IdolAuditionPage() {
 
       <FeaturedHiraeth />
 
+      <aside className="mb-14 grid gap-5 border-y border-slate-200 bg-white px-5 py-6 sm:grid-cols-[1fr_auto] sm:items-center sm:px-7" aria-label="女性向けオーディションの案内">
+        <div>
+          <p className="text-sm font-black text-slate-950">女性向けの募集条件を確認してから応募しましょう</p>
+          <p className="mt-2 text-sm leading-7 text-slate-600">
+            募集ごとに対象年齢、活動地域、レッスン費、所属条件が異なります。事務所や運営会社まで比較したい方は、選び方ガイドも確認できます。
+          </p>
+        </div>
+        <Link href="/idol-audition/agency-guide" className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-950 px-5 py-3 text-xs font-black text-slate-950 transition hover:bg-pink-50">
+          アイドル事務所の選び方 →
+        </Link>
+      </aside>
+
       <section className="mb-20">
         <div className="mb-7 border-b border-slate-200 pb-5">
           <p className="editorial-kicker">Now recruiting</p>
           <h2 className="section-heading mt-2">
-            募集中のアイドルオーディション
+            募集中の女性アイドルオーディション
           </h2>
         </div>
 
@@ -270,7 +292,7 @@ export default async function IdolAuditionPage() {
       <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <p className="text-sm font-bold text-pink-600">FAQ</p>
         <h2 className="mt-2 text-3xl font-black text-slate-950">
-          アイドルオーディション一覧のよくある質問
+          女性アイドルオーディションのよくある質問
         </h2>
         <div className="mt-6 grid gap-4">
           {faq.map((item) => (
