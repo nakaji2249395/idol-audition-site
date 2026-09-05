@@ -57,6 +57,33 @@ const content = {
       question: "面接で仕事について伝えるべきですか？",
       answer: "伝えましょう。勤務時間、休みの調整範囲、活動可能日を具体的に共有すると、両立できるか判断しやすくなります。"
     }
+  ],
+  relatedLinks: [
+    {
+      href: "/idol-audition/mikeiken",
+      label: "社会人・未経験OKのアイドル募集",
+      description: "初めてでも応募しやすい募集とレッスン条件を比較する"
+    },
+    {
+      href: "/idol-audition/20s",
+      label: "20代から応募できるオーディション",
+      description: "20代前半・後半の年齢上限と活動条件から探す"
+    },
+    {
+      href: "/idol-audition/30s",
+      label: "30代から応募できるオーディション",
+      description: "30歳以上、仕事との両立、未経験条件で比較する"
+    },
+    {
+      href: "/idol-audition/age-limit-none",
+      label: "年齢制限なしのアイドル募集",
+      description: "年齢不問・上限なしの募集を確認する"
+    },
+    {
+      href: "/idol-audition/how-to-apply",
+      label: "社会人経験を活かす自己PR",
+      description: "責任感、継続力、活動可能日の伝え方を見る"
+    }
   ]
 };
 

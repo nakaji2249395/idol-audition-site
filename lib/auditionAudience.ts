@@ -22,6 +22,12 @@ export function isAgeLimitNoneAudition(audition: Audition) {
   );
 }
 
+export function isBeginnerFriendlyAudition(audition: Audition) {
+  return /未経験(?:者)?(?:OK|可|歓迎)|経験不問|初心者歓迎/.test(
+    `${audition.experience} ${audition.features.join(" ")} ${audition.description}`
+  );
+}
+
 export function isTwentiesAudition(audition: Audition) {
   const age = normalizeAgeText(audition.age);
 
@@ -63,9 +69,7 @@ export function getAudienceLinks(audition: Audition): AudienceLink[] {
   const links: AudienceLink[] = [];
 
   if (
-    /未経験(?:者)?(?:OK|可|歓迎)|経験不問|初心者歓迎/.test(
-      `${audition.experience} ${audition.features.join(" ")} ${audition.description}`
-    )
+    isBeginnerFriendlyAudition(audition)
   ) {
     links.push({
       href: "/idol-audition/mikeiken",

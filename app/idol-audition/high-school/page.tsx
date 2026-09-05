@@ -101,6 +101,16 @@ const relatedLinks = [
     href: "/idol-audition/parents",
     label: "親への説明と保護者同意のポイント",
     description: "応募前に費用、活動時間、契約について相談する"
+  },
+  {
+    href: "/idol-audition/how-to-apply",
+    label: "高校生の自己PR・志望動機の書き方",
+    description: "未経験でも伝えられる強みと応募写真の準備を確認する"
+  },
+  {
+    href: "/idol-audition/suspicious",
+    label: "怪しいアイドル募集の見分け方",
+    description: "運営情報、費用、契約、面接場所の確認ポイントを見る"
   }
 ];
 

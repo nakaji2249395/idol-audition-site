@@ -57,6 +57,28 @@ const content = {
       question: "未経験でも応募できますか？",
       answer: "年齢条件とは別に、未経験OKかを確認してください。募集詳細には経験条件も掲載しています。"
     }
+  ],
+  relatedLinks: [
+    {
+      href: "/idol-audition/30s",
+      label: "30代から応募できるアイドル募集",
+      description: "30歳以上を含む募集と自己PRのポイントを確認する"
+    },
+    {
+      href: "/idol-audition/mikeiken",
+      label: "年齢制限なし・未経験OKの募集",
+      description: "年齢と経験の両方の条件を確認して探す"
+    },
+    {
+      href: "/idol-audition/working-adult",
+      label: "社会人から応募できるオーディション",
+      description: "仕事、活動曜日、ダブルワーク条件を比較する"
+    },
+    {
+      href: "/idol-audition/20s",
+      label: "20代から応募できるオーディション",
+      description: "20代前半・後半の募集を年齢上限から探す"
+    }
   ]
 };
 

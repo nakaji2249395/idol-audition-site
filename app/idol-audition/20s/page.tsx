@@ -73,6 +73,16 @@ const content = {
       href: "/idol-audition/age-limit-none",
       label: "年齢制限なしのオーディション",
       description: "年齢不問・上限なしと明記された募集を確認する"
+    },
+    {
+      href: "/idol-audition/30s",
+      label: "30代まで応募できるアイドル募集",
+      description: "30歳以上を含む年齢条件や社会人向け募集を確認する"
+    },
+    {
+      href: "/idol-audition/how-to-apply",
+      label: "20代・未経験者向け自己PRの書き方",
+      description: "志望動機、活動可能日、経験の伝え方を確認する"
     }
   ]
 };

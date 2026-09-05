@@ -15,6 +15,18 @@ export type AudiencePageContent = {
   checks: string[];
   faq: { question: string; answer: string }[];
   relatedLinks?: SearchIntentLink[];
+  guideSections?: {
+    title: string;
+    paragraphs: string[];
+    exampleTitle?: string;
+    example?: string;
+  }[];
+};
+
+export type AudiencePageStat = {
+  value: number;
+  label: string;
+  href?: string;
 };
 
 const ageLinks = [
@@ -27,10 +39,12 @@ const ageLinks = [
 
 export function AudienceAuditionPage({
   content,
-  auditions
+  auditions,
+  stats = []
 }: {
   content: AudiencePageContent;
   auditions: Audition[];
+  stats?: AudiencePageStat[];
 }) {
   const pageUrl = `${siteConfig.url}${content.canonical}`;
   const itemListJsonLd = {
@@ -108,6 +122,25 @@ export function AudienceAuditionPage({
         </div>
       </header>
 
+      {stats.length ? (
+        <dl className={`grid border-b border-slate-200 ${stats.length >= 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+          {stats.map((stat) => (
+            <div key={stat.label} className="border-t border-slate-200 px-1 py-5 sm:border-l sm:px-6 first:sm:border-l-0 first:sm:pl-0">
+              <dt className="text-2xl font-black text-slate-950">
+                {stat.href ? (
+                  <Link href={stat.href} className="transition hover:text-pink-700">
+                    {stat.value}<span className="ml-1 text-xs">件</span>
+                  </Link>
+                ) : (
+                  <>{stat.value}<span className="ml-1 text-xs">件</span></>
+                )}
+              </dt>
+              <dd className="mt-1 text-xs font-bold text-slate-500">{stat.label}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+
       <nav aria-label="年齢・生活条件" className="mt-7 flex flex-wrap gap-2">
         {ageLinks.map((link) => (
           <Link
@@ -156,6 +189,26 @@ export function AudienceAuditionPage({
         <h2 className="section-heading mt-3">{content.guideTitle}</h2>
         {content.guideParagraphs.map((paragraph) => (
           <p key={paragraph} className="mt-5 leading-8 text-slate-600">{paragraph}</p>
+        ))}
+
+        {content.guideSections?.map((section, index) => (
+          <section key={section.title} className="mt-10 border-t border-slate-200 pt-8">
+            <div className="grid gap-5 lg:grid-cols-[3rem_1fr]">
+              <span className="text-sm font-black text-pink-700">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h2 className="text-2xl font-black leading-tight text-slate-950">{section.title}</h2>
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="mt-4 leading-8 text-slate-600">{paragraph}</p>
+                ))}
+                {section.example ? (
+                  <div className="mt-6 border-l-4 border-pink-500 bg-pink-50 p-5 sm:p-6">
+                    <h3 className="text-sm font-black text-slate-950">{section.exampleTitle ?? "回答例"}</h3>
+                    <p className="mt-3 whitespace-pre-line leading-8 text-slate-700">{section.example}</p>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </section>
         ))}
 
         <section className="mt-10">

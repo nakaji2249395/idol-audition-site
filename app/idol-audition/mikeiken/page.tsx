@@ -4,7 +4,7 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { getAllAuditions } from "@/lib/auditionData";
-import { isTwentiesAudition } from "@/lib/auditionAudience";
+import { isBeginnerFriendlyAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -104,6 +104,21 @@ const intentLinks: SearchIntentLink[] = [
     description: "20代前半・後半の年齢条件や仕事との両立で比較する"
   },
   {
+    href: "/idol-audition/30s",
+    label: "30代・未経験から応募できる募集",
+    description: "30歳以上や年齢上限なしの初心者歓迎募集を探す"
+  },
+  {
+    href: "/idol-audition/working-adult",
+    label: "社会人・未経験OKのアイドル募集",
+    description: "仕事やダブルワークとの両立条件で比較する"
+  },
+  {
+    href: "/idol-audition/age-limit-none",
+    label: "年齢制限なし・未経験OKの募集",
+    description: "年齢不問と経験条件を組み合わせて確認する"
+  },
+  {
     href: "/idol-audition/tokyo",
     label: "東京の未経験OKオーディション",
     description: "都内・関東近郊で活動できる募集を探す"
@@ -125,18 +140,13 @@ const intentLinks: SearchIntentLink[] = [
   }
 ];
 
-function isBeginnerFriendly(audition: Awaited<ReturnType<typeof getAllAuditions>>[number]) {
-  const text = [audition.experience, audition.features.join(" "), audition.description].join(" ");
-  return /未経験(?:者)?(?:OK|可|歓迎)|経験不問|初心者歓迎/.test(text);
-}
-
 function jsonLd(value: object) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
 export default async function MikeikenAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const mikeikenAuditions = allAuditions.filter(isBeginnerFriendly);
+  const mikeikenAuditions = allAuditions.filter(isBeginnerFriendlyAudition);
   const freeCount = mikeikenAuditions.filter((audition) =>
     /費用なし|無料|かかりません|掛かりません/.test(audition.cost)
   ).length;

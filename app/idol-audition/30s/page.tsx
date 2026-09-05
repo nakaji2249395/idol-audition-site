@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 import { AudienceAuditionPage } from "@/components/AudienceAuditionPage";
 import { getAllAuditions } from "@/lib/auditionData";
-import { isThirtiesAudition } from "@/lib/auditionAudience";
+import {
+  isAgeLimitNoneAudition,
+  isBeginnerFriendlyAudition,
+  isThirtiesAudition,
+  isWorkingAdultAudition
+} from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "30代で応募できるアイドルオーディション一覧【2026年】年齢上限を比較",
+  title: "30代で応募できるアイドルオーディション一覧【2026年】未経験・社会人OK",
   description:
-    "30代で応募できるアイドルオーディションを掲載。30歳・32歳・35歳まで、年齢不問、上限なしなど、応募可能年齢と活動条件を比較できます。",
+    "30代で応募できるアイドルオーディションを掲載。未経験・社会人OK、30歳・32歳・35歳まで、年齢不問などの条件を比較。自己PRと年齢質問の回答例も紹介します。",
   alternates: { canonical: "/idol-audition/30s" },
   openGraph: {
     title: "30代で応募できるアイドルオーディション一覧【2026年】",
@@ -57,10 +62,71 @@ const content = {
       question: "社会人を続けながら活動できますか？",
       answer: "募集によります。平日夜や土日中心の活動もありますが、月間活動日数や遠征の有無を応募前に確認してください。"
     }
+  ],
+  relatedLinks: [
+    {
+      href: "/idol-audition/mikeiken",
+      label: "30代・未経験OKのアイドル募集",
+      description: "歌やダンスが初めてでも応募しやすい募集を比較する"
+    },
+    {
+      href: "/idol-audition/working-adult",
+      label: "社会人から応募できるオーディション",
+      description: "仕事、平日夜、土日の活動条件から探す"
+    },
+    {
+      href: "/idol-audition/age-limit-none",
+      label: "年齢制限なしのアイドル募集",
+      description: "年齢不問・上限なしと明記された募集を見る"
+    },
+    {
+      href: "/idol-audition/how-to-apply",
+      label: "自己PR・志望動機の書き方",
+      description: "応募文の組み立て方と写真の準備を確認する"
+    }
+  ],
+  guideSections: [
+    {
+      title: "30代で応募するときの自己PRの作り方",
+      paragraphs: [
+        "30代の自己PRでは、年齢を弁解するよりも、これまで続けてきたことと、アイドル活動へ転用できる力を具体的に伝えます。仕事で身につけた責任感、接客力、時間管理、SNS運用、チームでの経験などは、継続的な活動に直結する強みです。",
+        "『未経験ですが頑張ります』だけで終わらせず、週に何日活動できるか、どのような発信を続けられるか、そのグループでどんな役割を担いたいかまで書くと、活動する姿を想像してもらいやすくなります。"
+      ],
+      exampleTitle: "30代・未経験者の自己PR例文",
+      example:
+        "接客の仕事を8年間続け、相手の様子を見ながら明るく声をかけることを大切にしてきました。アイドル活動は未経験ですが、週3日の活動時間を確保でき、SNSでは毎日発信を続けられます。貴グループの、年齢や経験に関係なく挑戦する姿を届けるという考えに惹かれました。仕事で培った責任感と継続力を活かし、ライブを重ねるたびに成長するメンバーになりたいです。"
+    },
+    {
+      title: "年齢について聞かれたときの答え方",
+      paragraphs: [
+        "面接で年齢に触れられた場合は、若い応募者と比較して守りに入るのではなく、活動できる時間、体力づくり、継続する意思を事実で答えます。年齢を隠したり、根拠なく『大丈夫です』と言い切ったりせず、運営側が確認したい不安を一つずつ解消する答え方が有効です。"
+      ],
+      exampleTitle: "面接での回答例",
+      example:
+        "現在32歳ですが、募集要項の年齢条件を確認したうえで応募しました。仕事は活動日に合わせて調整でき、平日夜と土日は継続して参加できます。週3回の運動を続けており、ライブ活動に必要な体力づくりも始めています。年齢ではなく、約束を守って長く活動できることと、同世代にも挑戦するきっかけを届けられる点を強みにしたいです。"
+    }
   ]
 };
 
 export default async function ThirtiesAuditionPage() {
   const auditions = (await getAllAuditions()).filter(isThirtiesAudition);
-  return <AudienceAuditionPage content={content} auditions={auditions} />;
+  const stats = [
+    {
+      value: auditions.filter(isAgeLimitNoneAudition).length,
+      label: "年齢制限なし・年齢不問",
+      href: "/idol-audition/age-limit-none"
+    },
+    {
+      value: auditions.filter(isWorkingAdultAudition).length,
+      label: "社会人・仕事との両立相談可",
+      href: "/idol-audition/working-adult"
+    },
+    {
+      value: auditions.filter(isBeginnerFriendlyAudition).length,
+      label: "未経験・初心者歓迎",
+      href: "/idol-audition/mikeiken"
+    }
+  ];
+
+  return <AudienceAuditionPage content={content} auditions={auditions} stats={stats} />;
 }
