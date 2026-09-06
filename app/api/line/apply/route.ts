@@ -141,6 +141,8 @@ export async function POST(request: Request) {
     }
 
     const messageText = [
+      "※まだ応募は完了しておりません。下記のご案内に沿って応募を進めてください！",
+      "",
       audition.applicationReplyMessage,
       audition.applicationExternalUrl ? "" : null,
       audition.applicationExternalUrl ? audition.applicationExternalUrl : null,
