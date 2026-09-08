@@ -8,6 +8,10 @@ import {
   verifyLineIdToken
 } from "@/lib/line";
 import { notifyNewApplication } from "@/lib/adminLineNotification";
+import {
+  buildApplicationTrackingUrl,
+  replaceSelectedApplicationUrl
+} from "@/lib/applicationTracking";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -123,6 +127,7 @@ export async function POST(request: Request) {
           audition_title: audition.title,
           line_user_id: lineUserId,
           source_url: body.sourceUrl ?? null,
+          application_external_url: audition.applicationExternalUrl,
           status: "captured"
         },
         {
@@ -140,17 +145,28 @@ export async function POST(request: Request) {
       );
     }
 
+    const trackingUrl =
+      audition.applicationExternalUrl && savedApplication
+        ? buildApplicationTrackingUrl(savedApplication.id)
+        : null;
+    const applicationReplyMessage =
+      audition.applicationExternalUrl && trackingUrl
+        ? replaceSelectedApplicationUrl(
+            audition.applicationReplyMessage,
+            audition.applicationExternalUrl,
+            trackingUrl
+          )
+        : audition.applicationReplyMessage;
     const messageText = [
-      "※まだ応募は完了しておりません。下記のご案内に沿って応募を進めてください！\n",
+      "※まだ応募は完了しておりません。下記のご案内に沿って応募を進めてください！",
       "",
-      audition.applicationReplyMessage,
-      audition.applicationExternalUrl ? "" : null,
-      audition.applicationExternalUrl ? audition.applicationExternalUrl : null,
+      applicationReplyMessage,
+      ...(trackingUrl && !applicationReplyMessage.includes(trackingUrl)
+        ? ["", "👇応募手続きを続ける", trackingUrl]
+        : []),
       "",
       "※このメッセージはアイドルオーディションナビ公式LINEからお送りしています。"
-    ]
-      .filter((item): item is string => Boolean(item))
-      .join("\n");
+    ].join("\n");
 
     let pushMessageSent = false;
     let pushMessageError: string | null = null;
@@ -162,6 +178,15 @@ export async function POST(request: Request) {
         text: messageText
       });
       pushMessageSent = true;
+
+      const { error: guideSentError } = await supabaseAdmin
+        .from("audition_applications")
+        .update({ guide_sent_at: new Date().toISOString() })
+        .eq("id", savedApplication.id);
+
+      if (guideSentError) {
+        console.error("Application guide sent timestamp update failed", guideSentError);
+      }
 
       try {
         officialLineChatUrl = await getLineOfficialAccountChatUrl();

@@ -87,6 +87,47 @@ export default async function AdminApplicationDetailPage({
         ) : null}
       </section>
 
+      <section className="mt-6 border-y border-slate-200 bg-white py-6 sm:py-8">
+        <p className="text-xs font-black uppercase tracking-[0.16em] text-pink-600">
+          Application progress
+        </p>
+        <h2 className="mt-2 text-2xl font-black text-slate-950">応募状況</h2>
+
+        <dl className="mt-5 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 sm:grid-cols-3">
+          <div className="bg-white p-5">
+            <dt className="text-xs font-black text-slate-500">応募案内</dt>
+            <dd className="mt-2 text-sm font-black text-slate-950">
+              {application.guide_sent_at
+                ? `${formatJstDateTime(application.guide_sent_at)} 送信済み`
+                : "送信記録なし"}
+            </dd>
+          </div>
+          <div className="bg-white p-5">
+            <dt className="text-xs font-black text-slate-500">応募先リンク</dt>
+            <dd className="mt-2 text-sm font-black text-slate-950">
+              {application.external_clicked_at
+                ? `${formatJstDateTime(application.external_clicked_at)} クリック済み`
+                : "未クリック"}
+            </dd>
+          </div>
+          <div className="bg-white p-5">
+            <dt className="text-xs font-black text-slate-500">24時間リマインド</dt>
+            <dd className="mt-2 text-sm font-black text-slate-950">
+              {application.reminder_sent_at
+                ? `${formatJstDateTime(application.reminder_sent_at)} 送信済み`
+                : application.reminder_attempted_at
+                  ? "送信失敗"
+                  : "未送信"}
+            </dd>
+            {application.reminder_error ? (
+              <p className="mt-2 break-all text-xs leading-5 text-red-600">
+                {application.reminder_error}
+              </p>
+            ) : null}
+          </div>
+        </dl>
+      </section>
+
       <section className="mt-6 rounded-[1.6rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <h2 className="text-2xl font-black text-slate-950">
           個別LINEメッセージ送信

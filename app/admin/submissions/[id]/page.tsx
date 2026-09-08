@@ -7,6 +7,7 @@ import {
   rejectSubmission
 } from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/adminAuth";
+import { buildApplicationUrlCandidates } from "@/lib/applicationTracking";
 import { fetchSubmission } from "@/lib/submissions";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,15 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
   if (!submission) {
     notFound();
   }
+
+  const applicationUrlCandidates = buildApplicationUrlCandidates({
+    applicationMethod: submission.application_method,
+    applicationExternalUrl: submission.application_external_url,
+    lineUrl: submission.line_url,
+    formUrl: submission.form_url,
+    officialSiteUrl: submission.official_site_url,
+    officialXUrl: submission.official_x_url
+  });
 
   return (
     <main className="mx-auto max-w-5xl px-5 py-12">
@@ -85,13 +95,82 @@ export default async function SubmissionDetailPage({ params }: PageProps) {
           </div>
         ) : null}
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <form action={approveSubmission}>
-            <input type="hidden" name="id" value={submission.id} />
-            <button className="rounded-full bg-green-600 px-6 py-3 text-sm font-black text-white hover:bg-green-700">
-              掲載する
-            </button>
-          </form>
+        {submission.status !== "approved" ? (
+          <section className="mt-8 rounded-[18px] border border-slate-300 bg-[var(--paper-tint)] p-5 sm:p-6">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-pink-600">
+              Application destination
+            </p>
+            <h2 className="mt-2 text-2xl font-black text-slate-950">
+              応募先URLを選んで掲載する
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600">
+              選択したURLを応募者へ送り、クリック状況を記録します。すべての掲載承認で選択が必要です。
+            </p>
+
+            <form action={approveSubmission} className="mt-5 grid gap-4">
+              <input type="hidden" name="id" value={submission.id} />
+
+              <fieldset className="grid gap-3">
+                <legend className="sr-only">応募先URL</legend>
+                {applicationUrlCandidates.map((candidate) => (
+                  <label
+                    key={candidate.url}
+                    className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-pink-300"
+                  >
+                    <input
+                      type="radio"
+                      name="application_external_url_choice"
+                      value={candidate.url}
+                      required
+                      className="mt-1 h-5 w-5 accent-pink-600"
+                    />
+                    <span className="min-w-0">
+                      <span className="block text-xs font-black text-slate-500">
+                        {candidate.source}
+                      </span>
+                      <span className="mt-1 block break-all text-sm font-bold text-slate-900">
+                        {candidate.url}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+
+                <label className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <span className="flex items-center gap-3 text-sm font-black text-slate-800">
+                    <input
+                      type="radio"
+                      name="application_external_url_choice"
+                      value="__custom__"
+                      required
+                      defaultChecked={applicationUrlCandidates.length === 0}
+                      className="h-5 w-5 accent-pink-600"
+                    />
+                    その他の応募先URLを入力
+                  </span>
+                  <input
+                    type="url"
+                    name="custom_application_external_url"
+                    placeholder="https://..."
+                    className="mt-3 min-h-11 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-pink-500 focus:ring-4 focus:ring-pink-100"
+                  />
+                </label>
+              </fieldset>
+
+              <button className="min-h-11 rounded-full bg-green-700 px-6 py-3 text-sm font-black text-white transition hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950">
+                このURLを応募先にして掲載する
+              </button>
+            </form>
+          </section>
+        ) : (
+          <section className="mt-8 rounded-[18px] border border-emerald-200 bg-emerald-50 p-5">
+            <p className="text-sm font-black text-emerald-800">設定済みの応募先URL</p>
+            <p className="mt-2 break-all text-sm text-emerald-900">
+              {submission.application_external_url || "未設定"}
+            </p>
+          </section>
+        )}
+
+        <div className="mt-5 flex flex-wrap gap-3">
 
           <form action={archiveSubmission}>
             <input type="hidden" name="id" value={submission.id} />

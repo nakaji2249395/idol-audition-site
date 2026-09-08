@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { clearAdminCookie, requireAdmin, setAdminCookie } from "@/lib/adminAuth";
 import { sendApprovalEmail, sendCustomerIoTestEmail } from "@/lib/approvalEmail";
+import {
+  applicationCtaLabel,
+  buildApplicationUrlCandidates,
+  normalizeApplicationDestination
+} from "@/lib/applicationTracking";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const IMAGE_BUCKET = "audition-images";
@@ -138,7 +143,7 @@ export async function approveSubmission(formData: FormData) {
 
   const { data: current, error: currentError } = await supabaseAdmin
     .from("audition_submissions")
-    .select("slug, status, organizer_email, organizer_name, group_name, title")
+    .select("slug, status, organizer_email, organizer_name, group_name, title, application_method, application_external_url, line_url, form_url, official_site_url, official_x_url")
     .eq("id", id)
     .single();
 
@@ -153,12 +158,32 @@ export async function approveSubmission(formData: FormData) {
     redirect("/admin/submissions?approvalEmail=already-approved");
   }
 
+  const choice = getString(formData, "application_external_url_choice");
+  const customDestination = getString(formData, "custom_application_external_url");
+  const candidates = buildApplicationUrlCandidates({
+    applicationMethod: current.application_method,
+    applicationExternalUrl: current.application_external_url,
+    lineUrl: current.line_url,
+    formUrl: current.form_url,
+    officialSiteUrl: current.official_site_url,
+    officialXUrl: current.official_x_url
+  });
+  const selectedValue = choice === "__custom__" ? customDestination : choice;
+  const destination = normalizeApplicationDestination(selectedValue);
+  const isKnownCandidate = candidates.some((candidate) => candidate.url === destination);
+
+  if (!destination || (choice !== "__custom__" && !isKnownCandidate)) {
+    throw new Error("掲載する応募先URLを選択してください");
+  }
+
   const { data: approvedSubmission, error } = await supabaseAdmin
     .from("audition_submissions")
     .update({
       status: "approved",
       slug,
       archived_at: null,
+      application_external_url: destination,
+      application_cta_label: applicationCtaLabel(destination),
       updated_at: new Date().toISOString()
     })
     .eq("id", id)

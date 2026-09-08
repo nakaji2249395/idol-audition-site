@@ -34,6 +34,9 @@ export type SubmissionRow = {
   activity_content: string;
   selection_flow: string;
   application_method: string;
+  application_reply_message: string | null;
+  application_external_url: string | null;
+  application_cta_label: string | null;
 
   line_url: string | null;
   form_url: string | null;
