@@ -74,22 +74,6 @@ export async function POST(request: Request) {
 
     const now = new Date().toISOString();
 
-    const { data: existingApplication, error: existingApplicationError } =
-      await supabaseAdmin
-        .from("audition_applications")
-        .select("id")
-        .eq("audition_slug", audition.slug)
-        .eq("line_user_id", lineUserId)
-        .maybeSingle();
-
-    if (existingApplicationError) {
-      console.error(existingApplicationError);
-      return NextResponse.json(
-        { ok: false, message: "応募情報の確認に失敗しました" },
-        { status: 500 }
-      );
-    }
-
     const userPayload: {
       line_user_id: string;
       display_name?: string;
@@ -128,7 +112,13 @@ export async function POST(request: Request) {
           line_user_id: lineUserId,
           source_url: body.sourceUrl ?? null,
           application_external_url: audition.applicationExternalUrl,
-          status: "captured"
+          status: "captured",
+          created_at: now,
+          guide_sent_at: null,
+          external_clicked_at: null,
+          reminder_attempted_at: null,
+          reminder_sent_at: null,
+          reminder_error: null
         },
         {
           onConflict: "audition_slug,line_user_id"
@@ -199,7 +189,7 @@ export async function POST(request: Request) {
         "公式LINEの友だち追加が完了していない、またはブロックされている可能性があります。画面上の案内から公式LINEを追加してください。";
     }
 
-    if (!existingApplication && savedApplication) {
+    if (savedApplication) {
       try {
         await notifyNewApplication({
           applicationId: savedApplication.id,
