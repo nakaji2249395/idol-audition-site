@@ -4,6 +4,7 @@ function normalizeAgeText(value: string) {
   return value
     .normalize("NFKC")
     .replace(/[〜～~‐‑–—ー]/g, "-")
+    .replace(/から/g, "-")
     .replace(/\s+/g, " ");
 }
 
@@ -14,6 +15,27 @@ function ageRanges(value: string) {
     ),
     (match) => ({ min: Number(match[1]), max: Number(match[2]) })
   );
+}
+
+export function isEligibleAtAge(audition: Audition, targetAge: number) {
+  const age = normalizeAgeText(audition.age);
+
+  if (isAgeLimitNoneAudition(audition)) return true;
+  if (ageRanges(age).some(({ min, max }) => min <= targetAge && max >= targetAge)) return true;
+  if (/20代/.test(age) && targetAge >= 20 && targetAge <= 29) return true;
+
+  const minimumAges = Array.from(
+    age.matchAll(/(1[0-9]|2[0-9]|3[0-9])\s*(?:歳|才)\s*以上/g),
+    (match) => Number(match[1])
+  );
+  const maximumAges = Array.from(
+    age.matchAll(/(1[0-9]|2[0-9]|3[0-9])\s*(?:歳|才)?\s*(?:以下|まで|未満)/g),
+    (match) => Number(match[1]) - (match[0].includes("未満") ? 1 : 0)
+  );
+
+  const minimum = minimumAges.length > 0 ? Math.min(...minimumAges) : 0;
+  const maximum = maximumAges.length > 0 ? Math.max(...maximumAges) : 99;
+  return minimum <= targetAge && maximum >= targetAge;
 }
 
 export function isAgeLimitNoneAudition(audition: Audition) {

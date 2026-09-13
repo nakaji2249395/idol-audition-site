@@ -29,6 +29,13 @@ export type AudiencePageStat = {
   href?: string;
 };
 
+export type AudiencePageSegment = {
+  id: string;
+  title: string;
+  description: string;
+  auditions: Audition[];
+};
+
 const ageLinks = [
   { href: "/idol-audition/high-school", label: "高校生OK" },
   { href: "/idol-audition/20s", label: "20代" },
@@ -40,11 +47,13 @@ const ageLinks = [
 export function AudienceAuditionPage({
   content,
   auditions,
-  stats = []
+  stats = [],
+  segments = []
 }: {
   content: AudiencePageContent;
   auditions: Audition[];
   stats?: AudiencePageStat[];
+  segments?: AudiencePageSegment[];
 }) {
   const pageUrl = `${siteConfig.url}${content.canonical}`;
   const itemListJsonLd = {
@@ -156,6 +165,40 @@ export function AudienceAuditionPage({
           </Link>
         ))}
       </nav>
+
+      {segments.length > 0 ? (
+        <section className="mt-10" aria-labelledby="age-segments-title">
+          <p className="editorial-kicker">Choose your age</p>
+          <h2 id="age-segments-title" className="section-heading mt-2">年齢帯から募集を比較</h2>
+          <div className="mt-6 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 lg:grid-cols-2">
+            {segments.map((segment) => (
+              <div id={segment.id} key={segment.id} className="scroll-mt-28 bg-white p-6 sm:p-7">
+                <div className="flex items-start justify-between gap-5">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-950">{segment.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">{segment.description}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-pink-50 px-3 py-1.5 text-xs font-black text-pink-700">
+                    {segment.auditions.length}件
+                  </span>
+                </div>
+                <div className="mt-5">
+                  {segment.auditions.slice(0, 10).map((audition) => (
+                    <Link
+                      key={audition.slug}
+                      href={`/idol-audition/${audition.slug}`}
+                      className="group flex min-h-12 items-center justify-between gap-4 border-t border-slate-200 py-3 text-sm font-bold leading-6 text-slate-800 hover:text-pink-700"
+                    >
+                      <span>{audition.title}</span>
+                      <span className="shrink-0 transition group-hover:translate-x-1" aria-hidden="true">→</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="mb-16 mt-12">
         <p className="editorial-kicker">Now recruiting</p>

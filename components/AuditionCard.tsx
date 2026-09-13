@@ -1,21 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Audition } from "@/lib/auditions";
-import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
 
-async function getDisplayAudition(audition: Audition) {
-  if (audition.imageUrl) {
-    return audition;
-  }
-
-  const dbAudition = await fetchApprovedAuditionBySlug(audition.slug);
-
-  return dbAudition ?? audition;
-}
-
-export async function AuditionCard({ audition }: { audition: Audition }) {
-  const displayAudition = await getDisplayAudition(audition);
-
+export function AuditionCard({ audition: displayAudition }: { audition: Audition }) {
   return (
     <Link
       href={`/idol-audition/${displayAudition.slug}`}

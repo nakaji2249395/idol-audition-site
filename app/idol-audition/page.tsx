@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { PriorityAuditionLinks } from "@/components/PriorityAuditionLinks";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditions } from "@/lib/submissions";
@@ -209,6 +210,8 @@ export default async function IdolAuditionPage() {
       </header>
 
       <FeaturedHiraeth />
+
+      <PriorityAuditionLinks auditions={allAuditions} />
 
       <aside className="mb-14 grid gap-5 border-y border-slate-200 bg-white px-5 py-6 sm:grid-cols-[1fr_auto] sm:items-center sm:px-7" aria-label="女性向けオーディションの案内">
         <div>

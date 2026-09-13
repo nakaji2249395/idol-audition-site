@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const approvedAuditions = await fetchApprovedSitemapEntries();
   const approvedSlugs = new Set(approvedAuditions.map((audition) => audition.slug));
+  const latestListingUpdate = approvedAuditions[0]?.updated_at ?? "2026-09-13T00:00:00+09:00";
 
   const staticRoutes = [
     "",
@@ -36,7 +37,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${siteConfig.url}${route}`,
-    changeFrequency: "weekly",
+    lastModified: latestListingUpdate,
+    changeFrequency: route === "" || route.startsWith("/idol-audition") ? "daily" : "weekly",
     priority: route === "" ? 1 : route === "/idol-audition" ? 0.9 : 0.7
   }));
 
@@ -44,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((audition) => !approvedSlugs.has(audition.slug))
     .map((audition) => ({
       url: `${siteConfig.url}/idol-audition/${audition.slug}`,
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 0.8,
       images: audition.imageUrl ? [audition.imageUrl] : undefined
     }));
@@ -52,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const approvedEntries: MetadataRoute.Sitemap = approvedAuditions.map((audition) => ({
     url: `${siteConfig.url}/idol-audition/${audition.slug}`,
     lastModified: audition.updated_at,
-    changeFrequency: "weekly",
+    changeFrequency: "daily",
     priority: 0.8,
     images: audition.image_url ? [audition.image_url] : undefined
   }));

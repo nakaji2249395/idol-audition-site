@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { PriorityAuditionLinks } from "@/components/PriorityAuditionLinks";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditions } from "@/lib/submissions";
@@ -302,6 +303,8 @@ export default async function Home() {
             ))}
           </div>
         </section>
+
+        <PriorityAuditionLinks auditions={allAuditions} />
 
         <section className="mb-20 grid gap-10 border-y border-slate-200 py-14 lg:grid-cols-[0.75fr_1.25fr] lg:py-16">
           <div>
