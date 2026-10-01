@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
 import { AudienceAuditionPage } from "@/components/AudienceAuditionPage";
 import { getAllAuditions } from "@/lib/auditionData";
-import { isAgeLimitNoneAudition } from "@/lib/auditionAudience";
+import {
+  isAgeLimitNoneAudition,
+  isBeginnerFriendlyAudition,
+  isNoCostAudition,
+  isWorkingAdultAudition
+} from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "年齢制限なしのアイドルオーディション一覧【2026年】上限なしの募集",
+  title: "年齢制限なしのアイドルオーディション【2026年10月】30代・40代も確認",
   description:
     "年齢不問・年齢制限なし・上限なしと明記されたアイドルオーディションを掲載。年齢だけで諦めずに応募できる募集中の情報を比較できます。",
   alternates: { canonical: "/idol-audition/age-limit-none" },
   openGraph: {
-    title: "年齢制限なしのアイドルオーディション一覧【2026年】",
-    description: "年齢不問・上限なしと明記されたアイドル募集を比較できます。",
+    title: "年齢制限なしのアイドルオーディション【2026年10月】30代・40代も確認",
+    description: "年齢不問・上限なしと明記された募集を、未経験・社会人・費用条件から比較できます。",
     url: `${siteConfig.url}/idol-audition/age-limit-none`,
     type: "article"
   }
@@ -22,15 +27,39 @@ export const metadata: Metadata = {
 const content = {
   canonical: "/idol-audition/age-limit-none",
   eyebrow: "No age limit",
-  title: "年齢制限なしの アイドルオーディション",
-  lead:
-    "募集要項に「年齢不問」「年齢制限なし」「上限なし」と明記されたアイドルオーディションをまとめています。年齢以外の活動条件も比較して、自分に合う募集を探せます。",
+  title: "年齢制限なしのアイドルオーディション 30代・40代も確認できる募集",
   listTitle: "年齢不問・上限なしの募集中オーディション",
   guideTitle: "年齢制限なしの募集でも確認したいこと",
   guideParagraphs: [
     "年齢制限なしは、年齢だけを理由に応募対象外にしないという意味です。ただし、活動地域、稼働日数、健康状態、専属契約の有無など、別の応募条件が設定されている場合があります。",
     "年齢非公開のグループや、個性・人間性・社会性を重視する募集では、年齢そのものよりもコンセプトとの相性や継続して活動できるかが見られます。応募先の楽曲、ライブ映像、既存メンバーを確認して志望理由を具体的にしましょう。",
     "この一覧は、年齢の記載がない募集を自動的に含めず、年齢不問や上限なしと明記された募集だけを掲載しています。"
+  ],
+  segmentsEyebrow: "Compare conditions",
+  segmentsTitle: "経験・働き方・費用条件から募集を比較",
+  guideSections: [
+    {
+      title: "年齢不問でもコンセプトとの相性を確認する",
+      paragraphs: [
+        "年齢上限がなくても、楽曲、衣装、ライブの雰囲気、活動頻度にはグループごとの方針があります。公式SNSやライブ映像を確認し、自分がそのグループでどんな役割を担えるかを志望理由に落とし込みましょう。"
+      ]
+    },
+    {
+      title: "年齢を聞かれたら経験と継続性で答える",
+      paragraphs: [
+        "年齢だけを弁解するのではなく、生活基盤、活動可能日、これまで培った強み、挑戦を続けられる理由を具体的に伝えます。運営が確認したいのは、活動条件を満たし長く取り組めるかです。"
+      ],
+      exampleTitle: "年齢について聞かれた場合の回答例",
+      example: "年齢を重ねた分、時間管理と責任ある連絡を徹底できます。平日夜と土日に活動時間を確保しており、接客経験で培ったコミュニケーション力をライブやファン対応に活かし、長く活動したいです。"
+    },
+    {
+      title: "未経験なら成長計画を自己PRに入れる",
+      paragraphs: [
+        "『未経験ですが頑張ります』だけでなく、週に何時間練習できるか、どの経験を活動へ活かせるかを伝えます。年齢制限なしと未経験OKは別条件なので、募集詳細の経験欄も必ず確認してください。"
+      ],
+      exampleTitle: "年齢不問・未経験者の自己PR例",
+      example: "歌とダンスは未経験ですが、毎日30分の基礎練習と週2回のレッスン時間を確保できます。仕事で身につけた継続力と発信力を活かし、成長過程も応援してもらえる存在を目指します。"
+    }
   ],
   checks: [
     "年齢不問・上限なしと明記されているか",
@@ -56,6 +85,10 @@ const content = {
     {
       question: "未経験でも応募できますか？",
       answer: "年齢条件とは別に、未経験OKかを確認してください。募集詳細には経験条件も掲載しています。"
+    },
+    {
+      question: "社会人でも応募できますか？",
+      answer: "年齢不問でも活動時間の条件は別にあります。社会人可・仕事との両立相談可の記載と、平日昼や遠征の頻度を確認してください。"
     }
   ],
   relatedLinks: [
@@ -84,5 +117,37 @@ const content = {
 
 export default async function AgeLimitNoneAuditionPage() {
   const auditions = (await getAllAuditions()).filter(isAgeLimitNoneAudition);
-  return <AudienceAuditionPage content={content} auditions={auditions} />;
+  const beginnerAuditions = auditions.filter(isBeginnerFriendlyAudition);
+  const workingAdultAuditions = auditions.filter(isWorkingAdultAudition);
+  const noCostAuditions = auditions.filter(isNoCostAudition);
+  const pageContent = {
+    ...content,
+    lead: `現在、「年齢不問」「年齢制限なし」「上限なし」と明記された募集を${auditions.length}件掲載しています。30代・40代、未経験、社会人、費用など年齢以外の活動条件も比較できます。`
+  };
+
+  return (
+    <AudienceAuditionPage
+      content={pageContent}
+      auditions={auditions}
+      stats={[
+        { value: beginnerAuditions.length, label: "年齢不問・未経験OK", href: "/idol-audition/mikeiken" },
+        { value: workingAdultAuditions.length, label: "社会人・仕事と両立", href: "/idol-audition/working-adult" },
+        { value: noCostAuditions.length, label: "費用負担が少ない", href: "/idol-audition/free" }
+      ]}
+      segments={[
+        {
+          id: "no-age-beginner",
+          title: "年齢制限なし・未経験OKの募集",
+          description: "年齢と経験の両方で応募条件を満たす募集を確認できます。",
+          auditions: beginnerAuditions
+        },
+        {
+          id: "no-age-working-adult",
+          title: "年齢制限なし・社会人向けの募集",
+          description: "仕事との両立条件にも触れている募集を確認できます。",
+          auditions: workingAdultAuditions
+        }
+      ]}
+    />
+  );
 }

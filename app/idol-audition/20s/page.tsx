@@ -4,6 +4,7 @@ import { getAllAuditions } from "@/lib/auditionData";
 import {
   isBeginnerFriendlyAudition,
   isEligibleAtAge,
+  isNoCostAudition,
   isTwentiesAudition
 } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
@@ -11,12 +12,12 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "20代のアイドルオーディション【2026年】未経験・20代後半・社会人OK",
+  title: "20代のアイドルオーディション【2026年10月】未経験・20代後半・社会人OK",
   description:
     "20代未経験・20代後半・25歳以上・社会人から応募できるアイドルオーディションを掲載。費用なし、レッスン無料、歌手デビューを目指せる2026年の募集を比較できます。",
   alternates: { canonical: "/idol-audition/20s" },
   openGraph: {
-    title: "20代のアイドルオーディション【2026年】未経験・社会人OK",
+    title: "20代のアイドルオーディション【2026年10月】未経験・社会人OK",
     description: "20代前半・後半、25歳以上、未経験・社会人から応募できる募集を比較できます。",
     url: `${siteConfig.url}/idol-audition/20s`,
     type: "article"
@@ -39,14 +40,18 @@ const baseContent = {
       title: "20代未経験から応募先を選ぶ",
       paragraphs: [
         "未経験OK・経験不問と明記された募集を優先し、基礎レッスンの有無やデビューまでの期間を確認しましょう。未経験から歌手デビューを目指す場合も、歌唱審査の内容、楽曲制作やレコーディングの予定まで見ると、自分の目標に近い募集を選びやすくなります。"
-      ]
+      ],
+      exampleTitle: "20代未経験者の自己PR例",
+      example: "歌とダンスは未経験ですが、接客の仕事で身につけた明るい応対と、目標を決めて継続する力があります。平日夜と土日に活動でき、毎日基礎練習を続けて、ステージで成長を見せられるメンバーを目指します。"
     },
     {
       title: "25歳以上・20代後半で確認したい条件",
       paragraphs: [
         "25〜29歳は、応募時点では条件内でもデビュー時点で上限を超える場合があります。『25歳まで』『29歳以下』『年齢制限なし』などの表記と、応募時点・契約時点のどちらを基準にするかを確認してください。",
         "20代後半だから不利と決まっているわけではありません。社会人経験、継続力、スケジュール管理、接客や発信の経験を、グループ活動にどう活かせるか具体的に伝えることが重要です。"
-      ]
+      ],
+      exampleTitle: "年齢について聞かれた場合の回答例",
+      example: "27歳ですが、仕事を通じて責任感とスケジュール管理を身につけました。活動可能な曜日を明確に確保でき、年齢を重ねた今だからこそ、長く継続する覚悟と自分の言葉で発信できる強みがあります。"
     },
     {
       title: "社会人からアイドルを目指す場合",
@@ -129,9 +134,7 @@ export default async function TwentiesAuditionPage() {
   const earlyTwenties = auditions.filter((audition) => isEligibleAtAge(audition, 22));
   const lateTwenties = auditions.filter((audition) => isEligibleAtAge(audition, 27));
   const beginnerAuditions = auditions.filter(isBeginnerFriendlyAudition);
-  const noCostAuditions = auditions.filter((audition) =>
-    /費用なし|無料|かかりません|掛かりません/.test(`${audition.cost} ${audition.features.join(" ")}`)
-  );
+  const noCostAuditions = auditions.filter(isNoCostAudition);
   const freeLessonAuditions = auditions.filter((audition) =>
     /レッスン(?:費)?(?:は|が)?(?:無料|なし|かかりません)|レッスン無料/.test(
       `${audition.cost} ${audition.features.join(" ")}`

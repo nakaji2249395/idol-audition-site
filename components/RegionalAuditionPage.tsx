@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
+import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { getAllAuditions } from "@/lib/auditionData";
+import {
+  isBeginnerFriendlyAudition,
+  isHighSchoolFriendlyAudition,
+  isNoCostAudition
+} from "@/lib/auditionAudience";
 import {
   auditionRegions,
   isAuditionInRegion,
@@ -19,6 +25,14 @@ type RegionPageContent = {
   areas: string[];
   checks: string[];
   faq: { question: string; answer: string }[];
+  showConditionStats?: boolean;
+  relatedLinks?: SearchIntentLink[];
+  guideSections?: {
+    title: string;
+    paragraphs: string[];
+    exampleTitle?: string;
+    example?: string;
+  }[];
 };
 
 export async function RegionalAuditionPage({ content }: { content: RegionPageContent }) {
@@ -27,11 +41,15 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
     isAuditionInRegion(audition, content.region)
   );
   const region = auditionRegions[content.region];
+  const beginnerCount = regionalAuditions.filter(isBeginnerFriendlyAudition).length;
+  const highSchoolCount = regionalAuditions.filter(isHighSchoolFriendlyAudition).length;
+  const noCostCount = regionalAuditions.filter(isNoCostAudition).length;
   const pageUrl = `${siteConfig.url}${region.href}`;
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: content.listTitle,
+    numberOfItems: regionalAuditions.length,
     itemListElement: regionalAuditions.map((audition, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -84,16 +102,38 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
       <header className="mt-8 grid gap-8 border-b border-slate-200 pb-12 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
         <p className="editorial-kicker">{content.eyebrow}</p>
-        <h1 className="mt-3 text-5xl font-black leading-[1.05] tracking-[-0.055em] text-slate-950 sm:text-6xl">
+        <h1 className="mt-3 break-words text-4xl font-black leading-[1.05] tracking-[-0.055em] text-slate-950 sm:break-keep sm:text-6xl">
           {content.title}
         </h1>
         <p className="mt-5 max-w-3xl leading-8 text-slate-600">{content.lead}</p>
+        <p className="mt-4 text-xs font-bold text-slate-500">
+          2026年10月更新・現在応募できる{region.label}の募集を{regionalAuditions.length}件掲載
+        </p>
         </div>
         <p className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center font-black text-white shadow-[3px_3px_0_#241b24]">
           <span className="block text-3xl">{regionalAuditions.length}</span>
           <span className="text-[10px] tracking-wider">LISTINGS</span>
         </p>
       </header>
+
+      {content.showConditionStats ? (
+        <dl className="grid border-b border-slate-200 sm:grid-cols-3">
+          {[
+            { value: beginnerCount, label: "未経験・初心者OK", href: "/idol-audition/mikeiken" },
+            { value: highSchoolCount, label: "高校生・学生も確認", href: "/idol-audition/high-school" },
+            { value: noCostCount, label: "費用負担が少ない", href: "/idol-audition/free" }
+          ].map((stat) => (
+            <div key={stat.label} className="border-t border-slate-200 px-1 py-5 sm:border-l sm:px-6 first:sm:border-l-0 first:sm:pl-0">
+              <dt className="text-2xl font-black text-slate-950">
+                <Link href={stat.href} className="transition hover:text-pink-700">
+                  {stat.value}<span className="ml-1 text-xs">件</span>
+                </Link>
+              </dt>
+              <dd className="mt-1 text-xs font-bold text-slate-500">{stat.label}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
 
       <section className="mt-12 mb-16">
         <p className="editorial-kicker">Now recruiting</p>
@@ -115,11 +155,39 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         )}
       </section>
 
-      <article className="paper-panel p-6 sm:p-10">
+      {content.relatedLinks?.length ? (
+        <SearchIntentLinks
+          title={`${region.label}の募集を条件別に探す`}
+          description="未経験、高校生、社会人、費用など、応募前に気になる条件から募集を比較できます。"
+          links={content.relatedLinks}
+        />
+      ) : null}
+
+      <article className={`paper-panel p-6 sm:p-10 ${content.relatedLinks?.length ? "mt-16" : ""}`}>
         <p className="editorial-kicker">Area guide</p>
         <h2 className="section-heading mt-3">{content.guideTitle}</h2>
         {content.guideParagraphs.map((paragraph) => (
           <p key={paragraph} className="mt-5 leading-8 text-slate-600">{paragraph}</p>
+        ))}
+
+        {content.guideSections?.map((section, index) => (
+          <section key={section.title} className="mt-10 border-t border-slate-200 pt-8">
+            <div className="grid gap-5 lg:grid-cols-[3rem_1fr]">
+              <span className="text-sm font-black text-pink-700">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h2 className="text-2xl font-black leading-tight text-slate-950">{section.title}</h2>
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="mt-4 leading-8 text-slate-600">{paragraph}</p>
+                ))}
+                {section.example ? (
+                  <div className="mt-6 border-l-4 border-pink-500 bg-pink-50 p-5 sm:p-6">
+                    <h3 className="text-sm font-black text-slate-950">{section.exampleTitle ?? "回答例"}</h3>
+                    <p className="mt-3 whitespace-pre-line leading-8 text-slate-700">{section.example}</p>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </section>
         ))}
 
         <section className="mt-10">

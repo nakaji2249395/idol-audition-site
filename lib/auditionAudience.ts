@@ -50,6 +50,18 @@ export function isBeginnerFriendlyAudition(audition: Audition) {
   );
 }
 
+export function isHighSchoolFriendlyAudition(audition: Audition) {
+  return /高校生|中高生|未成年応募可|高校生相談可/.test(
+    `${audition.features.join(" ")} ${audition.student} ${audition.age}`
+  );
+}
+
+export function isNoCostAudition(audition: Audition) {
+  return /費用なし|無料|かかりません|掛かりません/.test(
+    `${audition.cost} ${audition.features.join(" ")}`
+  );
+}
+
 export function isTwentiesAudition(audition: Audition) {
   const age = normalizeAgeText(audition.age);
 

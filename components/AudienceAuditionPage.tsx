@@ -14,6 +14,9 @@ export type AudiencePageContent = {
   guideParagraphs: string[];
   checks: string[];
   faq: { question: string; answer: string }[];
+  updatedLabel?: string;
+  segmentsEyebrow?: string;
+  segmentsTitle?: string;
   relatedLinks?: SearchIntentLink[];
   guideSections?: {
     title: string;
@@ -123,7 +126,9 @@ export function AudienceAuditionPage({
             {content.title}
           </h1>
           <p className="mt-5 max-w-3xl leading-8 text-slate-600">{content.lead}</p>
-          <p className="mt-4 text-xs font-bold text-slate-500">2026年9月更新・募集中の掲載情報を集計</p>
+          <p className="mt-4 text-xs font-bold text-slate-500">
+            {content.updatedLabel ?? "2026年10月更新・募集中の掲載情報を集計"}
+          </p>
         </div>
         <div className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center text-white shadow-[3px_3px_0_#241b24]">
           <span className="block text-3xl font-black">{auditions.length}</span>
@@ -168,8 +173,10 @@ export function AudienceAuditionPage({
 
       {segments.length > 0 ? (
         <section className="mt-10" aria-labelledby="age-segments-title">
-          <p className="editorial-kicker">Choose your age</p>
-          <h2 id="age-segments-title" className="section-heading mt-2">年齢帯から募集を比較</h2>
+          <p className="editorial-kicker">{content.segmentsEyebrow ?? "Choose your age"}</p>
+          <h2 id="age-segments-title" className="section-heading mt-2">
+            {content.segmentsTitle ?? "年齢帯から募集を比較"}
+          </h2>
           <div className="mt-6 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 lg:grid-cols-2">
             {segments.map((segment) => (
               <div id={segment.id} key={segment.id} className="scroll-mt-28 bg-white p-6 sm:p-7">
