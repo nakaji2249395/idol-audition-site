@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
+import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { getAllAuditions } from "@/lib/auditionData";
 import {
   isBeginnerFriendlyAudition,
@@ -134,6 +135,8 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
           ))}
         </dl>
       ) : null}
+
+      <FreshnessLinks className="mt-7" />
 
       <section className="mt-12 mb-16">
         <p className="editorial-kicker">Now recruiting</p>

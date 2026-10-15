@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { PriorityAuditionLinks } from "@/components/PriorityAuditionLinks";
+import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditions } from "@/lib/submissions";
@@ -24,6 +25,21 @@ export const metadata: Metadata = {
 };
 
 const guideLinks = [
+  {
+    href: "/idol-audition/new",
+    title: "新着アイドルオーディション",
+    text: "最近掲載された募集中の情報を新しい順に確認"
+  },
+  {
+    href: "/idol-audition/deadline-this-month",
+    title: "今月締切のアイドルオーディション",
+    text: "今月中に応募が必要な募集を締切順に確認"
+  },
+  {
+    href: "/idol-audition/deadline-soon",
+    title: "締切7日以内のアイドルオーディション",
+    text: "応募期限が近い募集を優先して確認"
+  },
   {
     href: "/idol-audition/tokyo",
     title: "東京のアイドルオーディション",
@@ -210,6 +226,8 @@ export default async function IdolAuditionPage() {
       </header>
 
       <FeaturedHiraeth />
+
+      <FreshnessLinks className="mb-10" />
 
       <PriorityAuditionLinks auditions={allAuditions} />
 

@@ -19,6 +19,9 @@ export function Footer() {
           <p className="text-sm font-black text-white">探す</p>
           <div className="mt-4 grid gap-2.5 text-sm font-semibold text-slate-300">
             <Link href="/idol-audition" className="hover:text-pink-300">オーディション一覧</Link>
+            <Link href="/idol-audition/new" className="hover:text-pink-300">新着募集</Link>
+            <Link href="/idol-audition/deadline-this-month" className="hover:text-pink-300">今月締切の募集</Link>
+            <Link href="/idol-audition/deadline-soon" className="hover:text-pink-300">締切7日以内</Link>
             <Link href="/idol-audition/tokyo" className="hover:text-pink-300">東京の募集</Link>
             <Link href="/idol-audition/osaka" className="hover:text-pink-300">大阪の募集</Link>
             <Link href="/idol-audition/nagoya" className="hover:text-pink-300">名古屋の募集</Link>

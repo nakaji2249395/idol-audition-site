@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { SearchIntentLinks } from "@/components/SearchIntentLinks";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
+import { isBeginnerFriendlyAudition, isNoCostAudition } from "@/lib/auditionAudience";
+import { isClosingThisMonth } from "@/lib/auditionFreshness";
 
 export const dynamic = "force-dynamic";
 
@@ -121,6 +124,11 @@ export default async function HighSchoolAuditionPage() {
       /高校生|中高生|未成年応募可|高校生相談可/
     )
   );
+  const beginnerCount = highSchoolAuditions.filter(isBeginnerFriendlyAudition).length;
+  const noCostCount = highSchoolAuditions.filter(isNoCostAudition).length;
+  const thisMonthCount = highSchoolAuditions.filter((audition) =>
+    isClosingThisMonth(audition)
+  ).length;
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -220,9 +228,32 @@ export default async function HighSchoolAuditionPage() {
           応募前に確認したい保護者同意、費用、活動時間、学業との両立についても解説します。
         </p>
         <p className="mt-4 text-xs font-bold text-slate-500">
-          2026年9月更新・現在{highSchoolAuditions.length}件掲載
+          2026年10月更新・現在{highSchoolAuditions.length}件掲載
         </p>
       </header>
+
+      <FreshnessLinks className="mb-8" />
+
+      <dl className="mb-8 grid border-y border-slate-200 sm:grid-cols-3">
+        {[
+          [beginnerCount, "高校生・未経験OK"],
+          [noCostCount, "費用負担が少ない"],
+          [thisMonthCount, "今月締切"]
+        ].map(([count, label], index) => (
+          <div key={label} className="px-1 py-5 sm:border-l sm:px-6 first:sm:border-l-0 first:sm:pl-0">
+            <dt className="text-2xl font-black text-slate-950">
+              {index === 2 ? (
+                <Link href="/idol-audition/deadline-this-month" className="transition hover:text-pink-700">
+                  {count}<span className="ml-1 text-xs">件</span>
+                </Link>
+              ) : (
+                <>{count}<span className="ml-1 text-xs">件</span></>
+              )}
+            </dt>
+            <dd className="mt-1 text-xs font-bold text-slate-500">{label}</dd>
+          </div>
+        ))}
+      </dl>
 
       <nav aria-label="年齢・生活条件" className="mb-10 flex flex-wrap gap-2">
         <Link href="/idol-audition/high-school" className="rounded-full bg-pink-500 px-4 py-2 text-xs font-black text-white">高校生OK</Link>

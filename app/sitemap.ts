@@ -13,6 +13,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/idol-audition",
+    "/idol-audition/new",
+    "/idol-audition/deadline-this-month",
+    "/idol-audition/deadline-soon",
     "/idol-audition/tokyo",
     "/idol-audition/osaka",
     "/idol-audition/nagoya",

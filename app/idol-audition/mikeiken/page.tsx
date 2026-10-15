@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isBeginnerFriendlyAudition, isTwentiesAudition } from "@/lib/auditionAudience";
@@ -226,13 +227,15 @@ export default async function MikeikenAuditionPage() {
           <p className="mt-5 max-w-3xl leading-8 text-slate-600">
             歌やダンスを習ったことがない初心者でも応募しやすい、未経験歓迎の女性アイドルオーディションをまとめています。年齢、地域、費用、レッスン、学校・仕事との両立条件を比較して、自分に合う募集を探せます。
           </p>
-          <p className="mt-4 text-xs font-bold text-slate-500">2026年9月更新・募集中の掲載情報を集計</p>
+          <p className="mt-4 text-xs font-bold text-slate-500">2026年10月更新・募集中の掲載情報を集計</p>
         </div>
         <div className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center text-white shadow-[3px_3px_0_#241b24]">
           <span className="block text-3xl font-black">{mikeikenAuditions.length}</span>
           <span className="text-[10px] font-black tracking-wider">BEGINNER OK</span>
         </div>
       </header>
+
+      <FreshnessLinks className="mt-7" />
 
       <dl className="grid border-b border-slate-200 sm:grid-cols-3">
         {[

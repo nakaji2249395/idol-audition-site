@@ -154,7 +154,9 @@ export function submissionToAudition(row: SubmissionRow): Audition {
         question: "未経験でも応募できますか？",
         answer: row.experience
       }
-    ]
+    ],
+    publishedAt: row.created_at,
+    updatedAt: row.updated_at
   };
 }
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { AuditionCard } from "@/components/AuditionCard";
+import { TrackedApplyLink } from "@/components/TrackedApplyLink";
 import { getAllAuditions } from "@/lib/auditionData";
 import {
   auditionRegions,
@@ -268,9 +269,14 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             <li className="flex gap-3"><span className="font-black text-pink-700">02</span><span>案内に沿って応募情報を送信</span></li>
             <li className="flex gap-3"><span className="font-black text-pink-700">03</span><span>運営からの連絡をLINEで確認</span></li>
           </ol>
-          <Link href={getApplyUrl(audition.slug)} className="mt-5 flex min-h-14 items-center justify-center rounded-full bg-pink-500 px-6 py-4 text-sm font-black text-white transition hover:bg-pink-700">
+          <TrackedApplyLink
+            href={getApplyUrl(audition.slug)}
+            auditionSlug={audition.slug}
+            surface="detail_sidebar"
+            className="mt-5 flex min-h-14 items-center justify-center rounded-full bg-pink-500 px-6 py-4 text-sm font-black text-white transition hover:bg-pink-700"
+          >
             LINEで応募する →
-          </Link>
+          </TrackedApplyLink>
           <p className="mt-3 text-center text-[11px] leading-5 text-slate-500">検索・応募は無料です</p>
         </aside>
       </article>
@@ -294,9 +300,14 @@ export default async function AuditionDetailPage({ params }: PageProps) {
       ) : null}
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-[#fffefd]/95 p-3 backdrop-blur lg:hidden">
-        <Link href={getApplyUrl(audition.slug)} className="mx-auto flex min-h-12 max-w-md items-center justify-center rounded-full bg-pink-500 px-6 text-sm font-black text-white shadow-lg">
+        <TrackedApplyLink
+          href={getApplyUrl(audition.slug)}
+          auditionSlug={audition.slug}
+          surface="detail_mobile"
+          className="mx-auto flex min-h-12 max-w-md items-center justify-center rounded-full bg-pink-500 px-6 text-sm font-black text-white shadow-lg"
+        >
           この募集にLINEで応募する →
-        </Link>
+        </TrackedApplyLink>
       </div>
 
       {relatedAuditions.length > 0 ? (

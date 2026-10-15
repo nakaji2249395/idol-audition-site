@@ -32,6 +32,8 @@ export type Audition = {
     question: string;
     answer: string;
   }[];
+  publishedAt?: string;
+  updatedAt?: string;
 };
 
 export const auditions: Audition[] = [

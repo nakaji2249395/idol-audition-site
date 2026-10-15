@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { track } from "@vercel/analytics/server";
 import {
   normalizeApplicationDestination,
   verifyApplicationTrackingSignature
@@ -20,7 +21,7 @@ export async function GET(
 
   const { data: application, error } = await supabaseAdmin
     .from("audition_applications")
-    .select("application_external_url, external_clicked_at")
+    .select("audition_slug, application_external_url, external_clicked_at")
     .eq("id", id)
     .single();
 
@@ -46,6 +47,16 @@ export async function GET(
     if (updateError) {
       console.error("Application tracking click update failed", updateError);
     }
+  }
+
+  try {
+    await track(
+      "Application destination open",
+      { audition_slug: application.audition_slug },
+      { request: { headers: request.headers } }
+    );
+  } catch (trackingError) {
+    console.warn("Vercel application destination event failed", trackingError);
   }
 
   return NextResponse.redirect(destination, {

@@ -13,6 +13,8 @@ const navItems = [
 
 const mobileNavItems = [
   ...navItems,
+  { href: "/idol-audition/new", label: "新着" },
+  { href: "/idol-audition/deadline-this-month", label: "今月締切" },
   { href: "/idol-audition/free", label: "費用なし" },
   { href: "/idol-audition/high-school", label: "高校生OK" },
   { href: "/idol-audition/30s", label: "30代" },

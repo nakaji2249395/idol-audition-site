@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import liff from "@line/liff";
+import { track } from "@vercel/analytics";
 
 type ApplyAudition = {
   slug: string;
@@ -213,6 +214,10 @@ export function ApplyClient({
         setPushMessageError(result.pushMessageError ?? null);
         setOfficialLineChatUrl(result.officialLineChatUrl ?? null);
         setState("done");
+        track("Application guide result", {
+          audition_slug: auditionData.slug,
+          guide_sent: Boolean(result.pushMessageSent)
+        });
         setMessage(
           result.pushMessageSent
             ? "応募案内を公式LINEへ送信しました。トーク画面を開きます。"

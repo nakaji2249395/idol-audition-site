@@ -12,12 +12,12 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "20代のアイドルオーディション【2026年10月】未経験・20代後半・社会人OK",
+  title: "20代のアイドルオーディション【2026年】未経験・20代後半・社会人OK",
   description:
     "20代未経験・20代後半・25歳以上・社会人から応募できるアイドルオーディションを掲載。費用なし、レッスン無料、歌手デビューを目指せる2026年の募集を比較できます。",
   alternates: { canonical: "/idol-audition/20s" },
   openGraph: {
-    title: "20代のアイドルオーディション【2026年10月】未経験・社会人OK",
+    title: "20代のアイドルオーディション【2026年】未経験・社会人OK",
     description: "20代前半・後半、25歳以上、未経験・社会人から応募できる募集を比較できます。",
     url: `${siteConfig.url}/idol-audition/20s`,
     type: "article"
