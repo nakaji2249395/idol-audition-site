@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { AuditionCard } from "@/components/AuditionCard";
+import { AuditionPreparationOffer } from "@/components/AuditionPreparationOffer";
 import { TrackedApplyLink } from "@/components/TrackedApplyLink";
 import { getAllAuditions } from "@/lib/auditionData";
 import {
@@ -129,6 +130,8 @@ export default async function AuditionDetailPage({ params }: PageProps) {
           </>
         ) : null}
       </nav>
+
+      <p className="mt-3 text-xs leading-5 text-slate-500">PR：本ページには広告が含まれます。</p>
 
       <article className="mt-7 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-12">
         <div className="min-w-0">
@@ -258,6 +261,8 @@ export default async function AuditionDetailPage({ params }: PageProps) {
               </div>
             </section>
           ) : null}
+
+          <AuditionPreparationOffer audition={audition} />
           </div>
         </div>
 

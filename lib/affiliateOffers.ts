@@ -2,7 +2,7 @@ export const affiliateOffers = {
   nayutasVocal: {
     name: "NAYUTAS（ナユタス）ボイストレーニング",
     href: "https://px.a8.net/svt/ejp?a8mat=4BCA7F+4D6OYY+4GDM+C0YF6",
-    trackingPixel: "https://www17.a8.net/0.gif?a8mat=4BCA7F+4D6OYY+4GDM+C0YF6",
+    trackingPixel: "https://www13.a8.net/0.gif?a8mat=4BCA7F+4D6OYY+4GDM+C0YF6",
     offer: "nayutas_vocal"
   },
   nayutasDance: {
