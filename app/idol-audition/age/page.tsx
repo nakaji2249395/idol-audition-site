@@ -3,8 +3,11 @@ import Link from "next/link";
 import { getAllAuditions } from "@/lib/auditionData";
 import {
   isAgeLimitNoneAudition,
+  isTeenAudition,
+  isTwentyFivePlusAudition,
   isThirtiesAudition,
   isTwentiesAudition,
+  isUniversityStudentFriendlyAudition,
   isWorkingAdultAudition
 } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
@@ -46,6 +49,12 @@ export default async function AgeDirectoryPage() {
   const auditions = await getAllAuditions();
   const categories = [
     {
+      href: "/idol-audition/teens",
+      title: "10代から応募",
+      count: auditions.filter(isTeenAudition).length,
+      text: "中学生・高校生、未経験から挑戦したい方へ"
+    },
+    {
       href: "/idol-audition/high-school",
       title: "高校生OK",
       count: auditions.filter((audition) =>
@@ -58,6 +67,18 @@ export default async function AgeDirectoryPage() {
       title: "20代から応募",
       count: auditions.filter(isTwentiesAudition).length,
       text: "20代前半・後半、未経験や社会人から挑戦したい方へ"
+    },
+    {
+      href: "/idol-audition/university-student",
+      title: "大学生・専門学生",
+      count: auditions.filter(isUniversityStudentFriendlyAudition).length,
+      text: "学業、試験、アルバイトと両立しながら活動したい方へ"
+    },
+    {
+      href: "/idol-audition/25-plus",
+      title: "25歳以上から応募",
+      count: auditions.filter(isTwentyFivePlusAudition).length,
+      text: "20代後半・社会人・未経験から挑戦したい方へ"
     },
     {
       href: "/idol-audition/30s",
@@ -140,7 +161,7 @@ export default async function AgeDirectoryPage() {
           アイドルオーディションを年齢から探す
         </h1>
         <p className="mt-5 max-w-3xl leading-8 text-slate-600">
-          高校生、20代、30代、年齢制限なし、社会人OKなど、現在の年齢や生活に合うアイドルオーディションを探せます。
+          10代、高校生、大学生、20代、25歳以上、30代、年齢制限なし、社会人OKなど、現在の年齢や生活に合うアイドルオーディションを探せます。
           全{auditions.length}件の掲載情報から、募集要項の年齢・両立条件をもとに整理しています。
         </p>
         <p className="mt-4 text-xs font-bold text-slate-500">2026年9月更新</p>

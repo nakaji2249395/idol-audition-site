@@ -119,6 +119,11 @@ export function buildApplicationTrackingUrl(applicationId: string) {
   return `${siteConfig.url}/go/application/${applicationId}?signature=${encodeURIComponent(signature)}`;
 }
 
+export function buildApplicationCompletionUrl(applicationId: string) {
+  const signature = signApplicationTrackingId(applicationId);
+  return `${siteConfig.url}/application-complete/${applicationId}?signature=${encodeURIComponent(signature)}`;
+}
+
 export function replaceSelectedApplicationUrl(
   message: string,
   selectedDestination: string,

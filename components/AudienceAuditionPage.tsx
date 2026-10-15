@@ -42,8 +42,11 @@ export type AudiencePageSegment = {
 };
 
 const ageLinks = [
+  { href: "/idol-audition/teens", label: "10代" },
   { href: "/idol-audition/high-school", label: "高校生OK" },
+  { href: "/idol-audition/university-student", label: "大学生・専門学生" },
   { href: "/idol-audition/20s", label: "20代" },
+  { href: "/idol-audition/25-plus", label: "25歳以上" },
   { href: "/idol-audition/30s", label: "30代" },
   { href: "/idol-audition/age-limit-none", label: "年齢制限なし" },
   { href: "/idol-audition/working-adult", label: "社会人向け" }

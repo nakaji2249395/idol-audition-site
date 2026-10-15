@@ -12,7 +12,7 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "未経験・初心者OKの女性アイドルオーディション一覧【2026年最新】",
+  title: "未経験・初心者OKの女性アイドルオーディション【2026年】歌・ダンス未経験",
   description:
     "未経験・初心者歓迎の女性アイドルオーディションを掲載。2026年現在募集中の情報を、年齢、東京・大阪などの地域、費用、レッスン、学生・社会人条件で比較できます。",
   alternates: {
@@ -73,6 +73,11 @@ const faq = [
       "未経験OKと明記された募集なら応募できます。合格後のレッスン内容と費用を確認し、基礎から学べる環境かを比較しましょう。"
   },
   {
+    question: "ダンス未経験でもオーディションを受けられますか？",
+    answer:
+      "未経験OK・経験不問の募集なら応募できます。振付審査がある場合は、完成度だけでなく、リズム感、表情、教わった動きを吸収する姿勢も見られます。"
+  },
+  {
     question: "20代で未経験でもアイドルを目指せますか？",
     answer:
       "20代を応募対象に含み、未経験者を歓迎する募集があります。年齢上限に加えて、仕事との両立、活動頻度、レッスン時間も確認してください。"
@@ -96,6 +101,11 @@ const faq = [
 
 const intentLinks: SearchIntentLink[] = [
   {
+    href: "/idol-audition/teens",
+    label: "10代・歌やダンス未経験の募集",
+    description: "中学生・高校生、初心者向けの条件を確認する"
+  },
+  {
     href: "/idol-audition/high-school",
     label: "高校生・未経験のアイドルオーディション",
     description: "保護者同意、学校との両立、活動時間も含めて探す"
@@ -104,6 +114,16 @@ const intentLinks: SearchIntentLink[] = [
     href: "/idol-audition/20s",
     label: "20代・未経験のアイドル募集",
     description: "20代前半・後半の年齢条件や仕事との両立で比較する"
+  },
+  {
+    href: "/idol-audition/university-student",
+    label: "大学生・専門学生の未経験募集",
+    description: "学業とレッスンを両立しやすい募集を探す"
+  },
+  {
+    href: "/idol-audition/25-plus",
+    label: "25歳以上・未経験から応募できる募集",
+    description: "20代後半や社会人から挑戦できる募集を比較する"
   },
   {
     href: "/idol-audition/30s",
@@ -297,6 +317,16 @@ export default async function MikeikenAuditionPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mt-10 border-t border-slate-200 pt-8">
+          <h2 className="text-2xl font-black text-slate-950">歌・ダンス未経験で審査を受けるコツ</h2>
+          <p className="mt-4 leading-8 text-slate-600">
+            歌唱やダンスの審査では、難しい技術だけでなく、声を最後まで出すこと、表情、リズムに合わせようとする姿勢、指示を聞いて修正できるかも見られます。未経験であることを隠すより、現在練習していることと、合格後にどのように成長したいかを伝えましょう。
+          </p>
+          <p className="mt-4 leading-8 text-slate-600">
+            課題曲がある場合は、歌詞と振付を早めに覚え、スマートフォンで撮影して姿勢や表情を確認します。高価なスクールへ通うことを応募条件にしていない募集も多いため、まずは募集要項と合格後のレッスン体制を確認してください。
+          </p>
         </section>
 
         <section className="mt-10">

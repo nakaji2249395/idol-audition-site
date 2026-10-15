@@ -81,6 +81,9 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
       { "@type": "ListItem", position: 3, name: content.title, item: pageUrl }
     ]
   };
+  const regionLinks = Object.values(auditionRegions).filter(
+    (candidate) => candidate.href !== region.href
+  );
 
   return (
     <main className="mx-auto max-w-[1180px] px-4 py-10 sm:px-6 sm:py-14">
@@ -117,7 +120,7 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         </p>
       </header>
 
-      {content.showConditionStats ? (
+      {content.showConditionStats !== false ? (
         <dl className="grid border-b border-slate-200 sm:grid-cols-3">
           {[
             { value: beginnerCount, label: "未経験・初心者OK", href: "/idol-audition/mikeiken" },
@@ -137,6 +140,18 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
       ) : null}
 
       <FreshnessLinks className="mt-7" />
+
+      <nav aria-label="地域から探す" className="mt-3 flex flex-wrap gap-2">
+        {regionLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-700 transition hover:border-pink-300 hover:text-pink-700"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
 
       <section className="mt-12 mb-16">
         <p className="editorial-kicker">Now recruiting</p>

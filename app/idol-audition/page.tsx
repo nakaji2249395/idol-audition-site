@@ -46,6 +46,11 @@ const guideLinks = [
     text: "都内・関東近郊で活動できる募集"
   },
   {
+    href: "/idol-audition/kanagawa",
+    title: "神奈川・横浜のアイドルオーディション",
+    text: "神奈川・横浜・川崎から活動できる募集"
+  },
+  {
     href: "/idol-audition/osaka",
     title: "大阪のアイドルオーディション",
     text: "大阪・関西で活動できる新メンバー募集"
@@ -81,6 +86,16 @@ const guideLinks = [
     text: "未成年・学生が応募前に確認したい募集"
   },
   {
+    href: "/idol-audition/teens",
+    title: "10代のアイドルオーディション",
+    text: "中学生・高校生・未経験向けの募集を比較"
+  },
+  {
+    href: "/idol-audition/university-student",
+    title: "大学生・専門学生のアイドルオーディション",
+    text: "学業と両立しながら応募できる募集"
+  },
+  {
     href: "/idol-audition/age",
     title: "年齢からアイドルオーディションを探す",
     text: "高校生・20代・30代・年齢不問で比較"
@@ -94,6 +109,11 @@ const guideLinks = [
     href: "/idol-audition/30s",
     title: "30代のアイドルオーディション",
     text: "30歳以上でも応募条件に入る募集"
+  },
+  {
+    href: "/idol-audition/25-plus",
+    title: "25歳以上のアイドルオーディション",
+    text: "20代後半・社会人・未経験から応募できる募集"
   },
   {
     href: "/idol-audition/age-limit-none",

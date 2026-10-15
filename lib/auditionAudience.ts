@@ -94,6 +94,25 @@ export function isWorkingAdultAudition(audition: Audition) {
   );
 }
 
+export function isTeenAudition(audition: Audition) {
+  return [15, 16, 18, 19].some((age) => isEligibleAtAge(audition, age));
+}
+
+export function isUniversityStudentFriendlyAudition(audition: Audition) {
+  const text = [
+    audition.age,
+    audition.student,
+    audition.features.join(" "),
+    audition.description
+  ].join(" ");
+
+  return isEligibleAtAge(audition, 20) && /大学生|短大生|専門学生|学生|学業|学校/.test(text);
+}
+
+export function isTwentyFivePlusAudition(audition: Audition) {
+  return [25, 27, 29, 30].some((age) => isEligibleAtAge(audition, age));
+}
+
 export type AudienceLink = {
   href: string;
   label: string;
@@ -133,6 +152,15 @@ export function getAudienceLinks(audition: Audition): AudienceLink[] {
   }
   if (isWorkingAdultAudition(audition)) {
     links.push({ href: "/idol-audition/working-adult", label: "社会人向け" });
+  }
+  if (isTeenAudition(audition)) {
+    links.push({ href: "/idol-audition/teens", label: "10代から応募" });
+  }
+  if (isUniversityStudentFriendlyAudition(audition)) {
+    links.push({ href: "/idol-audition/university-student", label: "大学生・専門学生向け" });
+  }
+  if (isTwentyFivePlusAudition(audition)) {
+    links.push({ href: "/idol-audition/25-plus", label: "25歳以上から応募" });
   }
 
   return links;

@@ -1,6 +1,6 @@
 import type { Audition } from "@/lib/auditions";
 
-export type AuditionRegion = "tokyo" | "osaka" | "nagoya" | "fukuoka" | "nationwide";
+export type AuditionRegion = "tokyo" | "kanagawa" | "osaka" | "nagoya" | "fukuoka" | "nationwide";
 
 export const auditionRegions: Record<
   AuditionRegion,
@@ -10,6 +10,11 @@ export const auditionRegions: Record<
     href: "/idol-audition/tokyo",
     label: "東京・関東",
     keywords: ["東京", "都内", "関東", "神奈川", "横浜", "埼玉", "千葉"]
+  },
+  kanagawa: {
+    href: "/idol-audition/kanagawa",
+    label: "神奈川・横浜",
+    keywords: ["神奈川", "横浜", "川崎", "湘南", "藤沢", "相模原"]
   },
   osaka: {
     href: "/idol-audition/osaka",
@@ -50,7 +55,16 @@ export function isAuditionInRegion(audition: Audition, region: AuditionRegion) {
 }
 
 export function getAuditionRegion(audition: Audition): AuditionRegion | null {
-  return (Object.keys(auditionRegions) as AuditionRegion[]).find((region) =>
+  const detailRegionOrder: AuditionRegion[] = [
+    "kanagawa",
+    "osaka",
+    "nagoya",
+    "fukuoka",
+    "nationwide",
+    "tokyo"
+  ];
+
+  return detailRegionOrder.find((region) =>
     isAuditionInRegion(audition, region)
   ) ?? null;
 }

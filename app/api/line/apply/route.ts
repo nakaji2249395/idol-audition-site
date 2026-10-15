@@ -9,6 +9,7 @@ import {
 } from "@/lib/line";
 import { notifyNewApplication } from "@/lib/adminLineNotification";
 import {
+  buildApplicationCompletionUrl,
   buildApplicationTrackingUrl,
   replaceSelectedApplicationUrl
 } from "@/lib/applicationTracking";
@@ -139,6 +140,9 @@ export async function POST(request: Request) {
       audition.applicationExternalUrl && savedApplication
         ? buildApplicationTrackingUrl(savedApplication.id)
         : null;
+    const completionUrl = savedApplication
+      ? buildApplicationCompletionUrl(savedApplication.id)
+      : null;
     const applicationReplyMessage =
       audition.applicationExternalUrl && trackingUrl
         ? replaceSelectedApplicationUrl(
@@ -153,6 +157,9 @@ export async function POST(request: Request) {
       applicationReplyMessage,
       ...(trackingUrl && !applicationReplyMessage.includes(trackingUrl)
         ? ["", "👇応募手続きを続ける", trackingUrl]
+        : []),
+      ...(completionUrl
+        ? ["", "応募先への必要事項送信が終わったら、こちらから完了を記録できます。", completionUrl]
         : []),
       "",
       "※このメッセージはアイドルオーディションナビ公式LINEからお送りしています。"

@@ -27,9 +27,19 @@ const prioritySlugs = [
 
 export function PriorityAuditionLinks({ auditions }: { auditions: Audition[] }) {
   const auditionBySlug = new Map(auditions.map((audition) => [audition.slug, audition]));
-  const priorityAuditions = prioritySlugs
+  const pinnedAuditions = prioritySlugs
     .map((slug) => auditionBySlug.get(slug))
     .filter((audition): audition is Audition => Boolean(audition));
+  const newestAuditions = [...auditions]
+    .filter((audition) => Boolean(audition.publishedAt))
+    .sort(
+      (left, right) =>
+        new Date(right.publishedAt ?? 0).getTime() - new Date(left.publishedAt ?? 0).getTime()
+    )
+    .slice(0, 12);
+  const priorityAuditions = Array.from(
+    new Map([...newestAuditions, ...pinnedAuditions].map((audition) => [audition.slug, audition])).values()
+  ).slice(0, 24);
 
   if (priorityAuditions.length === 0) return null;
 

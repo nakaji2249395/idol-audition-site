@@ -25,12 +25,17 @@ export function Footer() {
             <Link href="/idol-audition/tokyo" className="hover:text-pink-300">東京の募集</Link>
             <Link href="/idol-audition/osaka" className="hover:text-pink-300">大阪の募集</Link>
             <Link href="/idol-audition/nagoya" className="hover:text-pink-300">名古屋の募集</Link>
+            <Link href="/idol-audition/kanagawa" className="hover:text-pink-300">神奈川・横浜の募集</Link>
+            <Link href="/idol-audition/fukuoka" className="hover:text-pink-300">福岡・九州の募集</Link>
             <Link href="/idol-audition/mikeiken" className="hover:text-pink-300">未経験・初心者OK</Link>
             <Link href="/idol-audition/free" className="hover:text-pink-300">費用なし</Link>
             <Link href="/idol-audition/high-school" className="hover:text-pink-300">高校生OK</Link>
+            <Link href="/idol-audition/teens" className="hover:text-pink-300">10代の募集</Link>
+            <Link href="/idol-audition/university-student" className="hover:text-pink-300">大学生・専門学生</Link>
             <Link href="/idol-audition/age" className="hover:text-pink-300">年齢から探す</Link>
             <Link href="/idol-audition/20s" className="hover:text-pink-300">20代の募集</Link>
             <Link href="/idol-audition/30s" className="hover:text-pink-300">30代の募集</Link>
+            <Link href="/idol-audition/25-plus" className="hover:text-pink-300">25歳以上の募集</Link>
             <Link href="/idol-audition/age-limit-none" className="hover:text-pink-300">年齢制限なし</Link>
             <Link href="/idol-audition/working-adult" className="hover:text-pink-300">社会人OK</Link>
           </div>
