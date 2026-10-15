@@ -53,6 +53,7 @@ export function TrainingArticleLayout({
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">{lead}</p>
           <p className="mt-4 text-xs font-bold text-slate-500">2026年10月更新</p>
+          <p className="mt-2 text-[11px] leading-5 text-slate-400">PR：本ページには広告が含まれます。</p>
         </header>
 
         <div className="mt-10 space-y-12">{children}</div>

@@ -27,11 +27,8 @@ export function AffiliateOffer({
 }: AffiliateOfferProps) {
   return (
     <section className={`border p-6 sm:p-8 ${featured ? "border-slate-950 bg-white shadow-[4px_4px_0_#241b24]" : "border-slate-200 bg-white"}`}>
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="rounded-full bg-pink-100 px-3 py-1 text-[11px] font-black tracking-wider text-pink-800">PR</span>
-        {featured ? <span className="text-xs font-black text-slate-500">最初に比較したい候補</span> : null}
-      </div>
-      <h3 className="mt-4 text-2xl font-black leading-tight text-slate-950">{name}</h3>
+      {featured ? <p className="text-xs font-black text-slate-500">最初に比較したい候補</p> : null}
+      <h3 className={`${featured ? "mt-4" : ""} text-2xl font-black leading-tight text-slate-950`}>{name}</h3>
       <p className="mt-4 leading-8 text-slate-600">{summary}</p>
       <ul className="mt-5 grid gap-3 text-sm leading-7 text-slate-700">
         {points.map((point) => (

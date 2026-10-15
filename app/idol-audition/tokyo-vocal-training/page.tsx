@@ -23,16 +23,11 @@ export const metadata: Metadata = {
 export default function TokyoVocalTrainingPage() {
   return (
     <TrainingArticleLayout
-      eyebrow="Tokyo vocal training / PR"
+      eyebrow="Tokyo vocal training"
       title="東京でアイドルを目指す人向けボイトレ"
       lead="東京のボイトレは選択肢が多いため、知名度だけで選ばず、オーディションまでの期間、通学経路、マンツーマン指導、録音環境、総額を比較しましょう。"
       canonical={canonical}
     >
-      <aside className="border-l-4 border-pink-600 bg-pink-50 p-5 text-sm leading-7 text-slate-700 sm:p-6">
-        <strong className="font-black text-slate-950">PR：</strong>
-        このページにはアフィリエイト広告が含まれます。リンク経由で入会した場合、当サイトに報酬が発生することがあります。
-      </aside>
-
       <section>
         <p className="editorial-kicker">Tokyo checklist</p>
         <h2 className="section-heading mt-2">校舎は「自宅」より普段の移動経路で選ぶ</h2>
@@ -47,7 +42,7 @@ export default function TokyoVocalTrainingPage() {
       </section>
 
       <section>
-        <p className="editorial-kicker">PR / Tokyo & nationwide</p>
+        <p className="editorial-kicker">Tokyo & nationwide</p>
         <h2 className="section-heading mt-2">全国展開のスクールを東京で比較する</h2>
         <div className="mt-7">
           <AffiliateOffer
@@ -63,7 +58,7 @@ export default function TokyoVocalTrainingPage() {
       </section>
 
       <section>
-        <p className="editorial-kicker">PR / Ginza</p>
+        <p className="editorial-kicker">Ginza</p>
         <h2 className="section-heading mt-2">銀座・有楽町・東京駅周辺で探す</h2>
         <div className="mt-7">
           <AffiliateOffer
@@ -80,7 +75,7 @@ export default function TokyoVocalTrainingPage() {
       <section className="border-t border-slate-200 pt-10">
         <h2 className="section-heading">体験当日に契約を決めなくてよい</h2>
         <p className="mt-5 leading-8 text-slate-600">
-          無料体験では、講師との相性と改善点が具体的になったかを確認します。見積りや規約を持ち帰り、月額の総額、通学時間、振替条件を比較してから決めましょう。広告リンクからの申込みでも、入会するかどうかは体験後に判断できます。
+          無料体験では、講師との相性と改善点が具体的になったかを確認します。見積りや規約を持ち帰り、月額の総額、通学時間、振替条件を比較してから決めましょう。入会するかどうかは体験後に判断できます。
         </p>
         <p className="mt-5 text-sm leading-7 text-slate-600">
           審査の練習順序は<Link href="/idol-audition/vocal-training" className="font-black text-pink-700 hover:underline">歌唱審査対策ガイド</Link>、現在募集中の情報は<Link href="/idol-audition/tokyo" className="font-black text-pink-700 hover:underline">東京のアイドルオーディション一覧</Link>で確認できます。

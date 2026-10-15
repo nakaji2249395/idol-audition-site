@@ -87,7 +87,7 @@ export default function VocalTrainingPage() {
       </section>
 
       <section className="border-y border-slate-200 py-10">
-        <p className="editorial-kicker">PR / Training option</p>
+        <p className="editorial-kicker">Training option</p>
         <h2 className="section-heading mt-2">一人で課題を判断しにくい場合の選択肢</h2>
         <p className="mt-4 leading-8 text-slate-600">
           スクールは必須ではありません。ただし、自分では気づきにくい発声やリズムの癖を短時間で把握したい場合は、無料体験で指導方法との相性を確認する方法があります。

@@ -30,16 +30,11 @@ const comparisonRows = [
 export default function TrainingSchoolPage() {
   return (
     <TrainingArticleLayout
-      eyebrow="School comparison / PR"
+      eyebrow="School comparison"
       title="アイドルを目指す人向け ボイトレ・ダンススクールの選び方"
       lead="スクールへ通うこと自体が合格を保証するわけではありません。今の課題、審査までの期間、通える場所、毎月の費用を基準に、必要な練習だけを選びましょう。"
       canonical={canonical}
     >
-      <aside className="border-l-4 border-pink-600 bg-pink-50 p-5 text-sm leading-7 text-slate-700 sm:p-6">
-        <strong className="font-black text-slate-950">広告について：</strong>
-        このページにはアフィリエイト広告が含まれます。リンク経由で入会した場合、当サイトに報酬が発生することがあります。掲載順は報酬額だけで決めず、対象地域と審査対策への使いやすさを基準にしています。
-      </aside>
-
       <section>
         <p className="editorial-kicker">Choose your priority</p>
         <h2 className="section-heading mt-2">歌とダンス、どちらから始める？</h2>
@@ -63,7 +58,7 @@ export default function TrainingSchoolPage() {
       </section>
 
       <section>
-        <p className="editorial-kicker">PR / Voice training</p>
+        <p className="editorial-kicker">Voice training</p>
         <h2 className="section-heading mt-2">歌唱審査を優先する人の比較候補</h2>
         <div className="mt-7">
           <AffiliateOffer
@@ -79,7 +74,7 @@ export default function TrainingSchoolPage() {
       </section>
 
       <section>
-        <p className="editorial-kicker">PR / Dance training</p>
+        <p className="editorial-kicker">Dance training</p>
         <h2 className="section-heading mt-2">ダンス審査を優先する人の比較候補</h2>
         <div className="mt-7">
           <AffiliateOffer
@@ -87,7 +82,7 @@ export default function TrainingSchoolPage() {
             placement="training_school_dance"
             summary="完全マンツーマンで、未経験者も自分のペースで振付や身体の使い方を練習できるダンススクールです。集団レッスンについていけるか不安な人にも比較しやすい候補です。"
             points={["周囲の進度を気にせず練習できる個人レッスン", "K-POPなど目標に合わせたジャンルを相談できる", "全国の校舎から通いやすい場所を探せる"]}
-            note="広告主を初めて利用する方が対象です。Web申込み後、無料体験と入会まで進んだ場合に当サイトへ報酬が発生します。最新条件は公式サイトで確認してください。"
+            note="広告主を初めて利用する方が対象です。無料体験後に入会を検討できます。最新の料金・校舎・条件は公式サイトで確認してください。"
             cta="ダンスの無料体験を確認する"
           />
         </div>
