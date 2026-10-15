@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
+import { AuditionComparison } from "@/components/AuditionComparison";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { PriorityAuditionLinks } from "@/components/PriorityAuditionLinks";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
@@ -9,7 +10,7 @@ import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditions } from "@/lib/submissions";
 
 export const metadata: Metadata = {
-  title: "女性アイドルオーディション一覧｜2026年最新・未経験OKの募集",
+  title: "アイドルオーディション一覧【2026年】地域・年齢・未経験から募集を比較",
   description:
     "女性向けアイドルオーディション一覧。未経験OK、東京・大阪・名古屋、費用なし、高校生相談可、新規グループ初期メンバーなど、2026年募集中の情報を比較できます。",
   alternates: {
@@ -232,7 +233,7 @@ export default async function IdolAuditionPage() {
         <div>
         <p className="editorial-kicker">Audition directory</p>
         <h1 className="mt-3 text-5xl font-black leading-[1.05] tracking-[-0.055em] text-slate-950 sm:text-6xl">
-          女性アイドルオーディション一覧
+          アイドルオーディション一覧
         </h1>
         <p className="mt-5 max-w-3xl leading-8 text-slate-600">
           女性メンバーを募集しているアイドルオーディションを、活動地域、費用、年齢、未経験可否、応募方法で比較できます。
@@ -245,6 +246,10 @@ export default async function IdolAuditionPage() {
         </div>
       </header>
 
+      <nav aria-label="募集の条件から探す" className="flex flex-wrap gap-2">
+        {guideLinks.map((guide) => <Link key={guide.href} href={guide.href} className="inline-flex min-h-11 items-center rounded-full border border-slate-200 px-4 py-2 text-sm font-bold hover:bg-pink-50">{guide.title}</Link>)}
+      </nav>
+      <AuditionComparison auditions={allAuditions} title="募集中のアイドルオーディションを比較する" />
       <FeaturedHiraeth />
 
       <FreshnessLinks className="mb-10" />

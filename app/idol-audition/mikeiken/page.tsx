@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
+import { AuditionComparison } from "@/components/AuditionComparison";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
@@ -256,6 +257,8 @@ export default async function MikeikenAuditionPage() {
         </div>
       </header>
 
+      <AuditionComparison auditions={mikeikenAuditions} title="初心者・未経験OKの募集を地域・年齢・費用で比較" />
+      <Link href="/idol-audition" className="inline-flex min-h-11 items-center text-sm font-bold text-pink-700 hover:underline">全国のアイドルオーディション一覧で探す →</Link>
       <FreshnessLinks className="mt-7" />
       <TrainingGuidePromo className="mt-8" />
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AuditionComparison } from "@/components/AuditionComparison";
 import { AuditionCard } from "@/components/AuditionCard";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
@@ -160,6 +161,10 @@ export function AudienceAuditionPage({
         </dl>
       ) : null}
 
+      {["/idol-audition/20s", "/idol-audition/working-adult"].includes(content.canonical) ? (
+        <AuditionComparison auditions={auditions} initialBeginner={content.canonical === "/idol-audition/20s"} title={content.canonical === "/idol-audition/20s" ? "20代未経験から応募できる募集を比較" : "働きながらアイドルを目指せる募集を比較"} />
+      ) : null}
+      <Link href="/idol-audition" className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-pink-700 hover:underline">全国のアイドルオーディション一覧で探す →</Link>
       <nav aria-label="年齢・生活条件" className="mt-7 flex flex-wrap gap-2">
         {ageLinks.map((link) => (
           <Link

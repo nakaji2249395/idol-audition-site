@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AuditionComparison } from "@/components/AuditionComparison";
 import { AuditionCard } from "@/components/AuditionCard";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
@@ -139,6 +140,8 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         </dl>
       ) : null}
 
+      <AuditionComparison auditions={regionalAuditions} title={`${region.label}の募集条件を比較する`} />
+      <Link href="/idol-audition" className="inline-flex min-h-11 items-center text-sm font-bold text-pink-700 hover:underline">全国のアイドルオーディション一覧で探す →</Link>
       <FreshnessLinks className="mt-7" />
 
       <nav aria-label="地域から探す" className="mt-3 flex flex-wrap gap-2">
