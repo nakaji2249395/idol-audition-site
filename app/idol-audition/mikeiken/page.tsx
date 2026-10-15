@@ -4,6 +4,7 @@ import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
+import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isBeginnerFriendlyAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
@@ -236,6 +237,7 @@ export default async function MikeikenAuditionPage() {
       </header>
 
       <FreshnessLinks className="mt-7" />
+      <TrainingGuidePromo className="mt-8" />
 
       <dl className="grid border-b border-slate-200 sm:grid-cols-3">
         {[

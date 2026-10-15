@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
@@ -167,6 +168,7 @@ export default async function TokyoAuditionPage() {
       </header>
 
       <FeaturedHiraeth />
+      <TrainingGuidePromo className="mb-12" />
 
       <section className="mb-16">
         <div className="mb-6">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
+import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
 import type { Audition } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 
@@ -172,6 +173,7 @@ export function AudienceAuditionPage({
         ))}
       </nav>
       <FreshnessLinks className="mt-3" />
+      <TrainingGuidePromo className="mt-8" />
 
       {segments.length > 0 ? (
         <section className="mt-10" aria-labelledby="age-segments-title">

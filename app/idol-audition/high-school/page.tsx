@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
+import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
 import { SearchIntentLinks } from "@/components/SearchIntentLinks";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
@@ -233,6 +234,7 @@ export default async function HighSchoolAuditionPage() {
       </header>
 
       <FreshnessLinks className="mb-8" />
+      <TrainingGuidePromo className="mb-10" />
 
       <dl className="mb-8 grid border-y border-slate-200 sm:grid-cols-3">
         {[
