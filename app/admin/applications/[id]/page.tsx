@@ -93,7 +93,7 @@ export default async function AdminApplicationDetailPage({
         </p>
         <h2 className="mt-2 text-2xl font-black text-slate-950">応募状況</h2>
 
-        <dl className="mt-5 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mt-5 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 sm:grid-cols-3">
           <div className="bg-white p-5">
             <dt className="text-xs font-black text-slate-500">応募案内</dt>
             <dd className="mt-2 text-sm font-black text-slate-950">
@@ -108,14 +108,6 @@ export default async function AdminApplicationDetailPage({
               {application.external_clicked_at
                 ? `${formatJstDateTime(application.external_clicked_at)} クリック済み`
                 : "未クリック"}
-            </dd>
-          </div>
-          <div className="bg-white p-5">
-            <dt className="text-xs font-black text-slate-500">応募完了</dt>
-            <dd className="mt-2 text-sm font-black text-slate-950">
-              {application.completed_at
-                ? `${formatJstDateTime(application.completed_at)} 完了申告済み`
-                : "未確認"}
             </dd>
           </div>
           <div className="bg-white p-5">
