@@ -1,4 +1,5 @@
 import { AffiliateLink } from "@/components/AffiliateLink";
+import { AffiliateImpression } from "@/components/AffiliateImpression";
 
 type AffiliateOfferProps = {
   name: string;
@@ -26,7 +27,7 @@ export function AffiliateOffer({
   featured = false
 }: AffiliateOfferProps) {
   return (
-    <section className={`border p-6 sm:p-8 ${featured ? "border-slate-950 bg-white shadow-[4px_4px_0_#241b24]" : "border-slate-200 bg-white"}`}>
+    <AffiliateImpression offer={offer} placement={placement} className={`border p-6 sm:p-8 ${featured ? "border-slate-950 bg-white shadow-[4px_4px_0_#241b24]" : "border-slate-200 bg-white"}`}>
       {featured ? <p className="text-xs font-black text-slate-500">最初に比較したい候補</p> : null}
       <h3 className={`${featured ? "mt-4" : ""} text-2xl font-black leading-tight text-slate-950`}>{name}</h3>
       <p className="mt-4 leading-8 text-slate-600">{summary}</p>
@@ -49,6 +50,6 @@ export function AffiliateOffer({
       {/* A8.net conversion measurement pixel supplied with the selected creative. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={trackingPixel} width="1" height="1" alt="" aria-hidden="true" className="absolute h-px w-px opacity-0" />
-    </section>
+    </AffiliateImpression>
   );
 }

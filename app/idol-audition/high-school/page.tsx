@@ -8,7 +8,7 @@ import { SearchIntentLinks } from "@/components/SearchIntentLinks";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isBeginnerFriendlyAudition, isNoCostAudition } from "@/lib/auditionAudience";
-import { isClosingThisMonth } from "@/lib/auditionFreshness";
+import { isClosingThisMonth, isOpenAudition } from "@/lib/auditionFreshness";
 
 export const dynamic = "force-dynamic";
 
@@ -63,6 +63,14 @@ const checks = [
 ];
 
 const faq = [
+  {
+    question: "高校生でアイドルになるには、まず何をすればいいですか？",
+    answer: "まず通える地域と活動できる曜日を決め、高校生可・未経験可の募集を比較します。次に保護者と学校のルール、合格後の費用を確認し、写真と自己PRを準備して募集先指定の方法で応募してください。当サイトのLINE追加だけでは応募は完了しません。"
+  },
+  {
+    question: "初心者の高校生は、どんなアイドル事務所を選べばいいですか？",
+    answer: "知名度だけでなく、未経験者へのレッスン内容、費用負担、活動場所、学校との両立、契約条件を比較しましょう。高校生可でもテスト期間の休みや部活動との両立まで認められるとは限りません。不明な条件は応募先に確認してください。"
+  },
   {
     question: "高校生でもアイドルオーディションに応募できますか？",
     answer:
@@ -121,7 +129,7 @@ const relatedLinks = [
 export default async function HighSchoolAuditionPage() {
   const allAuditions = await getAllAuditions();
   const highSchoolAuditions = allAuditions.filter((audition) =>
-    `${audition.features.join(" ")} ${audition.student} ${audition.age}`.match(
+    isOpenAudition(audition) && `${audition.features.join(" ")} ${audition.student} ${audition.age}`.match(
       /高校生|中高生|未成年応募可|高校生相談可/
     )
   );
@@ -267,7 +275,17 @@ export default async function HighSchoolAuditionPage() {
 
       <FeaturedHiraeth />
 
-      <section className="mb-16">
+      <nav aria-label="高校生の応募準備" className="mb-8 border-y border-slate-200 py-5">
+        <p className="font-bold text-slate-950">アイドルになりたい高校生へ：気になることから確認</p>
+        <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-pink-700">
+          <a href="#student-list" className="inline-flex min-h-11 items-center hover:underline">募集中の一覧</a>
+          <a href="#first-steps" className="inline-flex min-h-11 items-center hover:underline">初心者の応募手順</a>
+          <a href="#school-balance" className="inline-flex min-h-11 items-center hover:underline">学業・部活との両立</a>
+          <a href="#parent-cost" className="inline-flex min-h-11 items-center hover:underline">保護者同意と費用</a>
+        </div>
+      </nav>
+
+      <section id="student-list" className="mb-16 scroll-mt-24">
         <div className="mb-6">
           <p className="text-sm font-bold text-pink-600">Audition List</p>
           <h2 className="mt-1 text-3xl font-black text-slate-950">
@@ -292,6 +310,44 @@ export default async function HighSchoolAuditionPage() {
       />
 
       <article className="paper-panel mt-16 p-6 sm:p-10">
+        <section id="first-steps" className="mb-12 scroll-mt-24 border-b border-slate-200 pb-10">
+          <h2 className="text-2xl font-black text-slate-950">アイドルになるには？高校生・初心者の応募手順</h2>
+          <p className="mt-4 leading-8 text-slate-600">特別な学校や有料スクールに入ることが、すべての募集の応募条件ではありません。まずは高校生可・未経験可の募集要項を読み、自分が続けられる活動条件かを確認しましょう。</p>
+          <ol className="mt-6 space-y-5 leading-8 text-slate-700">
+            <li><strong>1. 通える場所と曜日を決める。</strong>学校からの移動時間と帰宅時刻まで考え、平日夜・土日・テスト期間の予定を書き出します。</li>
+            <li><strong>2. 事務所・グループを比較する。</strong>年齢だけでなく、初心者向けの指導、ライブ頻度、費用、契約期間を確認。活動を最優先とする募集は、学校や部活との両立が可能か個別に聞きます。</li>
+            <li><strong>3. 保護者・学校の条件を確認する。</strong>同意書の提出時期、面接への保護者同席、校則や芸能活動の許可について、応募前に整理します。</li>
+            <li><strong>4. 写真・自己PRを準備して応募する。</strong>募集先指定の写真と必要事項を送信します。当サイトの公式LINEを追加するだけでは応募完了ではありません。届いた応募先の案内に沿って手続きを進めてください。</li>
+          </ol>
+          <p className="mt-5 text-sm leading-7 text-slate-600">事務所選びは<Link href="/idol-audition/agency-guide" className="font-bold text-pink-700 hover:underline">アイドル事務所の選び方</Link>、写真・自己PRは<Link href="/idol-audition/how-to-apply" className="font-bold text-pink-700 hover:underline">応募準備ガイド</Link>で詳しく確認できます。</p>
+        </section>
+
+        <section id="school-balance" className="mb-12 scroll-mt-24 border-b border-slate-200 pb-10">
+          <h2 className="text-2xl font-black text-slate-950">学業・部活・受験と両立できる募集の確認方法</h2>
+          <p className="mt-4 leading-8 text-slate-600">「高校生OK」は、テスト休みや部活動との両立を保証する表示ではありません。通学を続ける前提で、次の点を募集先に確認しましょう。</p>
+          <dl className="mt-6 divide-y divide-slate-200">
+            {[
+              ["平日の活動", "開始時刻・終了時刻・週あたりの日数。学校から移動して間に合うか、帰りの電車に間に合うか。"],
+              ["土日・遠征", "毎週参加が必須か、宿泊遠征があるか。部活の大会や学校行事と重なった場合の相談方法。"],
+              ["テスト・受験", "試験前の休みや受験期の活動調整が可能か。いつまでに予定を伝える必要があるか。"],
+              ["レッスン", "曜日・場所・振替の可否。自主練やSNS配信を含め、学校外で必要な時間はどのくらいか。"]
+            ].map(([title, text]) => <div key={title} className="py-4"><dt className="font-black text-slate-950">{title}</dt><dd className="mt-2 leading-8 text-slate-600">{text}</dd></div>)}
+          </dl>
+          <blockquote className="mt-5 border-l-2 border-pink-600 pl-5 text-sm leading-8 text-slate-700">問い合わせ例：「高校に通いながらの活動を希望しています。平日は○時以降、土日は○曜日に参加できます。定期テスト前と学校行事の日程は事前に相談できますか？」</blockquote>
+        </section>
+
+        <section id="parent-cost" className="mb-12 scroll-mt-24 border-b border-slate-200 pb-10">
+          <h2 className="text-2xl font-black text-slate-950">保護者同意と費用を、応募前に一緒に確認する</h2>
+          <p className="mt-4 leading-8 text-slate-600">保護者には募集ページを見せて、運営者・活動場所・時間・費用・契約条件を共有してください。同意が必要な段階や書式は募集ごとに異なります。18歳の高校生も、募集側が指定する同意条件や学校のルールを確認しましょう。</p>
+          <ul className="mt-5 list-disc space-y-3 pl-5 leading-8 text-slate-700">
+            <li>応募時：応募料・審査料、面接までの交通費、写真の準備費用。</li>
+            <li>合格後：登録料・所属料、通常レッスン費、衣装・撮影・遠征費。</li>
+            <li>毎月の自己負担：通学とは別の交通費、食費、必要な消耗品。無料の対象に含まれない費用がないか。</li>
+          </ul>
+          <p className="mt-4 leading-8 text-slate-600">「応募無料」と「合格後も費用なし」は別です。例えば往復交通費が800円で月8回通う場合、交通費だけで月6,400円になります。これは計算例で、実際の費用は通う場所と活動頻度によって変わります。</p>
+          <p className="mt-4 text-sm leading-7 text-slate-600"><Link href="/idol-audition/parents" className="font-bold text-pink-700 hover:underline">保護者への説明ガイド</Link>と<Link href="/idol-audition/cost" className="font-bold text-pink-700 hover:underline">応募・活動にかかる費用の確認ガイド</Link>も参考にしてください。</p>
+        </section>
+
         <h2 className="text-3xl font-black leading-tight text-slate-950">
           高校生でもアイドルオーディションに応募できる？
         </h2>

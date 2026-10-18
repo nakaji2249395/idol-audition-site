@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { pathToFileURL } from "node:url";
 
 const CATEGORY_URL = "https://audition.nerim.info/idol.html";
 const SOURCE_LABEL = "オーディションプラス提携掲載";
@@ -415,7 +416,11 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+export { parseListing, fetchHtml, findDuplicate, extractLinks, normalize };
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

@@ -15,6 +15,7 @@ import {
   type AuditionRegion
 } from "@/lib/auditionDiscovery";
 import { siteConfig } from "@/lib/site";
+import { isOpenAudition } from "@/lib/auditionFreshness";
 
 type RegionPageContent = {
   region: AuditionRegion;
@@ -40,7 +41,7 @@ type RegionPageContent = {
 export async function RegionalAuditionPage({ content }: { content: RegionPageContent }) {
   const allAuditions = await getAllAuditions();
   const regionalAuditions = allAuditions.filter((audition) =>
-    isAuditionInRegion(audition, content.region)
+    isOpenAudition(audition) && isAuditionInRegion(audition, content.region)
   );
   const region = auditionRegions[content.region];
   const beginnerCount = regionalAuditions.filter(isBeginnerFriendlyAudition).length;

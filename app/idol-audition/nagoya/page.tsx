@@ -3,12 +3,13 @@ import { RegionalAuditionPage } from "@/components/RegionalAuditionPage";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isAuditionInRegion } from "@/lib/auditionDiscovery";
 import { siteConfig } from "@/lib/site";
+import { isOpenAudition } from "@/lib/auditionFreshness";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const count = (await getAllAuditions()).filter((audition) =>
-    isAuditionInRegion(audition, "nagoya")
+    isOpenAudition(audition) && isAuditionInRegion(audition, "nagoya")
   ).length;
   const title = `名古屋のアイドルオーディション${count}件【2026年10月】未経験OK`;
   const description = `名古屋・愛知・東海で現在応募できるアイドルオーディション${count}件。未経験・高校生・社会人OK、費用なし、新規・追加メンバー募集を比較できます。`;

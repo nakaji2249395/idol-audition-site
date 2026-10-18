@@ -3,12 +3,13 @@ import { RegionalAuditionPage } from "@/components/RegionalAuditionPage";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isAuditionInRegion } from "@/lib/auditionDiscovery";
 import { siteConfig } from "@/lib/site";
+import { isOpenAudition } from "@/lib/auditionFreshness";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const count = (await getAllAuditions()).filter((audition) =>
-    isAuditionInRegion(audition, "osaka")
+    isOpenAudition(audition) && isAuditionInRegion(audition, "osaka")
   ).length;
   const title = `大阪のアイドルオーディション${count}件【2026年10月】未経験OK`;
   const description = `大阪・関西で現在応募できるアイドルオーディション${count}件。未経験・高校生・社会人OK、費用なし、初期メンバーなどを締切や条件で比較できます。`;

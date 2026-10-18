@@ -1,4 +1,5 @@
 import { AffiliateLink } from "@/components/AffiliateLink";
+import { AffiliateImpression } from "@/components/AffiliateImpression";
 import type { Audition } from "@/lib/auditions";
 import { affiliateOffers } from "@/lib/affiliateOffers";
 
@@ -52,7 +53,7 @@ export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
   const selectedOffer = selectPreparationOffer(audition);
 
   return (
-    <aside className="mt-9 border-y border-slate-200 py-6" aria-labelledby="audition-preparation-title">
+    <AffiliateImpression as="aside" offer={selectedOffer.offer} placement={`audition_detail_end_${audition.slug}`} className="mt-9 border-y border-slate-200 py-6" labelledBy="audition-preparation-title">
       <h2 id="audition-preparation-title" className="text-lg font-black text-slate-950">
         応募前に少し準備しておきたい方へ
       </h2>
@@ -77,6 +78,6 @@ export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
         aria-hidden="true"
         className="absolute h-px w-px opacity-0"
       />
-    </aside>
+    </AffiliateImpression>
   );
 }
