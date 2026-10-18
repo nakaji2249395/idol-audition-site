@@ -1,8 +1,80 @@
+import { createSign } from "node:crypto";
+
 const DAY = 86_400_000;
 const JST = 9 * 60 * 60 * 1000;
 export type Period = { since: string; until: string };
 export type MetricRow = Record<string, string | number | null>;
 export type Result = { rows: MetricRow[]; error?: never } | { rows?: never; error: string };
+
+type SearchRow = { keys?: string[]; clicks: number; impressions: number; ctr: number; position: number };
+export function parseSearchRows(body: unknown): SearchRow[] {
+  if (!body || typeof body !== "object") throw new Error("Invalid search response");
+  const rows = (body as { rows?: unknown }).rows;
+  if (rows === undefined && "responseAggregationType" in body) return [];
+  if (!Array.isArray(rows)) throw new Error("Invalid search rows");
+  for (const row of rows) {
+    if (!row || !["clicks", "impressions", "ctr", "position"].every(k => typeof row[k] === "number" && Number.isFinite(row[k]) && row[k] >= 0)
+      || row.ctr > 1 || (row.keys !== undefined && (!Array.isArray(row.keys) || !row.keys.every((k: unknown) => typeof k === "string")))) throw new Error("Invalid search metrics");
+  }
+  return rows;
+}
+
+export function shiftSearchDate(date: string, days: number) {
+  return new Date(Date.parse(`${date}T12:00:00Z`) + days * DAY).toISOString().slice(0, 10);
+}
+
+export async function searchConsoleReport(now = new Date()): Promise<{ text: string; available: boolean }> {
+  const raw = process.env.REPORT_GOOGLE_SERVICE_ACCOUNT_JSON;
+  if (!raw) return { available: false, text: "Search Console：未取得（API認証未設定）" };
+  try {
+    const key = JSON.parse(raw);
+    if (typeof key.client_email !== "string" || typeof key.private_key !== "string") throw new Error("Invalid credential");
+    const issued = Math.floor(Date.now() / 1000);
+    const encode = (value: object) => Buffer.from(JSON.stringify(value)).toString("base64url");
+    const unsigned = `${encode({ alg: "RS256", typ: "JWT" })}.${encode({ iss: key.client_email, scope: "https://www.googleapis.com/auth/webmasters.readonly", aud: "https://oauth2.googleapis.com/token", iat: issued, exp: issued + 3600 })}`;
+    const signature = createSign("RSA-SHA256").update(unsigned).sign(key.private_key, "base64url");
+    const auth = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST", body: new URLSearchParams({ grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer", assertion: `${unsigned}.${signature}` }),
+      cache: "no-store", signal: AbortSignal.timeout(10_000)
+    });
+    if (!auth.ok) return { available: false, text: `Search Console：未取得（Google認証 HTTP ${auth.status}）` };
+    const token = (await auth.json()).access_token;
+    if (typeof token !== "string" || !token) throw new Error("Invalid token response");
+    const query = async (startDate: string, endDate: string, dimensions: string[] = [], rowLimit = 10) => {
+      const response = await fetch("https://www.googleapis.com/webmasters/v3/sites/sc-domain%3Aidol-audition-navi.jp/searchAnalytics/query", {
+        method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ startDate, endDate, dimensions, rowLimit, type: "web", dataState: "final" }),
+        cache: "no-store", signal: AbortSignal.timeout(15_000)
+      });
+      if (!response.ok) throw new Error(`Search API HTTP ${response.status}`);
+      return parseSearchRows(await response.json());
+    };
+    // Google search dates use Pacific Time, not the JST access-report dates.
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
+    const days = await query(shiftSearchDate(today, -14), shiftSearchDate(today, -1), ["date"], 20);
+    const latest = days.map(row => row.keys?.[0]).filter((d): d is string => !!d && /^\d{4}-\d{2}-\d{2}$/.test(d)).sort().at(-1);
+    if (!latest) return { available: false, text: "Search Console：直近14日間に確定データなし（0件とは判定しません）" };
+    const [week, previousWeek, month, previousMonth, queries, pages] = await Promise.all([
+      query(shiftSearchDate(latest, -6), latest), query(shiftSearchDate(latest, -13), shiftSearchDate(latest, -7)),
+      query(shiftSearchDate(latest, -27), latest), query(shiftSearchDate(latest, -55), shiftSearchDate(latest, -28)),
+      query(shiftSearchDate(latest, -6), latest, ["query"], 5), query(shiftSearchDate(latest, -6), latest, ["page"], 5)
+    ]);
+    const stats = (rows: SearchRow[]) => rows[0]
+      ? `${rows[0].clicks}クリック／${rows[0].impressions}表示／CTR ${(rows[0].ctr * 100).toFixed(1)}%／平均${rows[0].position.toFixed(1)}位` : "データなし";
+    const compare = (a: SearchRow[], b: SearchRow[]) => a[0] && b[0] ? `前期間比：クリック${change(a[0].clicks, b[0].clicks)}・表示${change(a[0].impressions, b[0].impressions)}・CTR ${((a[0].ctr - b[0].ctr) * 100).toFixed(1)}ポイント` : "比較データ不足";
+    const ranking = (rows: SearchRow[]) => rows.map(row => `${(row.keys?.[0] || "不明").replace("https://idol-audition-navi.jp", "").slice(0, 90)}：${row.clicks}クリック／${row.impressions}表示／${row.position.toFixed(1)}位`).join("\n") || "データなし";
+    return { available: true, text: [
+      `確定データの最新記録日：${latest}（Google集計・米国太平洋時間）`,
+      `直近7日：${shiftSearchDate(latest, -6)}〜${latest}\n${stats(week)}\n${compare(week, previousWeek)}`,
+      `直近28日：${shiftSearchDate(latest, -27)}〜${latest}\n${stats(month)}\n${compare(month, previousMonth)}`,
+      `検索語 上位5件（7日）\n${ranking(queries)}`, `検索流入ページ 上位5件（7日）\n${ranking(pages)}`,
+      "※反映遅延があるため昨日のアクセスとは期間・時差が異なります。検索語は匿名化等で全件ではなく、合計とも一致しません。"
+    ].join("\n\n") };
+  } catch (error) {
+    const safe = error instanceof Error && /^Search API HTTP \d{3}$/.test(error.message) ? error.message : "認証・通信・データ形式エラー";
+    return { available: false, text: `Search Console：未取得（${safe}）。0件とは判断できません。` };
+  }
+}
 
 export function reportPeriods(now = new Date()) {
   const today = new Date(now.getTime() + JST).toISOString().slice(0, 10);
@@ -91,13 +163,13 @@ function ranking(result: Result, dimension: string, metric = "visitors") {
 
 export async function createDailyReport(now = new Date()) {
   const p = reportPeriods(now);
-  const [yesterday, sameWeekday, week, previousWeek, month, previousMonth, pages, sources, events, offers] = await Promise.all([
+  const [yesterday, sameWeekday, week, previousWeek, month, previousMonth, pages, sources, events, offers, search] = await Promise.all([
     analytics(p.yesterday, "environment"), analytics(p.sameWeekday, "environment"),
     analytics(p.week, "environment"), analytics(p.previousWeek, "environment"),
     analytics(p.month, "environment"), analytics(p.previousMonth, "environment"),
     analytics(p.week, "requestPath"), analytics(p.week, "referrerHostname"),
     analytics(p.yesterday, "eventName", "events"),
-    analytics(p.week, "eventData/offer", "events", "eventName eq 'affiliate_click'")
+    analytics(p.week, "eventData/offer", "events", "eventName eq 'affiliate_click'"), searchConsoleReport(now)
   ]);
   const current = total(week, "visitors");
   const previous = total(previousWeek, "visitors");
@@ -115,10 +187,10 @@ export async function createDailyReport(now = new Date()) {
     `【3. 参照元】\n直近7日・訪問者数\n${ranking(sources, "referrerHostname")}\n※参照元間の重複あり。「参照元なし」は新規の直接流入だけを意味しません。`,
     `【4. 応募・広告のサイト内行動】\n昨日のイベント回数\n${ranking(events, "eventName", "count")}\n※応募開始・案内のイベントは、募集主側への応募完了を意味しません。`,
     `【5. アフィリエイト】\nサイト計測の直近7日クリック：${affiliateClicks === null ? "未取得" : `${affiliateClicks}回`}\n案件別クリック\n${ranking(offers, "eventData/offer", "count")}\nA8側クリック・発生成果・発生報酬・確定報酬：未取得（自動取得元が未連携）。0円とは判断できません。\nサイト計測とA8計測は集計条件が異なります。`,
-    "【6. Google検索】\nSearch Console：未取得（API認証未設定）。検索語・表示回数・CTR・順位は未評価。検索データには反映遅延があるため、接続後もアクセスの昨日値とは期間を分けます。",
-    `【7. 次の優先事項】\n① Search ConsoleとA8のデータ連携を完成させ、検索と成果の未取得を解消する。\n② ${current !== null && previous !== null && current < previous ? "上位ページの検索表示・CTRと流入元の減少を確認する。" : "集客上位ページの募集中情報・応募条件を保ち、2〜4週間単位で効果を見る。"}\n③ ${affiliateClicks !== null && affiliateClicks < 30 ? "広告クリックはまだ少数。広告の増設より掲載位置と案件の適合性を確認する。" : "広告表示数と案件別成果をそろえてから導線の良し悪しを判断する。"}\n※施策との因果関係は、この集計だけでは断定できません。`,
+    `【6. Google検索】\n${search.text}`,
+    `【7. 次の優先事項】\n① ${search.available ? "検索語・ページ別の表示とクリックを継続比較する。A8成果の自動取得は引き続き未連携。" : "Search Consoleの取得設定を確認し、A8成果の連携を進める。"}\n② ${current !== null && previous !== null && current < previous ? "上位ページの検索表示・CTRと流入元の減少を確認する。" : "集客上位ページの募集中情報・応募条件を保ち、2〜4週間単位で効果を見る。"}\n③ ${affiliateClicks !== null && affiliateClicks < 30 ? "広告クリックはまだ少数。広告の増設より掲載位置と案件の適合性を確認する。" : "広告表示数と案件別成果をそろえてから導線の良し悪しを判断する。"}\n※施策との因果関係は、この集計だけでは断定できません。`,
     "参照先\nhttps://vercel.com/nakajima2000/idol-audition-site/analytics\nhttps://search.google.com/search-console?resource_id=sc-domain:idol-audition-navi.jp\nhttps://media-console.a8.net/report/program/summary"
   ].join("\n\n");
   if (text.length > 5000) throw new Error("Report exceeds LINE text limit");
-  return { date: p.date, text, analyticsAvailable: Boolean(yesterday.rows), sources: { yesterday, sameWeekday, week, previousWeek, month, previousMonth, pages, sources, events, offers } };
+  return { date: p.date, text, analyticsAvailable: Boolean(yesterday.rows), searchAvailable: search.available, sources: { yesterday, sameWeekday, week, previousWeek, month, previousMonth, pages, sources, events, offers } };
 }
