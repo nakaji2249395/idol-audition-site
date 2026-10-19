@@ -2,6 +2,7 @@ import { AffiliateLink } from "@/components/AffiliateLink";
 import { AffiliateImpression } from "@/components/AffiliateImpression";
 import type { Audition } from "@/lib/auditions";
 import { affiliateOffers } from "@/lib/affiliateOffers";
+import { PreparationGuideLink } from "@/components/PreparationGuideLink";
 
 const DANCE_SIGNALS = /ダンス審査|ダンス実技|ダンス経験|振付|振り付け|踊れる|K-?POP/i;
 const TOKYO_SIGNALS = /東京|都内|関東|埼玉|千葉|神奈川/;
@@ -61,6 +62,11 @@ export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
       <p className="mt-2 text-xs leading-6 text-slate-500">
         スクールの利用は応募条件ではありません。料金・校舎・対象条件は公式サイトでご確認ください。
       </p>
+      <div className="mt-2">
+        <PreparationGuideLink topic={selectedOffer.offer === "nayutas_dance" ? "dance" : "voice"} placement={`audition_detail_${audition.slug}`}>
+          まずは練習方法と体験レッスンの選び方を見る
+        </PreparationGuideLink>
+      </div>
       <AffiliateLink
         href={selectedOffer.href}
         offer={selectedOffer.offer}

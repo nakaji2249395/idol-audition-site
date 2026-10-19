@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
+import { PreparationGuideLink } from "@/components/PreparationGuideLink";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -273,6 +274,16 @@ export default function HowToApplyPage() {
             </Link>
             も確認してください。
           </p>
+        </section>
+
+        <section className="mt-10 border-y border-slate-200 py-7">
+          <h2 className="text-xl font-bold text-slate-950">歌やダンスに不安があるときの準備</h2>
+          <p className="mt-4 leading-8 text-slate-600">まず募集要項で、歌唱・ダンス審査の有無と課題を確認しましょう。スクールへの入会は応募の必須条件ではありません。レッスンを受けるために応募を先延ばしにせず、締切と必要な提出物を優先してください。</p>
+          <dl className="mt-5 divide-y divide-slate-200">
+            <div className="py-4"><dt className="font-bold">歌が不安な方</dt><dd className="mt-2 leading-8 text-slate-600">指定曲や歌いやすい曲を録音し、音程・リズム・歌詞を確認します。何を直せばよいか分からない場合は、講師に相談する方法もあります。<br /><PreparationGuideLink topic="voice" placement="how_to_apply_voice">歌の課題を相談できる体験レッスンの選び方</PreparationGuideLink></dd></div>
+            <div className="py-4"><dt className="font-bold">ダンスが不安な方</dt><dd className="mt-2 leading-8 text-slate-600">課題の短い部分をゆっくり練習し、全身を撮影して動きとリズムを確認します。一人では振付や身体の使い方が分からないときは、個別指導も比較候補です。<br /><PreparationGuideLink topic="dance" placement="how_to_apply_dance">ダンスの体験レッスンで確認すること</PreparationGuideLink></dd></div>
+          </dl>
+          <p className="mt-3 text-sm leading-7 text-slate-600">自分で準備を進められる方は、そのまま応募へ。体験を利用する場合も、対象年齢・通える校舎・入会後の費用を確認してから選びましょう。</p>
         </section>
 
         <FeaturedHiraeth />

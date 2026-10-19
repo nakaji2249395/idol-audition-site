@@ -45,7 +45,7 @@ export function AffiliateOffer({
         offer={offer}
         placement={placement}
         label={cta}
-        className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-pink-600 px-6 py-3 text-center text-sm font-black text-white transition hover:bg-pink-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-950 sm:w-auto"
+        className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-center text-sm font-bold text-slate-800 transition hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-950 sm:w-auto"
       />
       {/* A8.net conversion measurement pixel supplied with the selected creative. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

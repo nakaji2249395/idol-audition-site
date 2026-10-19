@@ -35,6 +35,17 @@ export default function TrainingSchoolPage() {
       lead="スクールへ通うこと自体が合格を保証するわけではありません。今の課題、審査までの期間、通える場所、毎月の費用を基準に、必要な練習だけを選びましょう。"
       canonical={canonical}
     >
+      <section id="checklist" className="scroll-mt-24 border-b border-slate-200 pb-8">
+        <h2 className="text-2xl font-bold text-slate-950">体験を予約する前に、3つだけ確認</h2>
+        <p className="mt-4 leading-8 text-slate-600">録音や撮影で自分の課題を確認できるなら、まず自主練習からで構いません。以下は、一人では改善点が分からず、指導を検討したい方のための比較情報です。</p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 leading-8 text-slate-600">
+          <li><strong>場所・時間：</strong>大阪・名古屋など希望地域の校舎で、希望コースと通える曜日に対応しているか。全国展開でも校舎ごとに確認が必要です。</li>
+          <li><strong>年齢・同意：</strong>高校生や未成年の受講条件、保護者の同意・同席が必要かを確認する。</li>
+          <li><strong>費用：</strong>無料なのは体験のどの範囲か。入会後の月謝・入会金・設備費・交通費と、退会や振替の条件を確認する。</li>
+        </ul>
+        <p className="mt-4 text-sm leading-7 text-slate-600">体験だけで入会を決める必要はありません。スクールの受講はオーディション合格を保証しません。</p>
+      </section>
+
       <section>
         <p className="editorial-kicker">Choose your priority</p>
         <h2 className="section-heading mt-2">歌とダンス、どちらから始める？</h2>
@@ -57,14 +68,14 @@ export default function TrainingSchoolPage() {
         </div>
       </section>
 
-      <section>
+      <section id="voice" className="scroll-mt-24">
         <p className="editorial-kicker">Voice training</p>
         <h2 className="section-heading mt-2">歌唱審査を優先する人の比較候補</h2>
+        <p className="mt-4 leading-8 text-slate-600">まず1曲を録音し、歌詞やリズムを確認しましょう。体験では「この部分の音程が安定しない」など、気になる箇所と審査内容を伝えると相談しやすくなります。課題曲の指導が可能かは予約前に確認してください。</p>
         <div className="mt-7">
           <AffiliateOffer
             {...affiliateOffers.nayutasVocal}
             placement="training_school_vocal"
-            featured
             summary="全国に校舎があり、マンツーマンで歌唱の課題を相談できます。学校や仕事と両立しながら、自分の目的に合わせて練習したい人の比較候補です。"
             points={["一人ひとりの目的に合わせた個人レッスン", "振替制度があり、生活予定と調整しやすい", "オーディション用の歌唱や録音素材について相談できる"]}
             note="広告主を初めて利用する方が対象です。18歳未満は保護者の同意が必要です。最新の料金・校舎・条件は公式サイトで確認してください。"
@@ -73,9 +84,10 @@ export default function TrainingSchoolPage() {
         </div>
       </section>
 
-      <section>
+      <section id="dance" className="scroll-mt-24">
         <p className="editorial-kicker">Dance training</p>
         <h2 className="section-heading mt-2">ダンス審査を優先する人の比較候補</h2>
+        <p className="mt-4 leading-8 text-slate-600">まず短い振付をゆっくり練習し、全身を撮影してリズムや姿勢を確認します。体験では、初心者対応、希望ジャンル、課題の振付を相談できるかを確認しましょう。</p>
         <div className="mt-7">
           <AffiliateOffer
             {...affiliateOffers.nayutasDance}
