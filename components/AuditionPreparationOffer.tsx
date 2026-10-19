@@ -3,9 +3,9 @@ import { AffiliateImpression } from "@/components/AffiliateImpression";
 import type { Audition } from "@/lib/auditions";
 import { affiliateOffers } from "@/lib/affiliateOffers";
 import { PreparationGuideLink } from "@/components/PreparationGuideLink";
+import { preparationRegion } from "@/lib/preparationRegion";
 
 const DANCE_SIGNALS = /ダンス審査|ダンス実技|ダンス経験|振付|振り付け|踊れる|K-?POP/i;
-const TOKYO_SIGNALS = /東京|都内|関東|埼玉|千葉|神奈川/;
 
 type PreparationOffer = {
   name: string;
@@ -17,6 +17,8 @@ type PreparationOffer = {
 };
 
 function selectPreparationOffer(audition: Audition): PreparationOffer {
+  const region = preparationRegion(audition.area);
+  const localLead = region.label ? `${region.label}で通える校舎を探している方へ。` : "";
   const auditionText = [
     audition.title,
     audition.summary,
@@ -30,12 +32,12 @@ function selectPreparationOffer(audition: Audition): PreparationOffer {
   if (DANCE_SIGNALS.test(auditionText)) {
     return {
       ...affiliateOffers.nayutasDance,
-      lead: "ダンス審査やステージに向けて、未経験から基礎を確認したい方の比較候補です。",
+      lead: `${localLead}ナユタスのダンスコースは、振付や身体の使い方を個別に相談したい方の比較候補です。`,
       cta: "ダンスの無料体験を確認する"
     };
   }
 
-  if (TOKYO_SIGNALS.test(audition.area)) {
+  if (region.useWacca) {
     return {
       ...affiliateOffers.wacca,
       lead: "東京で活動を始める前に、歌唱の課題を整理したい方の比較候補です。",
@@ -45,13 +47,14 @@ function selectPreparationOffer(audition: Audition): PreparationOffer {
 
   return {
     ...affiliateOffers.nayutasVocal,
-    lead: "歌唱審査に向けて、自分では気づきにくい発声や音程の課題を確認したい方の比較候補です。",
+    lead: `${localLead}ナユタスのボイトレは、歌唱審査に向けて発声や音程の課題を確認したい方の比較候補です。`,
     cta: "ボイトレの無料体験を確認する"
   };
 }
 
 export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
   const selectedOffer = selectPreparationOffer(audition);
+  const region = preparationRegion(audition.area);
 
   return (
     <AffiliateImpression as="aside" offer={selectedOffer.offer} placement={`audition_detail_end_${audition.slug}`} className="mt-9 border-y border-slate-200 py-6" labelledBy="audition-preparation-title">
@@ -59,6 +62,7 @@ export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
         応募前に少し準備しておきたい方へ
       </h2>
       <p className="mt-3 text-sm leading-7 text-slate-600">{selectedOffer.lead}</p>
+      {region.label ? <p className="mt-2 text-xs leading-6 text-slate-500">{region.label === "大阪" ? "大阪では梅田校など" : region.label === "名古屋" ? "名古屋では栄校など" : "大阪の梅田校・名古屋の栄校など"}が候補です。リンク先はコース共通の公式案内です。申込画面で希望校舎を選び、対応コース・空き枠・対象年齢をご確認ください。</p> : null}
       <p className="mt-2 text-xs leading-6 text-slate-500">
         スクールの利用は応募条件ではありません。料金・校舎・対象条件は公式サイトでご確認ください。
       </p>
