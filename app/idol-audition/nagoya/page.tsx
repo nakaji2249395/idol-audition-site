@@ -75,6 +75,7 @@ export default function NagoyaAuditionPage() {
           },
           {
             title: "未経験の自己PRは活動に使える強みに変える",
+            showBeginnerDanceOffer: true,
             paragraphs: [
               "未経験歓迎の募集では、完成された技術だけでなく、練習を続ける姿勢やチームで動けるかも見られます。接客、部活動、配信、SNS、仕事の経験を、ライブやファン対応にどう活かすかまで伝えましょう。"
             ],

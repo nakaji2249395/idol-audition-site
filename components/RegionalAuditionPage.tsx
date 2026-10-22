@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BeginnerDanceOffer } from "@/components/BeginnerDanceOffer";
 import { AuditionComparison } from "@/components/AuditionComparison";
 import { AuditionCard } from "@/components/AuditionCard";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
@@ -35,6 +36,7 @@ type RegionPageContent = {
     paragraphs: string[];
     exampleTitle?: string;
     example?: string;
+    showBeginnerDanceOffer?: boolean;
   }[];
 };
 
@@ -206,6 +208,9 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
                     <h3 className="text-sm font-black text-slate-950">{section.exampleTitle ?? "回答例"}</h3>
                     <p className="mt-3 whitespace-pre-line leading-8 text-slate-700">{section.example}</p>
                   </div>
+                ) : null}
+                {section.showBeginnerDanceOffer && (content.region === "osaka" || content.region === "nagoya") ? (
+                  <BeginnerDanceOffer region={content.region} />
                 ) : null}
               </div>
             </div>

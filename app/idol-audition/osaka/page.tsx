@@ -75,6 +75,7 @@ export default function OsakaAuditionPage() {
           },
           {
             title: "未経験者は経験より継続性を伝える",
+            showBeginnerDanceOffer: true,
             paragraphs: [
               "歌やダンスが未経験でも、参加できる曜日、練習を続けた経験、接客やSNSで活かせる強みを具体的にすると、活動する姿を想像してもらいやすくなります。"
             ],
