@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
+import { AuditionChrome } from "@/components/AuditionChrome";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlobalActionFeedback } from "@/components/GlobalActionFeedback";
@@ -48,13 +49,13 @@ export default function RootLayout({
   return (
     <html lang="ja" data-scroll-behavior="smooth">
       <body>
-        <script
+        <AuditionChrome><script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Header />
+        <Header /></AuditionChrome>
         {children}
-        <Footer />
+        <AuditionChrome><Footer /></AuditionChrome>
         <Suspense fallback={null}>
           <GlobalActionFeedback />
         </Suspense>

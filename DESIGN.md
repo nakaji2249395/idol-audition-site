@@ -127,3 +127,7 @@ Brand pink is functional. Lavender is decorative and must not compete with an ac
 - Do not center long Japanese copy.
 - Do not show more than one competing primary CTA in a section.
 - Do not add decorative color without a defined role.
+
+## Organizer journal exception — `/for-organizers` only
+
+Requested separately from the audition site. BACKSTAGE is an editorial journal for prospective idol producers. Use charcoal green (#121715), muted paper-white (#eeeee6), and brass (#d6ad79). Its header/footer are independent of the audition brand. Keep squared edges, fine rules, large typography, serif article titles, left-aligned readable copy, 44px controls and visible focus indicators. No pink, rounded audition cards, or navigation from the audition site. Scope all styles to the journal CSS module; existing audition tokens and pages remain unchanged.

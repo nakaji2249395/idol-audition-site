@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { journalArticleIndex } from "@/lib/organizerArticles";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedSitemapEntries } from "@/lib/submissions";
@@ -69,5 +70,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: audition.image_url ? [audition.image_url] : undefined
   }));
 
-  return [...staticEntries, ...approvedEntries, ...staticAuditionEntries];
+  const journalEntries: MetadataRoute.Sitemap = ["/for-organizers", ...journalArticleIndex.map(article => `/for-organizers/${article.slug}`)].map(route => ({
+    url: `${siteConfig.url}${route}`, lastModified: "2026-10-21T00:00:00+09:00", changeFrequency: "monthly", priority: 0.7,
+  }));
+  return [...staticEntries, ...approvedEntries, ...staticAuditionEntries, ...journalEntries];
 }
