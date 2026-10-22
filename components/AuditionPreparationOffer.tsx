@@ -4,6 +4,8 @@ import type { Audition } from "@/lib/auditions";
 import { affiliateOffers } from "@/lib/affiliateOffers";
 import { PreparationGuideLink } from "@/components/PreparationGuideLink";
 import { preparationRegion } from "@/lib/preparationRegion";
+import { BeginnerDanceOffer } from "@/components/BeginnerDanceOffer";
+import { spotomoDetailRegion } from "@/lib/spotomoEligibility";
 
 const DANCE_SIGNALS = /ダンス審査|ダンス実技|ダンス経験|振付|振り付け|踊れる|K-?POP/i;
 
@@ -53,6 +55,10 @@ function selectPreparationOffer(audition: Audition): PreparationOffer {
 }
 
 export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
+  const spotomoRegion = spotomoDetailRegion(audition);
+  if (spotomoRegion) {
+    return <BeginnerDanceOffer region={spotomoRegion} placement={`audition_detail_end_${audition.slug}`} />;
+  }
   const selectedOffer = selectPreparationOffer(audition);
   const region = preparationRegion(audition.area);
 

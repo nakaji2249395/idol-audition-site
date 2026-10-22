@@ -2,9 +2,11 @@ import { AffiliateImpression } from "@/components/AffiliateImpression";
 import { AffiliateLink } from "@/components/AffiliateLink";
 import { affiliateOffers } from "@/lib/affiliateOffers";
 
-export function BeginnerDanceOffer({ region }: { region: "osaka" | "nagoya" }) {
+export function BeginnerDanceOffer({ region, placement = `regional_${region}_beginner` }: {
+  region: "osaka" | "nagoya" | "osaka-nagoya";
+  placement?: string;
+}) {
   const offer = affiliateOffers.spotomoDance;
-  const placement = `regional_${region}_beginner`;
   return (
     <AffiliateImpression as="aside" offer={offer.offer} placement={placement}
       className="relative mt-6 border-t border-slate-200 pt-5" labelledBy="beginner-dance-title">
@@ -15,7 +17,7 @@ export function BeginnerDanceOffer({ region }: { region: "osaka" | "nagoya" }) {
       <p className="mt-2 text-sm leading-7 text-slate-600">
         まずは好きな曲の短い部分を練習し、全身を撮影して動きを確認してみましょう。
         一人では身体の使い方が分からないときは、講師に相談する方法もあります。
-        スポともダンスは、{region === "osaka" ? "大阪" : "名古屋"}の自宅から受けられるオンラインのマンツーマンレッスンです。
+        スポともダンスは、{region === "osaka" ? "大阪" : region === "nagoya" ? "名古屋" : "大阪・名古屋"}の自宅から受けられるオンラインのマンツーマンレッスンです。
       </p>
       <AffiliateLink href={offer.href} offer={offer.offer} placement={placement}
         label="オンライン&マンツーマン形式のダンスレッスン【スポともダンス】"
