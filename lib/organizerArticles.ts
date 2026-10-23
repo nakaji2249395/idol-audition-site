@@ -10,8 +10,8 @@ export const organizerArticles = [
   },
   {
     slug: "idol-management-beginner", number: "03", category: "未経験からの運営",
-    title: "アイドル運営をやってみたい。未経験の僕に、何ができたのか",
-    description: "アイドル運営をやってみたいけれど未経験。元エンジニアが、前の仕事の経験をどう活かし、できないことをどう分け、募集へ進んだかを振り返る。",
+    title: "アイドル運営は未経験でもできる？ 始める前に考えたい仕事と自分の役割",
+    description: "アイドル運営を未経験から始めたい人へ。元エンジニアの体験から、運営の仕事内容、前職の経験の活かし方、自分が担う役割と人に相談することを整理。",
     excerpt: "芸能の経験はなかった。でも、前の仕事までゼロになったわけではない。得意なことに助けられ、遠回りもした話。",
     noteHeading: "できることはあった。使う順番で迷った。",
     noteParagraphs: ["サイトを作っているのに、誰にも連絡できていなかった。そこから何を変えて、募集に進んだのか。問い合わせ文や面談前の準備を、noteに書いた。", "今やり直すなら、最初の一週間をどう使うかも。昔の自分が知りたかったのは、そういう具体的な順番だった。"],
@@ -39,6 +39,6 @@ export const organizerArticles = [
 ];
 
 export const journalArticleIndex = [
-  { slug: "no-connections", title: "アイドルグループを作りたい。でも、業界に知り合いが一人もいなかった" },
+  { slug: "no-connections", title: "アイドル運営は人脈なしでも始められる？ 元エンジニアの立ち上げ体験" },
   ...organizerArticles.map(({ slug, title }) => ({ slug, title })),
 ];

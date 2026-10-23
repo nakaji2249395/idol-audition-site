@@ -71,7 +71,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const journalEntries: MetadataRoute.Sitemap = ["/for-organizers", ...journalArticleIndex.map(article => `/for-organizers/${article.slug}`)].map(route => ({
-    url: `${siteConfig.url}${route}`, lastModified: "2026-10-21T00:00:00+09:00", changeFrequency: "monthly", priority: 0.7,
+    url: `${siteConfig.url}${route}`,
+    lastModified: ["/for-organizers", "/for-organizers/no-connections", "/for-organizers/idol-management-beginner"].includes(route)
+      ? "2026-10-24T00:00:00+09:00" : "2026-10-21T00:00:00+09:00",
+    changeFrequency: "monthly", priority: 0.7,
   }));
   return [...staticEntries, ...approvedEntries, ...staticAuditionEntries, ...journalEntries];
 }

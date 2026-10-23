@@ -28,7 +28,7 @@ export default function OrganizerHome() {
         <div className={styles.storyList}>
         <Link className={styles.story} href="/for-organizers/no-connections">
           <span className={styles.storyNumber}>01</span>
-          <div><span className={styles.eyebrow}>人脈がない / FREE STORY</span><h3>アイドルグループを作りたい。<br />でも、業界に知り合いが<br className={styles.desktopBreak} />一人もいなかった。</h3><p>コードは書けても、誰に相談すればいいか分からない。ブラウザのタブだけが増えていた頃の話。</p><span className={styles.read}>体験談を読む <span aria-hidden="true">↗</span></span></div>
+          <div><span className={styles.eyebrow}>人脈がない / FREE STORY</span><h3>アイドル運営は人脈なしでも始められる？ 元エンジニアの立ち上げ体験</h3><p>コードは書けても、誰に相談すればいいか分からない。ブラウザのタブだけが増えていた頃の話。</p><span className={styles.read}>体験談を読む <span aria-hidden="true">↗</span></span></div>
         </Link>
         {organizerArticles.map(article => (
           <Link key={article.slug} className={styles.story} href={`/for-organizers/${article.slug}`}>

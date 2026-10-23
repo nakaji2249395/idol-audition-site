@@ -6,10 +6,15 @@ import Link from "next/link";
 import { organizerJournal } from "@/lib/organizerJournal";
 import styles from "../organizers.module.css";
 
+const title = "アイドル運営は人脈なしでも始められる？ 元エンジニアの立ち上げ体験";
+const description = "アイドル運営を始めたいけれど人脈がない。業界の知り合いがいなかった元エンジニアが、相談への不安と、自分の役割を説明するまでの考え方を振り返る。";
+
 export const metadata: Metadata = {
+  description,
+  twitter: { card: "summary", title, description },
   alternates: { canonical: "/for-organizers/no-connections" },
-  openGraph: { title: "アイドルグループを作りたい。でも、業界に知り合いが一人もいなかった", description: organizerJournal.description, url: "/for-organizers/no-connections", type: "article", siteName: organizerJournal.name },
-  title: { absolute: "アイドルグループを作りたい。でも、業界に知り合いが一人もいなかった｜BACKSTAGE" },
+  openGraph: { title, description, url: "/for-organizers/no-connections", type: "article", siteName: organizerJournal.name },
+  title: { absolute: `${title}｜BACKSTAGE` },
 };
 
 export default async function NoConnectionsArticle() {
