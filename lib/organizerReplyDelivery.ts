@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { organizerReplySlot } from '@/lib/organizerReplySchedule';
-import queue from '@/content/organizer-posts/replies-2026-10-23.json';
+import queue from '@/content/organizer-posts/replies-2026-10-24.json';
 
 export const ORGANIZER_POST_BUCKET = 'organizer-post-deliveries';
 const storage = () => supabaseAdmin.storage.from(ORGANIZER_POST_BUCKET);
@@ -15,13 +15,13 @@ async function readJson<T>(path: string): Promise<T | null> {
   return JSON.parse(await data.text()) as T;
 }
 export async function deliverOrganizerReplies(dryRun = false, now = new Date()) {
-  let slot = organizerReplySlot(queue.startDate, now);
+  let slot = organizerReplySlot(queue.startDate, now, queue.startHour);
   const recipient = process.env.ADMIN_LINE_USER_ID;
   const token = process.env.LINE_CHANNEL_ACCESS_TOKEN;
   if (!recipient || !token) throw new Error('LINE not configured');
   if (!slot && dryRun) {
     for (let hours = 1; hours <= 24 && !slot; hours++) {
-      slot = organizerReplySlot(queue.startDate, new Date(now.getTime() + hours * 3600000));
+      slot = organizerReplySlot(queue.startDate, new Date(now.getTime() + hours * 3600000), queue.startHour);
     }
   }
   if (!slot) return { ok: true, skipped: 'outside_schedule' };
@@ -30,7 +30,7 @@ export async function deliverOrganizerReplies(dryRun = false, now = new Date()) 
   const key = `${queue.id}/${exhausted ? 'exhausted' : slot.id}`;
   const text = batch
     ? batch.join('\n\n')
-    : '【X返信案の補充が必要です】\n用意した8件の返信先・返信案の配信が終了しました。同じ案の繰り返し配信はせず、補充まで停止します。Codexで次の投稿案の補充を依頼してください。';
+    : '【X返信案の補充が必要です】\n用意した返信先・返信案の対象期間が終了しました。同じ案の繰り返し配信はせず、補充まで停止します。Codexで次の返信先・返信案の補充を依頼してください。';
   if (dryRun) {
     const bucket = await supabaseAdmin.storage.getBucket(ORGANIZER_POST_BUCKET);
     if (bucket.error || bucket.data.public) throw new Error('Private delivery bucket unavailable');
