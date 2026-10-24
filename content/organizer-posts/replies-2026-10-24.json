@@ -95,6 +95,46 @@
     [
       "@ebos_61\nhttps://x.com/ebos_61/status/2113516171161153901",
       "「シキテン」と「赤落ちRecords」、並ぶと世界観がありますね。グループ名を決めるところから、もう方向性を考える時間が始まってますね笑"
+    ],
+    [
+      "@uzura_san_12\nhttps://x.com/uzura_san_12/status/2114031238709494110",
+      "現実でアイドル運営してる側としては、運営そのものを「おもろい」って言ってもらえるの、なんかうれしいです笑"
+    ],
+    [
+      "@porea_BB\nhttps://x.com/porea_BB/status/2114026748669227179",
+      "他所の運営なのに、読んでちょっとうれしくなりました。「叶えるのは私自身」って言える人の力になりたいんですよね。"
+    ],
+    [
+      "@__9ban\nhttps://x.com/__9ban/status/2114017628620804164",
+      "現実で運営してるのに、ゲームの運営さんまで頭抱えてるのを見ると妙な仲間意識が出てきます笑　どの追加が一番大変でした？"
+    ],
+    [
+      "@fz_repi\nhttps://x.com/fz_repi/status/2114123594917896329",
+      "親子で喜びの舞、いいですね笑　運営してる側としては、帰ったあとも家でその日の話をしてもらえるイベントっていいなと思います。"
+    ],
+    [
+      "@daisuke_katoshi\nhttps://x.com/daisuke_katoshi/status/2114006437215277499",
+      "100日後だけじゃなく、1日目も残るのがいいですね。同じ運営として、後から見比べたら本人より先に感動しそうです笑"
+    ],
+    [
+      "@mokkesa\nhttps://x.com/mokkesa/status/2114013038361866287",
+      "現実で運営してる身としては、ゲームくらいは楽をさせてほしい気持ちになります笑　どの作業が一番重く感じます？"
+    ],
+    [
+      "@to_hi_memo\nhttps://x.com/to_hi_memo/status/2114025263696855126",
+      "運営やってると、こういう言葉はありがたいです。信頼したいと思って来てくれる人を、受付の時点で不安にさせたくないなと思いました。"
+    ],
+    [
+      "@tatarouuu\nhttps://x.com/tatarouuu/status/2114007335219888456",
+      "曲だけじゃなく、歌って表現した2人のことまで書いてあるのがいいですね。自分も運営してるので、こういう感想は関係者に届いてほしいなと思います。"
+    ],
+    [
+      "@ria__AQUA\nhttps://x.com/ria__AQUA/status/2114036667220955391",
+      "昼はアイドル、夜は運営って忙しすぎますね笑　現実の運営側としては、ゲームの中でどんな方針にするのかちょっと気になります。"
+    ],
+    [
+      "@_mgzybs2\nhttps://x.com/_mgzybs2/status/2114004323638419465",
+      "「安心してアイドルしてください」、ゲームの話なのに現実の運営として背筋伸びました笑　好調な時にそう言えるの、いいですね。"
     ]
   ],
   "sources": [
@@ -212,6 +252,86 @@
       "account": "ebos_61",
       "postId": "2113516171161153901",
       "summary": "シキテンというグループでゲームの運営開始"
+    },
+    {
+      "account": "uzura_san_12",
+      "postId": "2114031238709494110",
+      "summary": "アイドルの運営ゲームはじめました。これおもろい",
+      "postedAt": "2026-10-24T16:28:18Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "porea_BB",
+      "postId": "2114026748669227179",
+      "summary": "運営とファンと一つずつ夢を叶えられる幸せ、自分自身でも全力で掴みにいくという投稿",
+      "postedAt": "2026-10-24T16:10:28Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "__9ban",
+      "postId": "2114017628620804164",
+      "summary": "アイドル運営のアプデがすごすぎてゲームなのに頭抱えてる",
+      "postedAt": "2026-10-24T15:34:13Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "fz_repi",
+      "postId": "2114123594917896329",
+      "summary": "FRUITS ZIPPERのキッズイベント映像を引用。親子で参加できた喜びと運営への感謝",
+      "postedAt": "2026-10-24T22:35:18Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "daisuke_katoshi",
+      "postId": "2114006437215277499",
+      "summary": "メンバーのダンス100日チャレンジを引用し、今後の成長と基礎体力動画を楽しみにしている",
+      "postedAt": "2026-10-24T14:49:45Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "mokkesa",
+      "postId": "2114013038361866287",
+      "summary": "運営ゲームのやることが増えすぎ、リアルさを追求して遊ぶハードルが高いと感じる",
+      "postedAt": "2026-10-24T15:15:59Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "to_hi_memo",
+      "postId": "2114025263696855126",
+      "summary": "アイドル・運営・ファン皆で幸せになりたい、互いに信頼したいという気持ち",
+      "postedAt": "2026-10-24T16:04:34Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "tatarouuu",
+      "postId": "2114007335219888456",
+      "summary": "CODE RUSHの楽曲の質と歌唱表現、福岡で音楽に触れられたことへの感謝",
+      "postedAt": "2026-10-24T14:53:19Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "ria__AQUA",
+      "postId": "2114036667220955391",
+      "summary": "アイドル本人が運営ゲームで夜更かししたという投稿。翌日のライブ告知を引用",
+      "postedAt": "2026-10-24T16:49:53Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
+    },
+    {
+      "account": "_mgzybs2",
+      "postId": "2114004323638419465",
+      "summary": "運営ゲーム5回目で好調、のえるちゃん安心してアイドルしてくださいという投稿",
+      "postedAt": "2026-10-24T14:41:21Z",
+      "verifiedAt": "2026-10-25T08:04:14+09:00",
+      "verificationMethod": "X public post/search UI; text, URL, time and context checked"
     }
   ]
 }
