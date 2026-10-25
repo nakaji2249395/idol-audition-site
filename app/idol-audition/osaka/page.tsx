@@ -11,8 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const count = (await getAllAuditions()).filter((audition) =>
     isOpenAudition(audition) && isAuditionInRegion(audition, "osaka")
   ).length;
-  const title = `大阪のアイドルオーディション${count}件【2026年10月】未経験OK`;
-  const description = `大阪・関西で現在応募できるアイドルオーディション${count}件。未経験・高校生・社会人OK、費用なし、初期メンバーなどを締切や条件で比較できます。`;
+  const title = `大阪のアイドルオーディション・メンバー募集${count}件｜未経験OK`;
+  const description = `大阪・関西で現在募集中のアイドルオーディション${count}件。新規グループの初期メンバー・既存グループの追加募集を掲載。応募年齢、締切、活動場所、レッスン費などを比較できます。`;
 
   return {
     title,

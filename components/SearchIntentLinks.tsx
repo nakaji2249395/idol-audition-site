@@ -26,8 +26,10 @@ export function SearchIntentLinks({
       ) : null}
 
       <div className="mt-6 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
-        {links.map((link) => (
-          <Link
+        {links.map((link) => {
+          const LinkComponent = link.href.startsWith("#") ? "a" : Link;
+          return (
+          <LinkComponent
             key={`${link.href}-${link.label}`}
             href={link.href}
             className="group min-h-36 bg-white p-5 transition hover:bg-pink-50"
@@ -37,8 +39,8 @@ export function SearchIntentLinks({
             <span className="mt-4 inline-block text-sm font-black text-pink-700 transition group-hover:translate-x-1">
               見る →
             </span>
-          </Link>
-        ))}
+          </LinkComponent>
+        ); })}
       </div>
     </section>
   );

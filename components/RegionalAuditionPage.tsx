@@ -46,6 +46,13 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
     isOpenAudition(audition) && isAuditionInRegion(audition, content.region)
   );
   const region = auditionRegions[content.region];
+  const localConditions = content.region === "osaka" || content.region === "nagoya";
+  const conditionLinks: Record<string, string> = {
+    "/idol-audition/mikeiken": "#regional-beginner",
+    "/idol-audition/high-school": "#regional-high-school",
+    "/idol-audition/working-adult": "#regional-working",
+    "/idol-audition/free": "#regional-free"
+  };
   const beginnerCount = regionalAuditions.filter(isBeginnerFriendlyAudition).length;
   const highSchoolCount = regionalAuditions.filter(isHighSchoolFriendlyAudition).length;
   const noCostCount = regionalAuditions.filter(isNoCostAudition).length;
@@ -133,9 +140,9 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
           ].map((stat) => (
             <div key={stat.label} className="border-t border-slate-200 px-1 py-5 sm:border-l sm:px-6 first:sm:border-l-0 first:sm:pl-0">
               <dt className="text-2xl font-black text-slate-950">
-                <Link href={stat.href} className="transition hover:text-pink-700">
+                <a href={localConditions ? conditionLinks[stat.href] : stat.href} className="transition hover:text-pink-700">
                   {stat.value}<span className="ml-1 text-xs">件</span>
-                </Link>
+                </a>
               </dt>
               <dd className="mt-1 text-xs font-bold text-slate-500">{stat.label}</dd>
             </div>
@@ -143,7 +150,7 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         </dl>
       ) : null}
 
-      <AuditionComparison auditions={regionalAuditions} title={`${region.label}の募集条件を比較する`} />
+      <AuditionComparison auditions={regionalAuditions} title={content.region === "nagoya" ? "名古屋・愛知で現在募集中のグループ一覧・条件比較" : `${region.label}の募集条件を比較する`} regional={localConditions} showGroup={content.region === "nagoya"} />
       <Link href="/idol-audition" className="inline-flex min-h-11 items-center text-sm font-bold text-pink-700 hover:underline">全国のアイドルオーディション一覧で探す →</Link>
       <FreshnessLinks className="mt-7" />
 
@@ -183,7 +190,9 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         <SearchIntentLinks
           title={`${region.label}の募集を条件別に探す`}
           description="未経験、高校生、社会人、費用など、応募前に気になる条件から募集を比較できます。"
-          links={content.relatedLinks}
+          links={content.relatedLinks.map((link) => localConditions && conditionLinks[link.href]
+            ? { ...link, href: conditionLinks[link.href] }
+            : link)}
         />
       ) : null}
 
@@ -253,12 +262,12 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         </section>
 
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/idol-audition/mikeiken" className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-pink-600">
+          <a href={localConditions ? "#regional-beginner" : "/idol-audition/mikeiken"} className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-pink-600">
             未経験OKの募集を見る
-          </Link>
-          <Link href="/idol-audition/free" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 hover:text-pink-600">
+          </a>
+          <a href={localConditions ? "#regional-free" : "/idol-audition/free"} className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 hover:text-pink-600">
             費用なしの募集を見る
-          </Link>
+          </a>
         </div>
       </article>
     </main>
