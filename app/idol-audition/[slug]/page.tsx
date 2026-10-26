@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DirectoryLink } from "@/components/DirectoryLink";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { AuditionCard } from "@/components/AuditionCard";
@@ -315,6 +316,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
         </TrackedApplyLink>
       </div>
 
+      <DirectoryLink />
       {relatedAuditions.length > 0 ? (
         <section className="mt-14" aria-labelledby="related-auditions-title">
           <div className="flex flex-wrap items-end justify-between gap-4">

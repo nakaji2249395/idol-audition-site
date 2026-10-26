@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
-import { AuditionComparison } from "@/components/AuditionComparison";
+import { AuditionDirectory } from "@/components/AuditionDirectory";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { PriorityAuditionLinks } from "@/components/PriorityAuditionLinks";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
-import { auditions } from "@/lib/auditions";
+import { getAllAuditions } from "@/lib/auditionData";
+import { isOpenAudition, parseAuditionDeadline, sortByPublishedAt } from "@/lib/auditionFreshness";
+import { auditionRegions, isAuditionInRegion, type AuditionRegion } from "@/lib/auditionDiscovery";
+import { isAgeLimitNoneAudition, isBeginnerFriendlyAudition, isHighSchoolFriendlyAudition, isNoCostAudition, isThirtiesAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
-import { fetchApprovedAuditions } from "@/lib/submissions";
 
 export const metadata: Metadata = {
   title: "アイドルオーディション一覧【2026年】地域・年齢・未経験から募集を比較",
@@ -68,7 +70,7 @@ const guideLinks = [
   },
   {
     href: "/idol-audition/nationwide",
-    title: "全国のアイドルオーディション",
+    title: "全国から応募できるオーディション",
     text: "全国から応募できる募集"
   },
   {
@@ -163,7 +165,7 @@ const faq = [
   {
     question: "地下アイドルのオーディションも掲載していますか？",
     answer:
-      "東京・関東近郊のライブアイドル、地下アイドル、新規グループ初期メンバー、既存グループ追加メンバーなどの募集を掲載していきます。"
+      "東京・大阪・名古屋など各地のライブアイドル、地下アイドル、新規グループ初期メンバー、既存グループ追加メンバーなどの募集を掲載しています。"
   },
   {
     question: "掲載されている募集はすべて費用なしですか？",
@@ -185,14 +187,13 @@ const faq = [
 export const dynamic = "force-dynamic";
 
 export default async function IdolAuditionPage() {
-  const approvedAuditions = await fetchApprovedAuditions();
-  const approvedSlugs = new Set(approvedAuditions.map((audition) => audition.slug));
-  const staticAuditions = auditions.filter((audition) => !approvedSlugs.has(audition.slug));
-  const allAuditions = [...approvedAuditions, ...staticAuditions];
+  const now = new Date();
+  const allAuditions = sortByPublishedAt((await getAllAuditions()).filter(item => isOpenAudition(item, now)));
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "女性アイドルオーディション一覧",
+    name: "全国のアイドルオーディション一覧",
+    numberOfItems: allAuditions.length,
     itemListElement: allAuditions.map((audition, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -218,7 +219,7 @@ export default async function IdolAuditionPage() {
     <main className="mx-auto max-w-[1180px] px-4 py-10 sm:px-6 sm:py-14">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd).replace(/</g, "\\u003c") }}
       />
       <script
         type="application/ld+json"
@@ -229,27 +230,38 @@ export default async function IdolAuditionPage() {
         ← トップへ戻る
       </Link>
 
-      <header className="mb-14 mt-8 grid gap-7 border-b border-slate-200 pb-12 lg:grid-cols-[1fr_auto] lg:items-end">
+      <header className="mb-6 mt-6 border-b border-slate-200 pb-6">
         <div>
         <p className="editorial-kicker">Audition directory</p>
-        <h1 className="mt-3 text-5xl font-black leading-[1.05] tracking-[-0.055em] text-slate-950 sm:text-6xl">
+        <h1 className="mt-3 text-3xl font-black leading-tight tracking-[-0.035em] text-slate-950 sm:text-5xl">
           アイドルオーディション一覧
         </h1>
-        <p className="mt-5 max-w-3xl leading-8 text-slate-600">
-          女性メンバーを募集しているアイドルオーディションを、活動地域、費用、年齢、未経験可否、応募方法で比較できます。
-          東京・大阪・名古屋・福岡をはじめ、新規グループの初期メンバーや既存グループの追加メンバーを探している方に向けた2026年の募集一覧です。
+        <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
+          東京・大阪・名古屋など全国の募集を、地域・年齢・未経験・費用で比較。女性メンバーを募集する新規グループや追加メンバーのオーディションを探せます。
         </p>
         </div>
-        <div className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center text-white shadow-[3px_3px_0_#241b24]">
-          <span className="block text-3xl font-black">{allAuditions.length}</span>
-          <span className="text-[10px] font-black tracking-wider">NOW OPEN</span>
-        </div>
+        <p className="mt-4 text-sm font-bold">現在募集中 <strong className="text-2xl text-pink-700">{allAuditions.length}</strong> 件 <span className="font-normal text-slate-500">（締切未設定・随時募集を含む）</span></p>
+        <nav aria-label="新着・締切から探す" className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+          <Link href="/idol-audition/new" className="inline-flex min-h-11 items-center text-sm font-bold underline">新着募集</Link>
+          <Link href="/idol-audition/deadline-soon" className="inline-flex min-h-11 items-center text-sm font-bold underline">締切7日以内</Link>
+          <Link href="/idol-audition/deadline-this-month" className="inline-flex min-h-11 items-center text-sm font-bold underline">今月締切</Link>
+          <a href="#find-by-condition" className="inline-flex min-h-11 items-center text-sm font-bold underline">条件別の探し方</a>
+        </nav>
       </header>
 
-      <nav aria-label="募集の条件から探す" className="flex flex-wrap gap-2">
-        {guideLinks.map((guide) => <Link key={guide.href} href={guide.href} className="inline-flex min-h-11 items-center rounded-full border border-slate-200 px-4 py-2 text-sm font-bold hover:bg-pink-50">{guide.title}</Link>)}
-      </nav>
-      <AuditionComparison auditions={allAuditions} title="募集中のアイドルオーディションを比較する" />
+      <AuditionDirectory items={allAuditions.map(item => {
+        const regions = (Object.keys(auditionRegions) as AuditionRegion[]).filter(region => isAuditionInRegion(item, region));
+        return {
+          slug: item.slug, search: `${item.title} ${item.group} ${item.area}`,
+          regions: regions.length ? regions : ["other"],
+          ages: [isHighSchoolFriendlyAudition(item) ? "high-school" : "", isTwentiesAudition(item) ? "20s" : "", isThirtiesAudition(item) ? "30s" : "", isAgeLimitNoneAudition(item) ? "none" : ""].filter(Boolean),
+          beginner: isBeginnerFriendlyAudition(item), free: isNoCostAudition(item),
+          published: item.publishedAt ? Date.parse(item.publishedAt) || 0 : 0,
+          deadline: parseAuditionDeadline(item.deadline)?.dayNumber ?? null,
+          card: <AuditionCard audition={item} compare />
+        };
+      })} />
+      <div className="mt-12" />
       <FeaturedHiraeth />
 
       <FreshnessLinks className="mb-10" />
@@ -268,22 +280,7 @@ export default async function IdolAuditionPage() {
         </Link>
       </aside>
 
-      <section className="mb-20">
-        <div className="mb-7 border-b border-slate-200 pb-5">
-          <p className="editorial-kicker">Now recruiting</p>
-          <h2 className="section-heading mt-2">
-            募集中の女性アイドルオーディション
-          </h2>
-        </div>
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {allAuditions.map((audition) => (
-            <AuditionCard key={audition.slug} audition={audition} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-20 border-y border-slate-200 py-12 sm:py-16">
+      <section id="find-by-condition" className="mb-20 scroll-mt-24 border-y border-slate-200 py-12 sm:py-16">
         <p className="editorial-kicker">Find by condition</p>
         <h2 className="section-heading mt-2">
           条件別にアイドルオーディションを探す

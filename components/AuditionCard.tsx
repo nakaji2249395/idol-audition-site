@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Audition } from "@/lib/auditions";
 
-export function AuditionCard({ audition: displayAudition }: { audition: Audition }) {
+export function AuditionCard({ audition: displayAudition, compare = false }: { audition: Audition; compare?: boolean }) {
   return (
     <Link
       href={`/idol-audition/${displayAudition.slug}`}
@@ -58,6 +58,12 @@ export function AuditionCard({ audition: displayAudition }: { audition: Audition
         <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
           {displayAudition.summary}
         </p>
+
+        {compare ? <dl className="my-4 grid grid-cols-[3rem_1fr] gap-x-3 gap-y-2 text-xs leading-6">
+          <dt className="font-bold">年齢</dt><dd className="line-clamp-3">{displayAudition.age || "詳細で確認"}</dd>
+          <dt className="font-bold">費用</dt><dd className="line-clamp-3">{displayAudition.cost || "詳細で確認"}</dd>
+          <dt className="sr-only">条件の確認</dt><dd className="col-span-2 text-slate-500">費用の内訳・応募条件の全文は詳細へ</dd>
+        </dl> : null}
 
         <div className="mt-auto flex items-center justify-between gap-4 border-t border-slate-200 pt-5 text-xs">
           <p className="min-w-0 line-clamp-1 text-slate-600">

@@ -3,6 +3,7 @@ import { BeginnerDanceOffer } from "@/components/BeginnerDanceOffer";
 import { AuditionComparison } from "@/components/AuditionComparison";
 import { AuditionCard } from "@/components/AuditionCard";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
+import { DirectoryLink } from "@/components/DirectoryLink";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { getAllAuditions } from "@/lib/auditionData";
 import {
@@ -151,7 +152,7 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
       ) : null}
 
       <AuditionComparison auditions={regionalAuditions} title={content.region === "nagoya" ? "名古屋・愛知で現在募集中のグループ一覧・条件比較" : `${region.label}の募集条件を比較する`} regional={localConditions} showGroup={content.region === "nagoya"} />
-      <Link href="/idol-audition" className="inline-flex min-h-11 items-center text-sm font-bold text-pink-700 hover:underline">全国のアイドルオーディション一覧で探す →</Link>
+      <DirectoryLink />
       <FreshnessLinks className="mt-7" />
 
       <nav aria-label="地域から探す" className="mt-3 flex flex-wrap gap-2">

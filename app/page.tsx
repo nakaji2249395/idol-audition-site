@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 
 const categories = [
   {
-    title: "女性アイドルオーディション",
+    title: "全国のアイドルオーディション一覧",
     href: "/idol-audition",
-    text: "女性メンバーを募集中のオーディションを比較"
+    text: "募集中の情報を地域・年齢・費用で絞り込み、比較"
   },
   {
     title: "東京のアイドルオーディション",
@@ -50,7 +50,7 @@ const categories = [
     text: "福岡・九州で活動するアイドル募集を探す"
   },
   {
-    title: "全国のアイドルオーディション",
+    title: "全国から応募できるオーディション",
     href: "/idol-audition/nationwide",
     text: "居住地を問わず応募しやすい全国募集を探す"
   },
@@ -211,7 +211,7 @@ export default async function Home() {
                 href="/idol-audition"
                 className="min-h-12 rounded-full bg-pink-500 px-7 py-4 text-center text-sm font-black text-white transition hover:bg-pink-700"
               >
-                募集中のオーディションを見る →
+                全国のアイドルオーディションを探す →
               </Link>
               <Link
                 href="/idol-audition/agency-guide"
