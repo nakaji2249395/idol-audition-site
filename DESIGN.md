@@ -131,3 +131,7 @@ Brand pink is functional. Lavender is decorative and must not compete with an ac
 ## Organizer journal exception — `/for-organizers` only
 
 Requested separately from the audition site. BACKSTAGE is an editorial journal for prospective idol producers. Use charcoal green (#121715), muted paper-white (#eeeee6), and brass (#d6ad79). Its header/footer are independent of the audition brand. Keep squared edges, fine rules, large typography, serif article titles, left-aligned readable copy, 44px controls and visible focus indicators. No pink, rounded audition cards, or navigation from the audition site. Scope all styles to the journal CSS module; existing audition tokens and pages remain unchanged.
+
+## K-POP lifestyle section — `/kpop-life` only
+
+「推しのとなり」is a separate editorial section for adult beginners in dance, singing and Korean. Retain the warm paper, ink, fine rules, readable typography and accessibility principles above. Use a quieter dark pink (#b91f59) for actions, flat lavender and sage paper for category artwork, typographic covers instead of unlicensed artist photos, and a self-contained navigation. All styles live in `app/kpop-life/life.module.css`. Do not add inbound navigation on audition pages. Show advertising disclosure prominently and distinguish official facts from editorial guidance.
