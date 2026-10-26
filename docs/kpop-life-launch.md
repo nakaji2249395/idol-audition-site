@@ -15,7 +15,7 @@ URL: https://idol-audition-navi.jp/kpop-life
 - 各広告はA8のトラッキングURL/ピクセルを維持。rel=sponsored nofollow noopener。
 - affiliate_view: 広告枠50%以上が1秒表示、affiliate_click: クリック。placement=kpop-life/{category}/{slug}/end。PVはVercel Analytics。
 - 表示やクリックは購入者数・入会数ではない。確定成果はA8レポートで確認する。
-- 公開後に3プログラムへ該当記事の広告掲載URLを提出する。
+- 公開後に3プログラムへ全8記事の広告掲載URLを提出済み（ダンス3・ボイトレ2・韓国語3）。いずれも管理画面で提出完了を確認。
 
 ## Validation
 - npm run build / npx tsc --noEmit / scoped eslint
@@ -24,3 +24,5 @@ URL: https://idol-audition-navi.jp/kpop-life
 
 ## Follow-up
 初版では検索順位の保証や検索量の推定をしない。Search Consoleの表示クエリ、記事PV、広告枠到達率、クリック率、A8の承認成果を照合し、地域記事や教室の比較対象を追加する。情報確認日の更新は再確認時のみ。
+
+本番公開確認: deployment dpl_GpEJKk1mV4yPqp1QEmFLeEtcr6bv、13ページのHTTP/metadata/広告リンク/サイトマップ検査に合格。広告枠の可視時間・非表示タブ・一度限り計測の既存テストも合格。
