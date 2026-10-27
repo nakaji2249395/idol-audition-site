@@ -57,7 +57,7 @@ function selectPreparationOffer(audition: Audition): PreparationOffer {
 export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
   const spotomoRegion = spotomoDetailRegion(audition);
   if (spotomoRegion) {
-    return <BeginnerDanceOffer region={spotomoRegion} placement={`audition_detail_end_${audition.slug}`} />;
+    return <BeginnerDanceOffer region={spotomoRegion} placement={`audition_detail_end_${audition.slug}`} context="audition-detail" />;
   }
   const selectedOffer = selectPreparationOffer(audition);
   const region = preparationRegion(audition.area);

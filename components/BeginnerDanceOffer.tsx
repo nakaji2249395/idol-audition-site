@@ -2,22 +2,31 @@ import { AffiliateImpression } from "@/components/AffiliateImpression";
 import { AffiliateLink } from "@/components/AffiliateLink";
 import { affiliateOffers } from "@/lib/affiliateOffers";
 
-export function BeginnerDanceOffer({ region, placement = `regional_${region}_beginner` }: {
+export function BeginnerDanceOffer({ region, placement = `regional_${region}_beginner`, context = "guide" }: {
   region: "osaka" | "nagoya" | "osaka-nagoya";
   placement?: string;
+  context?: "guide" | "audition-detail";
 }) {
   const offer = affiliateOffers.spotomoDance;
+  const isDetail = context === "audition-detail";
+  const regionLabel = region === "osaka" ? "大阪" : region === "nagoya" ? "名古屋" : "大阪・名古屋";
   return (
     <AffiliateImpression as="aside" offer={offer.offer} placement={placement}
       className="relative mt-6 border-t border-slate-200 pt-5" labelledBy="beginner-dance-title">
       <p className="text-xs text-slate-500">PR</p>
       <h3 id="beginner-dance-title" className="mt-2 text-base font-bold text-slate-800">
-        ダンスが不安で、応募前に少し練習したい方へ
+        {isDetail ? "応募準備とあわせて、ダンスの基礎を相談したい方へ" : "ダンスが不安で、応募前に少し練習したい方へ"}
       </h3>
       <p className="mt-2 text-sm leading-7 text-slate-600">
-        まずは好きな曲の短い部分を練習し、全身を撮影して動きを確認してみましょう。
-        一人では身体の使い方が分からないときは、講師に相談する方法もあります。
-        スポともダンスは、{region === "osaka" ? "大阪" : region === "nagoya" ? "名古屋" : "大阪・名古屋"}の自宅から受けられるオンラインのマンツーマンレッスンです。
+        {isDetail ? <>
+          リズムの取り方や身体の動かし方を、一人では確認しづらいときに。
+          スポともダンスなら、{regionLabel}の自宅からオンラインで講師に1対1で相談できます。
+          無料体験の内容・受け方を公式サイトで確認できます。
+        </> : <>
+          まずは好きな曲の短い部分を練習し、全身を撮影して動きを確認してみましょう。
+          一人では身体の使い方が分からないときは、講師に相談する方法もあります。
+          スポともダンスは、{regionLabel}の自宅から受けられるオンラインのマンツーマンレッスンです。
+        </>}
       </p>
       <AffiliateLink href={offer.href} offer={offer.offer} placement={placement}
         label="オンライン&マンツーマン形式のダンスレッスン【スポともダンス】"
