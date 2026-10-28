@@ -7,6 +7,8 @@ import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
 import { getAllAuditions } from "@/lib/auditionData";
+import { isOpenAudition } from "@/lib/auditionFreshness";
+import { DirectoryLink } from "@/components/DirectoryLink";
 import { isBeginnerFriendlyAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
 
@@ -169,7 +171,7 @@ function jsonLd(value: object) {
 
 export default async function MikeikenAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const mikeikenAuditions = allAuditions.filter(isBeginnerFriendlyAudition);
+  const mikeikenAuditions = allAuditions.filter((audition) => isOpenAudition(audition) && isBeginnerFriendlyAudition(audition));
   const freeCount = mikeikenAuditions.filter((audition) =>
     /費用なし|無料|かかりません|掛かりません/.test(audition.cost)
   ).length;
@@ -258,7 +260,7 @@ export default async function MikeikenAuditionPage() {
       </header>
 
       <AuditionComparison auditions={mikeikenAuditions} title="初心者・未経験OKの募集を地域・年齢・費用で比較" />
-      <Link href="/idol-audition" className="inline-flex min-h-11 items-center text-sm font-bold text-pink-700 hover:underline">全国のアイドルオーディション一覧で探す →</Link>
+      <DirectoryLink />
       <FreshnessLinks className="mt-7" />
       <TrainingGuidePromo className="mt-8" />
 

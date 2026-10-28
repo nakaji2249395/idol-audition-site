@@ -118,6 +118,7 @@ export function FreshAuditionPage({
             {title}
           </h1>
           <p className="mt-5 max-w-3xl leading-8 text-slate-600">{lead}</p>
+          <Link href="/idol-audition" className="mt-3 inline-flex min-h-11 items-center text-sm font-bold underline">全国の募集中アイドルオーディションを地域・年齢で比較 →</Link>
           <p className="mt-4 text-xs font-bold text-slate-500">{formatJapanDate()}更新・掲載情報を毎日確認</p>
         </div>
         <p className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center font-black text-white shadow-[3px_3px_0_#241b24]">

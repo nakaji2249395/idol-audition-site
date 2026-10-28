@@ -249,6 +249,18 @@ export default async function IdolAuditionPage() {
         </nav>
       </header>
 
+      <nav aria-label="地域・応募条件別の募集一覧" className="mb-6 flex flex-wrap gap-x-5 gap-y-1 border-b border-slate-200 pb-5">
+        {[
+          ["tokyo", "東京・関東"], ["osaka", "大阪・関西"], ["nagoya", "名古屋・東海"],
+          ["mikeiken", "未経験・初心者OK"], ["high-school", "高校生"], ["20s", "20代"], ["free", "費用条件から探す"]
+        ].map(([slug, label]) => <Link key={slug} href={`/idol-audition/${slug}`} className="inline-flex min-h-11 items-center text-sm font-bold underline">{label}</Link>)}
+      </nav>
+      <section aria-labelledby="women-audition-guide" className="mb-7 max-w-3xl">
+        <h2 id="women-audition-guide" className="text-lg font-bold">2026年の女性・女子向けアイドル募集を比較</h2>
+        <p className="mt-2 text-sm leading-7 text-slate-600">高校生・学生から社会人まで、応募できる年齢は募集ごとに異なります。まず年齢と通える地域を選び、応募費用と合格後のレッスン費・衣装代を分けて確認しましょう。</p>
+        <p className="mt-2 text-sm leading-7 text-slate-600">歌やダンスが初めての方は、下の「未経験歓迎の記載あり」で絞り込めます。<Link href="/idol-audition/mikeiken" className="font-bold underline">未経験のアイドルオーディション一覧と応募準備</Link>では、経験不問の募集と自己PRの考え方を確認できます。未経験歓迎でも、年齢・活動時間・費用の条件は別途確認が必要です。</p>
+      </section>
+
       <AuditionDirectory items={allAuditions.map(item => {
         const regions = (Object.keys(auditionRegions) as AuditionRegion[]).filter(region => isAuditionInRegion(item, region));
         return {

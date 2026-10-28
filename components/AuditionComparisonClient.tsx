@@ -62,7 +62,7 @@ function ComparisonContent({ rows, title, initialBeginner, regional, showGroup, 
       <div className="mt-5 flex flex-wrap items-end gap-x-6 gap-y-3">
         <label className="grid gap-2 text-sm font-bold" htmlFor={`${id}-query`}>
           {showGroup ? "グループ名・活動地域・年齢条件で探す" : "地域・年齢条件・募集名で探す"}
-          <input id={`${id}-query`} value={query} onChange={(event) => { setQuery(event.target.value); setExpanded(false); }} placeholder={showGroup ? "例：グループ名、名古屋、25歳" : "例：大阪、25歳、年齢制限なし"} className="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 sm:w-80" />
+          <input id={`${id}-query`} value={query} onChange={(event) => { setQuery(event.target.value); setExpanded(false); }} placeholder={showGroup ? "例：グループ名、地域名、25歳" : "例：地域名、25歳、年齢制限なし"} className="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 sm:w-80" />
         </label>
         <label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={beginner} onChange={(event) => setBeginner(event.target.checked)} className="h-5 w-5 accent-pink-600" />未経験OKの記載あり</label>
         <label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={working} onChange={(event) => setWorking(event.target.checked)} className="h-5 w-5 accent-pink-600" />社会人・仕事との両立の記載あり</label>

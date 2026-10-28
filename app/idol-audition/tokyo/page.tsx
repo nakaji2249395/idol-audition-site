@@ -3,7 +3,11 @@ import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
 import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
-import { auditions } from "@/lib/auditions";
+import { AuditionComparison } from "@/components/AuditionComparison";
+import { DirectoryLink } from "@/components/DirectoryLink";
+import { isOpenAudition, sortByPublishedAt } from "@/lib/auditionFreshness";
+import { isAuditionInRegion } from "@/lib/auditionDiscovery";
+import { isBeginnerFriendlyAudition, isHighSchoolFriendlyAudition, isNoCostAudition, isWorkingAdultAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
 import { getAllAuditions } from "@/lib/auditionData";
 
@@ -106,10 +110,24 @@ const faq = [
 
 export default async function TokyoAuditionPage() {
   const allAuditions = await getAllAuditions();
-  const tokyoAuditions = allAuditions.filter((audition) =>
-    `${audition.area} ${audition.features.join(" ")}`.includes("東京") ||
-    `${audition.area} ${audition.features.join(" ")}`.includes("関東")
-  );
+  const tokyoAuditions = sortByPublishedAt(allAuditions.filter((audition) =>
+    isOpenAudition(audition) && isAuditionInRegion(audition, "tokyo")
+  ));
+  const conditions = [
+    { id: "beginner", label: "未経験歓迎", count: tokyoAuditions.filter(isBeginnerFriendlyAudition).length },
+    { id: "high-school", label: "高校生の応募・相談", count: tokyoAuditions.filter(isHighSchoolFriendlyAudition).length },
+    { id: "working", label: "社会人・仕事との両立", count: tokyoAuditions.filter(isWorkingAdultAudition).length },
+    { id: "free", label: "費用なし・無料の記載", count: tokyoAuditions.filter(isNoCostAudition).length }
+  ];
+  const itemListJsonLd = {
+    "@context": "https://schema.org", "@type": "ItemList",
+    name: "東京・関東近郊の募集中アイドルオーディション",
+    numberOfItems: tokyoAuditions.length,
+    itemListElement: tokyoAuditions.map((item, index) => ({
+      "@type": "ListItem", position: index + 1, name: item.title,
+      url: `${siteConfig.url}/idol-audition/${item.slug}`
+    }))
+  };
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -143,6 +161,7 @@ export default async function TokyoAuditionPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd).replace(/</g, "\\u003c") }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -152,9 +171,10 @@ export default async function TokyoAuditionPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <Link href="/" className="text-sm font-bold text-slate-500 hover:text-pink-600">
-        ← トップへ戻る
-      </Link>
+      <nav aria-label="パンくずリスト" className="flex flex-wrap gap-2 text-sm text-slate-600">
+        <Link href="/">トップ</Link><span>/</span>
+        <Link href="/idol-audition">全国のアイドルオーディション一覧</Link><span>/</span><span>東京・関東</span>
+      </nav>
 
       <header className="mt-8 mb-10">
         <p className="text-sm font-bold text-pink-600">Tokyo Audition</p>
@@ -165,12 +185,17 @@ export default async function TokyoAuditionPage() {
           東京・関東近郊で活動できるアイドルオーディションをまとめています。
           未経験OK、費用なし、高校生相談可、新規グループ初期メンバー、地下アイドル募集などを比較できます。
         </p>
+        <p className="mt-4 font-bold">現在募集中 {tokyoAuditions.length}件 <span className="text-xs font-normal text-slate-500">（締切未設定・随時募集を含む）</span></p>
+        <nav aria-label="東京の募集を条件で比較" className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+          {conditions.map(({ id, label, count }) => <a key={id} href={`#regional-${id}`} className="inline-flex min-h-11 items-center text-sm font-bold underline">{label} {count}件</a>)}
+          <a href="#tokyo-list" className="inline-flex min-h-11 items-center text-sm underline">写真付き一覧へ</a>
+        </nav>
+        <p className="mt-2 text-sm leading-7 text-slate-600">東京での活動を含む募集と関東近郊の募集を掲載しています。活動地域の原文を見て、都内への通いやすさを確認してください。条件別件数は重複を含み、「無料」はすべての費用が不要という意味ではありません。</p>
       </header>
 
-      <FeaturedHiraeth />
-      <TrainingGuidePromo className="mb-12" />
+      <AuditionComparison auditions={tokyoAuditions} title="東京・関東の募集を年齢・費用・両立条件で比較" regional />
 
-      <section className="mb-16">
+      <section id="tokyo-list" className="mb-16 scroll-mt-24">
         <div className="mb-6">
           <p className="text-sm font-bold text-pink-600">Audition List</p>
           <h2 className="mt-1 text-3xl font-black text-slate-950">
@@ -180,10 +205,14 @@ export default async function TokyoAuditionPage() {
 
         <div className="grid gap-5 md:grid-cols-3">
           {tokyoAuditions.map((audition) => (
-            <AuditionCard key={audition.slug} audition={audition} />
+            <AuditionCard key={audition.slug} audition={audition} compare />
           ))}
         </div>
+        {!tokyoAuditions.length ? <p className="mt-5">現在、条件に合う募集中の情報はありません。全国の募集一覧もご確認ください。</p> : null}
       </section>
+      <DirectoryLink />
+      <FeaturedHiraeth />
+      <TrainingGuidePromo className="mb-12" />
 
       <article className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
         <h2 className="text-3xl font-black leading-tight text-slate-950">
