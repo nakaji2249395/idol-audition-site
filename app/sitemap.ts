@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { articles as lifeArticles, articlePath, categories as lifeCategories } from "@/lib/kpop-life/content";
+import { articles as lifeArticles, articlePath, articleUpdated, categories as lifeCategories } from "@/lib/kpop-life/content";
 import { journalArticleIndex } from "@/lib/organizerArticles";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
@@ -78,6 +78,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : route === "/for-organizers/no-connections" ? "2026-10-24T00:00:00+09:00" : "2026-10-21T00:00:00+09:00",
     changeFrequency: "monthly", priority: 0.7,
   }));
-  const lifeEntries: MetadataRoute.Sitemap = ["/kpop-life", "/kpop-life/editorial-policy", ...Object.keys(lifeCategories).map(key => `/kpop-life/${key}`), ...lifeArticles.map(articlePath)].map(route => ({url: `${siteConfig.url}${route}`, lastModified: "2026-10-27T04:20:00+09:00", changeFrequency: "monthly", priority: 0.7}));
+  const lifeEntries: MetadataRoute.Sitemap = ["/kpop-life", "/kpop-life/editorial-policy", ...Object.keys(lifeCategories).map(key => `/kpop-life/${key}`), ...lifeArticles.map(articlePath)].map(route => ({url: `${siteConfig.url}${route}`, lastModified: `${lifeArticles.some(a => articlePath(a) === route) ? articleUpdated(lifeArticles.find(a => articlePath(a) === route)!) : ["/kpop-life", "/kpop-life/dance"].includes(route) ? "2026-10-30" : "2026-10-27"}T04:20:00+09:00`, changeFrequency: "monthly", priority: 0.7}));
   return [...staticEntries, ...approvedEntries, ...staticAuditionEntries, ...journalEntries, ...lifeEntries];
 }

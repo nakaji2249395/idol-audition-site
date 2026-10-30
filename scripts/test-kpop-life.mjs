@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import { articles, articlePath, categories } from '../lib/kpop-life/content.ts';
+import { articles, articlePath, categories, articlePublished, articleUpdated } from '../lib/kpop-life/content.ts';
 const base = process.env.TEST_BASE_URL || 'http://localhost:3012';
 const paths = ['/kpop-life', '/kpop-life/editorial-policy', ...Object.keys(categories).map(c=>`/kpop-life/${c}`), ...articles.map(articlePath)];
-assert.equal(new Set(paths).size,13);
+assert.equal(new Set(paths).size,14);
 for(const path of paths){
  const response=await fetch(base+path);assert.equal(response.status,200,path);
  const html=await response.text();
@@ -14,7 +14,14 @@ for(const path of paths){
  if(a){
   assert.ok(html.includes('sponsored nofollow'),`affiliate rel ${path}`);
   assert.ok(html.includes(a.category==='korean'?'4BEQHQ+F4RVSA+51XQ+5Z6WY':a.category==='dance'?'4BCA7F+4496WA+4GDM+1BMW42':'4BCA7F+4D6OYY+4GDM+C0YF6'),`correct offer ${path}`);
-  assert.ok(html.includes('application/ld+json'),`structured data ${path}`);
+  const structured = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].flatMap(m => JSON.parse(m[1]));
+  const schema = structured.find(s => s['@type'] === 'Article');
+  assert.equal(schema.datePublished, `${articlePublished(a)}T04:20:00+09:00`);
+  assert.equal(schema.dateModified, `${articleUpdated(a)}T04:20:00+09:00`);
+  for (const section of a.sections) {
+   for (const link of section.links ?? []) assert.ok(html.includes(`href="${link.url}"`), `contextual link ${link.url}`);
+   if (section.table) assert.ok(html.includes('<table'), `comparison table ${path}`);
+  }
   assert.ok(html.includes(`kpop-life/${a.category}/${a.slug}/end`),`tracking placement ${path}`);
   const text=JSON.stringify(a.sections);assert.ok(text.length>700,`substantive article ${path}`);
  }
