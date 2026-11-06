@@ -1,0 +1,30 @@
+{
+  "month": "2026-10",
+  "selection": "2026-11-07時点の当サイトの総合・大阪・名古屋・高校生・30代の各一覧の先頭3募集（重複除外）。検索エンジンの個人別検索順位ではない。",
+  "coverage": "HIRAETH.Tokyoは公式サイトの月間イベント一覧、Fille mimi・MeluCharmは公式TimeTreeの2026年10月表示と各予定詳細で再収集。他グループは確認できた告知のみで、完全な月間スケジュールではない。追加撮影枠は統合し、レッスン・休日を推測しない。",
+  "calendarSources": [
+    {"group": "HIRAETH.Tokyo", "url": "https://hiraeth.tokyo/events/", "count": 27},
+    {"group": "Fille mimi", "url": "https://timetreeapp.com/public_calendars/fillemimi_schedule?monthly=2026-10-01", "count": 26},
+    {"group": "MeluCharm", "url": "https://timetreeapp.com/public_calendars/melucharm?monthly=2026-10-01", "count": 26}
+  ],
+  "remainingCalendarResearch": [
+    {"group": "妄想ヒロイン", "url": "https://timetreeapp.com/public_calendars/mosoproject?monthly=2026-10-01", "note": "公式サイトからのリンクを確認。予定詳細の収集操作がタイムアウトしたため、未確認の日付は追加せず。MeluCharm公式TimeTreeの共演者タイムテーブルで10/6を補完。"},
+    {"group": "lonlium", "note": "公式Xで確認した6件を維持。月間カレンダーの再収集は未完了。"}
+  ],
+  "listings": {
+    "/idol-audition": ["submission-e73772d0-c921-40ad-965b-2a340a9c67ee", "submission-b50ad5d8-b8fd-49d4-90c0-8bce7d92d10b", "submission-ce4ef5fe-cd8c-4f58-913e-4975d19be670"],
+    "/idol-audition/osaka": ["osaka-fille-mimi-melucharm-audition-2026", "osaka-summer-song-unit-member-2026", "osaka-mousou-heroine-new-member-2026"],
+    "/idol-audition/nagoya": ["submission-8969f0c7-f928-41dd-8b74-530210fb222a", "nagoya-lonlium-new-member-2026", "nagoya-maycry-liz-new-member-2026"],
+    "/idol-audition/high-school": ["hiraeth-tokyo-new-member", "submission-8969f0c7-f928-41dd-8b74-530210fb222a", "culvert-wo-hashiru-shonen-member-2026"],
+    "/idol-audition/30s": ["hiraeth-tokyo-new-member", "nagoya-lonlium-new-member-2026", "culvert-wo-hashiru-shonen-member-2026"]
+  },
+  "omitted": [
+    {"slug": "submission-e73772d0-c921-40ad-965b-2a340a9c67ee", "reason": "2027年始動の新グループ募集。10月公演を裏づける公式告知なし。", "source": "https://bkkn.jp/audition/"},
+    {"slug": "submission-b50ad5d8-b8fd-49d4-90c0-8bce7d92d10b", "reason": "掲載情報から既存出演グループとの同一性を確認できず、他グループの公演は転用しない。"},
+    {"slug": "submission-ce4ef5fe-cd8c-4f58-913e-4975d19be670", "reason": "新グループ募集で、特定の既存グループの10月公演との同一性を確認できず。"},
+    {"slug": "osaka-summer-song-unit-member-2026", "reason": "全員新規募集のユニット。掲載情報から10月公演の対象グループを特定できず。"},
+    {"slug": "submission-8969f0c7-f928-41dd-8b74-530210fb222a", "reason": "公式運営アカウントには所属者のライブ告知があるが、エンプロトレイニー自身の公演と確認できないため掲載しない。", "source": "https://x.com/ENPRO_2025"},
+    {"slug": "nagoya-maycry-liz-new-member-2026", "reason": "運営公式サイトのTimeTreeに10/4ワンマン告知を確認したが、カレンダー名がSTAXで本文に出演グループの記載がないため、MaycryLizの予定と断定して転用しない。", "source": "https://timetreeapp.com/public_calendars/maycry_liz/events/2991354858567084194?monthly=2026-10-01"},
+    {"slug": "culvert-wo-hashiru-shonen-member-2026", "reason": "公式アカウントの10月検索に該当投稿なし。活動なしと断定はしない。", "source": "https://x.com/culvert_idol"}
+  ]
+}

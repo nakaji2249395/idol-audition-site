@@ -1,0 +1,56 @@
+.section { margin-top: 40px; padding: 28px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--ink); }
+.eyebrow { margin: 0 0 8px; color: var(--brand-dark); font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+.heading { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.heading h2 { margin: 0; font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 900; }
+.month { background: var(--paper-tint); border: 1px solid var(--line); padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.intro { margin-top: 12px; font-size: 14px; line-height: 1.9; color: var(--muted-ink); }
+.toolbar { margin: 22px 0 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+.count { margin: 0; font-size: 13px; }
+.count strong { font-size: 25px; margin: 0 4px; }
+.count span { color: var(--muted-ink); }
+.toggle { display: flex; border: 1px solid var(--line); padding: 3px; border-radius: 999px; background: var(--paper); }
+.toggle button { min-height: 44px; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.toggle button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.section button:focus-visible, .dialog button:focus-visible, .dialog a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 5px var(--brand-wash); }
+.resultsLabel { margin: 12px 0; color: var(--muted-ink); font-size: 12px; }
+.list { margin: 0; padding: 0; list-style: none; }
+.event { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 14px; padding: 20px 0; border-top: 1px solid var(--line); }
+.date { font-size: 14px; font-weight: 800; padding-top: 3px; font-variant-numeric: tabular-nums; }
+.eventBody h3 { font-size: 15px; font-weight: 800; line-height: 1.7; overflow-wrap: anywhere; margin: 0; }
+.group { display: inline-block; background: var(--paper-tint); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-bottom: 7px; }
+.meta { color: var(--muted-ink); font-size: 12px; line-height: 1.9; margin: 6px 0 0; }
+.source { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 8px 0; font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.source:hover { color: var(--brand-dark); }
+.fine { font-size: 11px; line-height: 1.9; color: var(--muted-ink); margin: 16px 0 0; }
+.calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; padding: 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; }
+.weekday { text-align: center; font-size: 12px; color: var(--muted-ink); padding: 4px 0 10px; }
+.calendarDay, .emptyDay { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 68px; padding: 8px 2px; font-size: 14px; border-radius: 8px; }
+.emptyDay { color: var(--muted-ink); }
+.calendarDay { border: 1px solid var(--line); background: var(--paper-tint); font-weight: 800; cursor: pointer; }
+.calendarDay small { margin-top: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.calendarDay[aria-pressed="true"] { background: var(--brand-wash); border-color: var(--brand-dark); color: var(--brand-dark); }
+.calendarHelp { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11px; color: var(--muted-ink); margin: 8px 0 16px; }
+.calendarHelp button { min-height: 44px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.dialog { border: 1px solid var(--line); border-radius: 18px; padding: 0; margin: auto; width: min(600px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); color: var(--ink); background: var(--paper); overflow: auto; overscroll-behavior: contain; }
+.dialog::backdrop { background: rgba(36, 27, 36, .48); }
+.dialogHeader { position: sticky; top: 0; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 20px; background: var(--paper); border-bottom: 1px solid var(--line); }
+.dialogHeader h3 { font-size: 20px; font-weight: 800; margin: 0; }
+.dialogHeader .eyebrow { margin-bottom: 3px; }
+.close { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+.dialogBody { padding: 16px 20px 24px; }
+.postTitle { font-weight: 800; font-size: 14px; line-height: 1.8; margin: 8px 0 16px; }
+.loading, .notice { background: var(--paper-tint); border-radius: 12px; padding: 20px; font-size: 13px; line-height: 1.8; }
+.loading { display: flex; align-items: center; gap: 10px; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--brand-dark); border-radius: 50%; animation: spin .8s linear infinite; }
+.external { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.dialogFooter { position: sticky; bottom: 0; background: var(--paper); border-top: 1px solid var(--line); padding: 12px 20px; }
+.dialogFooter button { min-height: 44px; width: 100%; border-radius: 999px; border: 1px solid var(--ink); font-size: 13px; font-weight: 800; cursor: pointer; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+@media (max-width: 600px) {
+  .event { grid-template-columns: 74px minmax(0, 1fr); gap: 8px; }
+  .date { font-size: 12px; }
+  .calendar { padding: 8px; gap: 3px; }
+  .calendarDay, .emptyDay { min-height: 60px; font-size: 13px; }
+  .dialog { width: 100%; max-width: 100%; max-height: 88dvh; margin: auto 0 0; border-radius: 18px 18px 0 0; }
+}

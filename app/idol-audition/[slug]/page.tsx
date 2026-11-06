@@ -17,6 +17,8 @@ import { siteConfig } from "@/lib/site";
 import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
 import { getApplyUrl } from "@/lib/applyUrl";
 import { getAudienceLinks } from "@/lib/auditionAudience";
+import { AuditionActivity } from "@/components/AuditionActivity";
+import { getAuditionActivity } from "@/lib/auditionActivity";
 
 export const dynamic = "force-dynamic";
 
@@ -95,6 +97,7 @@ export default async function AuditionDetailPage({ params }: PageProps) {
   const auditionRegion = getAuditionRegion(audition);
   const region = auditionRegion ? auditionRegions[auditionRegion] : null;
   const audienceLinks = getAudienceLinks(audition);
+  const activityArchive = getAuditionActivity(audition.slug);
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -187,6 +190,8 @@ export default async function AuditionDetailPage({ params }: PageProps) {
               <InfoRow label="学生・両立" value={audition.student} />
             </dl>
           </section>
+
+          {activityArchive ? <AuditionActivity archive={activityArchive} /> : null}
 
           <section className="mt-6">
             <h2 className="section-heading text-2xl">募集詳細</h2>
