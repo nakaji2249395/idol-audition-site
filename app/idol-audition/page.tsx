@@ -255,16 +255,11 @@ export default async function IdolAuditionPage() {
           ["mikeiken", "未経験・初心者OK"], ["high-school", "高校生"], ["20s", "20代"], ["free", "費用条件から探す"]
         ].map(([slug, label]) => <Link key={slug} href={`/idol-audition/${slug}`} className="inline-flex min-h-11 items-center text-sm font-bold underline">{label}</Link>)}
       </nav>
-      <section aria-labelledby="women-audition-guide" className="mb-7 max-w-3xl">
-        <h2 id="women-audition-guide" className="text-lg font-bold">2026年の女性・女子向けアイドル募集を比較</h2>
-        <p className="mt-2 text-sm leading-7 text-slate-600">高校生・学生から社会人まで、応募できる年齢は募集ごとに異なります。まず年齢と通える地域を選び、応募費用と合格後のレッスン費・衣装代を分けて確認しましょう。</p>
-        <p className="mt-2 text-sm leading-7 text-slate-600">歌やダンスが初めての方は、下の「未経験歓迎の記載あり」で絞り込めます。<Link href="/idol-audition/mikeiken" className="font-bold underline">未経験のアイドルオーディション一覧と応募準備</Link>では、経験不問の募集と自己PRの考え方を確認できます。未経験歓迎でも、年齢・活動時間・費用の条件は別途確認が必要です。</p>
-      </section>
-
       <AuditionDirectory items={allAuditions.map(item => {
         const regions = (Object.keys(auditionRegions) as AuditionRegion[]).filter(region => isAuditionInRegion(item, region));
         return {
           slug: item.slug, search: `${item.title} ${item.group} ${item.area}`,
+          title: item.title, area: item.area, age: item.age, deadlineLabel: item.deadline,
           regions: regions.length ? regions : ["other"],
           ages: [isHighSchoolFriendlyAudition(item) ? "high-school" : "", isTwentiesAudition(item) ? "20s" : "", isThirtiesAudition(item) ? "30s" : "", isAgeLimitNoneAudition(item) ? "none" : ""].filter(Boolean),
           beginner: isBeginnerFriendlyAudition(item), free: isNoCostAudition(item),
@@ -273,6 +268,19 @@ export default async function IdolAuditionPage() {
           card: <AuditionCard audition={item} compare />
         };
       })} />
+      <section aria-labelledby="women-audition-guide" className="my-10 border-y border-slate-200 py-6">
+        <h2 id="women-audition-guide" className="text-lg font-bold">初めての方へ：募集を選んでから応募するまで</h2>
+        <ol className="mt-4 grid gap-5 text-sm leading-7 text-slate-600 sm:grid-cols-3">
+          <li><h3 className="font-bold text-slate-950">1. 年齢と活動地域を確認</h3><p>応募できる年齢や、合格後に通う地域は募集ごとに異なります。学生・社会人の方は活動時間も確認しましょう。</p></li>
+          <li><h3 className="font-bold text-slate-950">2. 費用と選考内容を比較</h3><p>参加費と合格後のレッスン費・衣装代・交通費は別々に確認。<Link href="/idol-audition/mikeiken" className="font-bold underline">未経験の方の募集探しと応募準備</Link>も参考にしてください。</p></li>
+          <li><h3 className="font-bold text-slate-950">3. 募集先へ必要事項を送信</h3><p>詳細ページの案内に沿って応募します。当サイトのLINE友だち追加だけでは応募完了になりません。<Link href="/idol-audition/how-to-apply" className="font-bold underline">応募文・写真の準備を見る</Link>。</p></li>
+        </ol>
+        <details className="mt-5 border-t border-slate-200 pt-3 text-xs leading-6 text-slate-600">
+          <summary className="flex min-h-11 cursor-pointer items-center font-bold">この一覧の掲載範囲・条件表示について ＋</summary>
+          <p>女性メンバーの募集を中心に、新規グループ・追加メンバーなどを掲載しています。登録されている締切が過ぎた募集は一覧から除外し、締切未設定・随時募集は含めています。募集終了や条件変更がある場合は、募集主の最新案内もご確認ください。</p>
+          <p className="mt-2">絞り込みは募集要項の記載をもとにしています。「無料」の対象や年齢の例外は募集ごとに異なり、すべての費用が無料であることや合格を保証するものではありません。<Link href="/about" className="underline">運営情報</Link></p>
+        </details>
+      </section>
       <div className="mt-12" />
       <FeaturedHiraeth />
 
