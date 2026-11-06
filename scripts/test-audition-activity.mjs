@@ -10,7 +10,7 @@ test('archives contain only October 2026 events with official provenance and no 
     const seen = new Set();
     for (const event of archive.events) {
       assert.match(event.date, /^2026-10-(0[1-9]|[12]\d|3[01])$/);
-      assert.ok(['x.com', 'hiraeth.tokyo', 'timetreeapp.com'].includes(new URL(event.sourceUrl).hostname));
+      assert.ok(['x.com', 'hiraeth.tokyo', 'timetreeapp.com', 'calendar.google.com'].includes(new URL(event.sourceUrl).hostname));
       assert.ok(event.group && event.title);
       const key = [event.date, event.group, event.title, event.venue].join('|');
       assert.ok(!seen.has(key), key);
@@ -31,6 +31,16 @@ test('official monthly calendars replace sparse X samples without counting extra
 });
 test('no unverified placeholder archive is displayed', () => {
   for (const slug of ['unknown', 'culvert-wo-hashiru-shonen-member-2026', 'nagoya-maycry-liz-new-member-2026', 'submission-8969f0c7-f928-41dd-8b74-530210fb222a']) assert.equal(getAuditionActivity(slug), undefined);
+});
+test('Mousou and lonlium official calendars supplement the full month without memo duplicates', () => {
+  const m = getAuditionActivity('osaka-mousou-heroine-new-member-2026').events;
+  assert.equal(m.length, 22);
+  assert.equal(m.filter(e => e.date === '2026-10-11').length, 3);
+  assert.ok(m.every(e => !/特典|休み|オフ会予定/.test(e.title)));
+  const l = getAuditionActivity('nagoya-lonlium-new-member-2026').events;
+  assert.equal(l.length, 20);
+  assert.equal(l.filter(e => e.date === '2026-10-04').length, 1);
+  assert.equal(l.filter(e => e.date === '2026-10-12').length, 1);
 });
 test('JST date labels and multiple events on one day are preserved', () => {
   assert.equal(activityDateLabel('2026-10-01'), '10/1(木)');

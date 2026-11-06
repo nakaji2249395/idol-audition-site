@@ -1,16 +1,15 @@
 {
   "month": "2026-10",
   "selection": "2026-11-07時点の当サイトの総合・大阪・名古屋・高校生・30代の各一覧の先頭3募集（重複除外）。検索エンジンの個人別検索順位ではない。",
-  "coverage": "HIRAETH.Tokyoは公式サイトの月間イベント一覧、Fille mimi・MeluCharmは公式TimeTreeの2026年10月表示と各予定詳細で再収集。他グループは確認できた告知のみで、完全な月間スケジュールではない。追加撮影枠は統合し、レッスン・休日を推測しない。",
+  "coverage": "HIRAETH.Tokyoは公式サイト、Fille mimi・MeluCharm・妄想ヒロインは公式TimeTree、lonliumは公式Googleカレンダーの2026年10月分を収集。公開予定の記録であり開催実績の保証ではない。特典メモ・休日・重複登録は除外し、レッスンを推測しない。妄想ヒロイン10/25のオフ会予定は未確定表記のため除外。10/21個人出演と10/22暴走ヒロイン名義は名称を明示。lonliumは10/4の遠征予告を具体的な公演に統合、10/12の重複を統合、10/24の某所予告を公式Xの2公演に置換。",
   "calendarSources": [
     {"group": "HIRAETH.Tokyo", "url": "https://hiraeth.tokyo/events/", "count": 27},
     {"group": "Fille mimi", "url": "https://timetreeapp.com/public_calendars/fillemimi_schedule?monthly=2026-10-01", "count": 26},
-    {"group": "MeluCharm", "url": "https://timetreeapp.com/public_calendars/melucharm?monthly=2026-10-01", "count": 26}
+    {"group": "MeluCharm", "url": "https://timetreeapp.com/public_calendars/melucharm?monthly=2026-10-01", "count": 26},
+    {"group": "妄想ヒロイン", "url": "https://timetreeapp.com/public_calendars/mosoproject?monthly=2026-10-01", "count": 22},
+    {"group": "lonlium", "url": "https://calendar.google.com/calendar/u/0/embed?src=lonlium.official@gmail.com&ctz=Asia/Tokyo&dates=20261001/20261101", "count": 20}
   ],
-  "remainingCalendarResearch": [
-    {"group": "妄想ヒロイン", "url": "https://timetreeapp.com/public_calendars/mosoproject?monthly=2026-10-01", "note": "公式サイトからのリンクを確認。予定詳細の収集操作がタイムアウトしたため、未確認の日付は追加せず。MeluCharm公式TimeTreeの共演者タイムテーブルで10/6を補完。"},
-    {"group": "lonlium", "note": "公式Xで確認した6件を維持。月間カレンダーの再収集は未完了。"}
-  ],
+  "remainingCalendarResearch": [],
   "listings": {
     "/idol-audition": ["submission-e73772d0-c921-40ad-965b-2a340a9c67ee", "submission-b50ad5d8-b8fd-49d4-90c0-8bce7d92d10b", "submission-ce4ef5fe-cd8c-4f58-913e-4975d19be670"],
     "/idol-audition/osaka": ["osaka-fille-mimi-melucharm-audition-2026", "osaka-summer-song-unit-member-2026", "osaka-mousou-heroine-new-member-2026"],
