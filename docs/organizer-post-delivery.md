@@ -1,6 +1,6 @@
 # 運営者のX投稿案：クラウドLINE配信
 
-- 本番 Vercel Cron `/api/cron/organizer-posts`。UTC `0 0,3,9,12 * * *` = JST 9/12/18/21時。Mac不要。
+- 本番 Vercel Cron `/api/cron/organizer-posts`。UTC `0 0,12 * * *` = JST 9/21時（2026-11-07から半減）。Mac不要。
 - 既存 `CRON_SECRET` 認証。宛先は `ADMIN_LINE_USER_ID` 限定、既存 `LINE_CHANNEL_ACCESS_TOKEN` 使用。
 - 2026-10-22 09:00〜10-28 21:00：28回、各3案、84案。原稿は `content/organizer-posts/2026-10-22.json`。
 - 時間が経過した配信枠を一気に送らない。障害で飛ばされた枠は要確認。
@@ -15,12 +15,12 @@
 検証：`node --experimental-strip-types scripts/test-organizer-posts.mjs`、`npx tsc --noEmit`、本番dryRun。非認証リクエストは401であること。
 
 ## 作り置き返信案（別配信）
-- `/api/cron/organizer-replies` はJST 0/9/12/14/16/18/20/22時。24時は翌日0時。
+- `/api/cron/organizer-replies` はJST 9/14/18/22時（2026-11-07から半減）。
 - 現行原稿 `content/organizer-posts/replies-2026-10-24.json`：10/24 9時〜10/26 22時の23件。初日は0時枠を飛ばす（startHour: 9）。10/27 0時以降は補充通知1回のみ。通常投稿案の既存配信は継続。
 - 現行23投稿は10/24にXの検索結果で本文とURLを確認。配信時の再検索・削除確認はしない。送信前に利用者がリンク先の文脈と返信済みかを確認する。Xへの自動投稿はしない。
 - LINEはADMIN_LINE_USER_IDだけに、相手・URLと返信本文を別の吹き出しで送る。既存の非公開バケット・重複防止方式を利用。
 - 確認用 `/api/admin/organizer-replies` は管理者ログイン必須・送信なし。
-- 補充は現行queue id/startDate/startHourと既存batchesを保持し、確認済みの実在URLと返信案を末尾に追記する。通常8枠/日。
+- 補充は現行queue id/startDate/startHourと既存batchesを保持し、確認済みの実在URLと返信案を末尾に追記する。現在4枠/日。
 - 検証：`node --experimental-strip-types scripts/test-organizer-replies.mjs`。
 
 ## 2026-10-24 復旧記録
@@ -81,3 +81,9 @@
 ## 2026-11-06 返信案の追記
 - 既存119枠・sources・queue id・開始日時を保持し、X個別ページで全文・日時・文脈を確認した異なる16アカウントの返信案を追記。全135枠、11/9 22時まで。
 - 新規枠は11/8 0時から。通常投稿は11/12 9時まであり変更なし。既存Cronと配信記録を保持し、過去枠の再送は行わない。
+
+## 2026-11-07 配信半減と執筆方針
+- 投稿は9/21時に各3案（1日6案）、返信は9/14/18/22時に各1案（1日4案）。Cronとスケジュール関数の両方を制限。
+- queueの旧時間グリッド・index・id・原稿は保持。停止した枠は欠番として送り直さない。在庫の期限は倍にならない。補充時も旧グリッドで末尾追記し、実際に配信される枠と期限をスケジュール関数で判定する。
+- 参考 https://x.com/beetmasterJ （11/7確認）。運営の理想と収益面の現実のズレ、短い言い切り、最後に残る本音を参考にする。丸写しや単語の置換、他者への罵倒、未確認の内情・本人の体験の創作はしない。次回補充分から適用。既存在庫は維持。
+- 例：『ライブで好きになってもらいたい。でも特典会に誰も並ばなかったら、次のライブを作れない。この両方を考えるのが運営なんだよな。』

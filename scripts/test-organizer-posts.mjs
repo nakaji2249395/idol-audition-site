@@ -38,12 +38,12 @@ await deliver(true,new Date('2026-10-22T00:00:00Z'));assert.equal(requests,0);
 await deliver(false,new Date('2026-10-22T01:00:00Z'));assert.equal(requests,0);
 await Promise.all([deliver(false,new Date('2026-10-22T00:00:00Z')),deliver(false,new Date('2026-10-22T00:00:00Z'))]);assert.equal(accepted,1);
 await deliver(false,new Date('2026-10-22T00:10:00Z'));assert.equal(accepted,1);
-await deliver(false,new Date('2026-11-12T03:00:00Z'));
-await deliver(false,new Date('2026-11-12T09:00:00Z'));assert.equal(accepted,2);
+await deliver(false,new Date('2026-11-12T12:00:00Z'));
+await deliver(false,new Date('2026-11-13T00:00:00Z'));assert.equal(accepted,2);
 console.log('Dry run, off-schedule, concurrent deduplication, and single exhaustion notice passed');
 
 assert.ok(queue.batches[49]);
-assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-07T09:00:00Z')).index,66);
+assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-07T09:00:00Z')),null);
 assert.ok(queue.batches[66]);
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-07T12:00:00Z')).index,67);
 assert.ok(queue.batches[67]);
@@ -53,5 +53,11 @@ assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-11T12:00:00Z'))
 assert.ok(queue.batches[83]);
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-12T00:00:00Z')).index,84);
 assert.ok(queue.batches[84]);
-assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-12T03:00:00Z')).index,85);
-assert.equal(queue.batches[85],undefined);
+assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-12T12:00:00Z')).index,87);
+assert.equal(queue.batches[87],undefined);
+
+// All 24 hours: exactly half the former slots, with stable queue keys.
+for(let h=0;h<24;h++){
+ const date=`2026-11-08T${String(h).padStart(2,'0')}:00:00+09:00`;
+ assert.equal(Boolean(organizerPostSlot(queue.startDate,new Date(date))),[9, 21].includes(h));
+}

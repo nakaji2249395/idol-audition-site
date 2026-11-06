@@ -54,8 +54,8 @@ assert.equal(preview.index,0);assert.equal(preview.exhausted,false);assert.equal
 await deliver(false,new Date('2026-10-23T15:00:00Z'));assert.equal(requests,0);
 await Promise.all([deliver(false,new Date('2026-10-24T00:00:00Z')),deliver(false,new Date('2026-10-24T00:00:00Z'))]);assert.equal(accepted,1);
 await deliver(false,new Date('2026-10-24T00:10:00Z'));assert.equal(accepted,1);
-await deliver(false,new Date('2026-11-09T15:00:00Z'));
-await deliver(false,new Date('2026-11-10T00:00:00Z'));assert.equal(accepted,2);
+await deliver(false,new Date('2026-11-10T00:00:00Z'));
+await deliver(false,new Date('2026-11-10T05:00:00Z'));assert.equal(accepted,2);
 console.log('Dry run, off-schedule, concurrent deduplication, and single exhaustion notice passed');
 
 assert.equal(slot('2026-10-31T09:00:00+09:00').index,56);
@@ -83,14 +83,20 @@ assert.ok(queue.batches[104]);
 assert.equal(slot('2026-11-06T12:00:00+09:00').index,105);
 assert.ok(queue.batches[105]);
 
-assert.equal(slot('2026-11-07T00:00:00+09:00').index,111);
+assert.equal(slot('2026-11-07T00:00:00+09:00'),null);
 assert.equal(slot('2026-11-07T22:00:00+09:00').index,118);
 assert.ok(queue.batches[118]);
-assert.equal(slot('2026-11-08T00:00:00+09:00').index,119);
+assert.equal(slot('2026-11-08T00:00:00+09:00'),null);
 assert.ok(queue.batches[119]);
-assert.equal(slot('2026-11-09T00:00:00+09:00').index,127);
+assert.equal(slot('2026-11-09T00:00:00+09:00'),null);
 assert.ok(queue.batches[127]);
 assert.equal(slot('2026-11-09T22:00:00+09:00').index,134);
 assert.ok(queue.batches[134]);
-assert.equal(slot('2026-11-10T00:00:00+09:00').index,135);
+assert.equal(slot('2026-11-10T00:00:00+09:00'),null);
 assert.equal(queue.batches[135],undefined);
+
+// All 24 hours: exactly half the former slots, with stable queue keys.
+for(let h=0;h<24;h++){
+ const date=`2026-11-08T${String(h).padStart(2,'0')}:00:00+09:00`;
+ assert.equal(Boolean(slot(date)),[9, 14, 18, 22].includes(h));
+}

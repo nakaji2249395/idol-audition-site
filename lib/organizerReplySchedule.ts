@@ -3,6 +3,8 @@ export function organizerReplySlot(startDate: string, now = new Date(), startHou
   const jst = new Date(now.getTime() + 9 * 3600000);
   const date = jst.toISOString().slice(0, 10);
   const hour = jst.getUTCHours();
+  // Keep the original queue indices; cancelled slots are never replayed.
+  if (date >= '2026-11-07' && ![9, 14, 18, 22].includes(hour)) return null;
   const position = HOURS.indexOf(hour);
   // Do not unexpectedly deliver an old slot when manually invoked off schedule.
   if (position < 0) return null;
