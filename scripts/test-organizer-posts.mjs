@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { organizerPostSlot } from '../lib/organizerPostSchedule.ts';
 const queue = JSON.parse(await readFile(new URL('../content/organizer-posts/2026-10-22.json', import.meta.url)));
-assert.equal(queue.batches.length, 85);
-assert.equal(new Set(queue.batches.flat()).size, 255);
+assert.equal(queue.batches.length, 104);
+assert.equal(new Set(queue.batches.flat()).size, 312);
 assert.ok(queue.batches.every(b => b.length === 3 && b.every(s => s.length > 10 && s.length <= 140)));
 for (const [utc, index] of [['00',0],['03',1],['09',2],['12',3]]) {
   assert.equal(organizerPostSlot(queue.startDate,new Date(`2026-10-22T${utc}:00:00Z`)).index,index);
@@ -12,7 +12,7 @@ assert.equal(organizerPostSlot(queue.startDate,new Date('2026-10-21T12:00:00Z'))
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-10-22T23:00:00Z')),null);
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-10-28T12:00:00Z')).index,27);
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-10-29T00:00:00Z')).index,28);
-console.log('255 unique drafts; JST schedule and queue boundary checks passed');
+console.log('312 unique drafts; JST schedule and queue boundary checks passed');
 
 assert.ok(queue.batches.slice(28).flat().every(s => s.length >= 40 && s.length <= 140));
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-03T00:00:00Z')).index,48);
@@ -38,8 +38,8 @@ await deliver(true,new Date('2026-10-22T00:00:00Z'));assert.equal(requests,0);
 await deliver(false,new Date('2026-10-22T01:00:00Z'));assert.equal(requests,0);
 await Promise.all([deliver(false,new Date('2026-10-22T00:00:00Z')),deliver(false,new Date('2026-10-22T00:00:00Z'))]);assert.equal(accepted,1);
 await deliver(false,new Date('2026-10-22T00:10:00Z'));assert.equal(accepted,1);
-await deliver(false,new Date('2026-11-12T12:00:00Z'));
-await deliver(false,new Date('2026-11-13T00:00:00Z'));assert.equal(accepted,2);
+await deliver(false,new Date('2026-11-17T00:00:00Z'));
+await deliver(false,new Date('2026-11-17T12:00:00Z'));assert.equal(accepted,2);
 console.log('Dry run, off-schedule, concurrent deduplication, and single exhaustion notice passed');
 
 assert.ok(queue.batches[49]);
@@ -54,10 +54,15 @@ assert.ok(queue.batches[83]);
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-12T00:00:00Z')).index,84);
 assert.ok(queue.batches[84]);
 assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-12T12:00:00Z')).index,87);
-assert.equal(queue.batches[87],undefined);
+assert.ok(queue.batches[87]);
 
 // All 24 hours: exactly half the former slots, with stable queue keys.
 for(let h=0;h<24;h++){
  const date=`2026-11-08T${String(h).padStart(2,'0')}:00:00+09:00`;
  assert.equal(Boolean(organizerPostSlot(queue.startDate,new Date(date))),[9, 21].includes(h));
 }
+
+assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-16T12:00:00Z')).index,103);
+assert.ok(queue.batches[103]);
+assert.equal(organizerPostSlot(queue.startDate,new Date('2026-11-17T00:00:00Z')).index,104);
+assert.equal(queue.batches[104],undefined);
