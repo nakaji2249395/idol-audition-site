@@ -164,6 +164,27 @@ export default function HowToApplyPage() {
           </p>
         </div>
 
+        <section className="mt-10" id="self-pr-template">
+          <h2 className="text-2xl font-black">自己PRと志望動機は分けて考える</h2>
+          <p className="mt-4 leading-8 text-slate-600">自己PRは「自分の強みと、その根拠」。志望動機は「なぜこのグループで活動したいか」です。両方を求められたら同じ文章を繰り返さず、それぞれの質問に答えましょう。文字数・時間の指定がある場合は、その指定を優先してください。</p>
+          <ol className="mt-5 list-decimal space-y-3 pl-6 leading-8">
+            <li><strong>強みを一つ：</strong>続ける力、周囲と協力する力、表現することなど。</li>
+            <li><strong>実際の行動：</strong>いつから、何を、どのように続けたかを書く。</li>
+            <li><strong>活動へのつながり：</strong>その経験を歌・ダンス・発信などにどう生かしたいか。</li>
+          </ol>
+          <h3 className="mt-6 text-xl font-bold">未経験・高校生の自己PR例</h3>
+          <blockquote className="mt-4 border-l-2 border-pink-500 bg-slate-50 p-5 leading-8">私の強みは、できないことをそのままにせず練習を続けることです。文化祭のダンスでは、苦手な部分を動画で確認し、放課後に友人と練習して本番まで振付を覚えました。アイドル活動は未経験ですが、教わったことを振り返り、一つずつできることを増やしていきたいです。</blockquote>
+          <h3 className="mt-6 text-xl font-bold">社会人・20代の自己PR例</h3>
+          <blockquote className="mt-4 border-l-2 border-pink-500 bg-slate-50 p-5 leading-8">接客の仕事で、相手の様子を見て言葉を選ぶことを大切にしてきました。忙しい時間も周囲と声を掛け合い、担当業務を最後まで行っています。この経験を、メンバーとの協力やファンの方とのコミュニケーションに生かしたいです。歌とダンスは未経験なので、練習を記録しながら改善していきたいと考えています。</blockquote>
+          <p className="mt-3 text-sm leading-7 text-slate-600">いずれも編集部作成の架空の例文です。自分にない経験を足さず、実際のエピソードに置き換えてください。仕事・学校と両立できる時間や転居の可否は、応募先から聞かれた項目に具体的に記載します。</p>
+          <h3 className="mt-6 text-xl font-bold">面接で30秒・1分の自己PRを求められたら</h3>
+          <p className="mt-3 leading-8 text-slate-600">30秒なら「強み→短いエピソード→活動で生かしたいこと」に絞ります。1分なら、その行動で工夫した点を加えましょう。文字数だけで時間を決めず、声に出して測り、早口にならない長さに調整します。</p>
+          <h3 className="mt-6 text-xl font-bold">募集によって評価する点も違う</h3>
+          <p className="mt-3 leading-8 text-slate-600">例えば、つんく♂プロデュースの新グループ募集では「笑顔」「努力する自信」が挙げられています。一方、虹色幻想曲・新姉妹グループの募集では未経験者に実技審査を行わないと記載されています。「歌が上手くないと応募できない」と一律に考えず、まず各募集の応募資格と選考方法を確認しましょう。</p>
+          <p className="mt-3 text-sm leading-7 text-slate-600">掲載元：<a href="https://audition.nerim.info/audition-202612/audition-2026110866.html" className="underline">つんく♂プロデュース募集</a> ／ <a href="https://audition.nerim.info/audition-202609/audition-2026070391.html" className="underline">虹色幻想曲・新姉妹グループ募集</a>。個別募集の例であり、他の募集の審査基準を示すものではありません。</p>
+          <p className="mt-5"><Link href="/idol-audition/major" className="font-bold text-pink-600 underline">注目募集の応募資格・費用を比較する →</Link></p>
+        </section>
+
         <section className="mt-10">
           <h2 className="text-2xl font-black text-slate-950">
             応募文・自己PRで見られやすいポイント
@@ -238,8 +259,9 @@ export default function HowToApplyPage() {
           </p>
           <p className="mt-4 leading-8 text-slate-600">
             過度に加工された写真、顔が隠れている写真、暗すぎる写真だけだと、実際の雰囲気が分かりにくくなります。
-            盛れている写真も大切ですが、本人らしさが伝わる写真も用意しましょう。
+            募集要項の枚数・撮影時期・加工の指定を優先し、現在の本人らしさが伝わる写真を用意しましょう。
           </p>
+          <p className="mt-4"><Link href="/idol-audition/photos" className="font-bold text-pink-600 underline">全身・バストアップの撮り方と、服装・加工の注意点 →</Link></p>
         </section>
 
         <section className="mt-10">

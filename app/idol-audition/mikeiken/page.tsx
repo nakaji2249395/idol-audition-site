@@ -162,6 +162,11 @@ const intentLinks: SearchIntentLink[] = [
     href: "/idol-audition/how-to-apply",
     label: "未経験者向け自己PR・志望動機の例文",
     description: "応募文の組み立て方と写真の準備を確認する"
+  },
+  {
+    href: "/idol-audition/photos",
+    label: "初めての応募写真の撮り方",
+    description: "全身・バストアップの構図と送信前チェック"
   }
 ];
 

@@ -20,6 +20,7 @@ export function Footer() {
           <div className="mt-4 grid gap-2.5 text-sm font-semibold text-slate-300">
             <Link href="/idol-audition" className="hover:text-pink-300">オーディション一覧</Link>
             <Link href="/idol-audition/new" className="hover:text-pink-300">新着募集</Link>
+            <Link href="/idol-audition/major" className="hover:text-pink-300">大手・注目募集を比較</Link>
             <Link href="/idol-audition/deadline-this-month" className="hover:text-pink-300">今月締切の募集</Link>
             <Link href="/idol-audition/deadline-soon" className="hover:text-pink-300">締切7日以内</Link>
             <Link href="/idol-audition/tokyo" className="hover:text-pink-300">東京の募集</Link>
@@ -49,6 +50,7 @@ export function Footer() {
             <Link href="/idol-audition/cost" className="hover:text-pink-300">費用の注意点</Link>
             <Link href="/idol-audition/parents" className="hover:text-pink-300">親への説明</Link>
             <Link href="/idol-audition/how-to-apply" className="hover:text-pink-300">応募文の書き方</Link>
+            <Link href="/idol-audition/photos" className="hover:text-pink-300">応募写真の撮り方</Link>
             <Link href="/idol-audition/agency-guide" className="hover:text-pink-300">アイドル事務所の選び方</Link>
             <Link href="/idol-audition/vocal-training" className="hover:text-pink-300">歌唱審査対策</Link>
             <Link href="/idol-audition/training-school" className="hover:text-pink-300">ボイトレ・ダンスの選び方</Link>

@@ -45,6 +45,7 @@ const faq = [
 ];
 
 const relatedLinks = [
+  ["/idol-audition/major", "大手・注目募集を比較", "主催・グループの実績と応募条件を分けて確認する"],
   ["/idol-audition", "女性アイドルオーディション一覧", "現在募集中の案件を比較する"],
   ["/idol-audition/mikeiken", "未経験OKの募集", "経験不問の募集から探す"],
   ["/idol-audition/free", "費用なしの募集", "費用条件が明記された募集を確認する"],

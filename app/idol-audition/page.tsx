@@ -29,6 +29,16 @@ export const metadata: Metadata = {
 
 const guideLinks = [
   {
+    href: "/idol-audition/major",
+    title: "大手・注目募集を比較",
+    text: "プロデューサー・出演実績と応募条件から選ぶ"
+  },
+  {
+    href: "/idol-audition/photos",
+    title: "応募写真の撮り方",
+    text: "全身・バストアップ・服装と加工の確認"
+  },
+  {
     href: "/idol-audition/new",
     title: "新着アイドルオーディション",
     text: "最近掲載された募集中の情報を新しい順に確認"
