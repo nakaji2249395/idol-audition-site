@@ -16,6 +16,8 @@ export type DirectoryItem = {
   title: string;
   area: string;
   age: string;
+  experience: string;
+  activity: string;
   deadlineLabel: string;
   recruitmentTypes?: string[];
 };
@@ -84,13 +86,13 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
           <Link href={`/idol-audition/${item.slug}`} className="group grid min-h-11 gap-3 py-5 transition hover:bg-pink-50 sm:grid-cols-[minmax(0,1fr)_10rem] sm:gap-6">
             <div className="min-w-0">
               <h3 className="font-bold leading-7 text-slate-950 group-hover:text-pink-700">{item.title}</h3>
-              <dl className="mt-2 grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-2 gap-y-1 text-xs leading-6 text-slate-600">
-                <dt className="font-bold">地域</dt><dd>{item.area || "詳細で確認"}</dd>
-                <dt className="font-bold">年齢</dt><dd className="line-clamp-2">{item.age || "詳細で確認"}</dd>
-              </dl>
+              {[item.area, item.age, item.experience].some(Boolean) ? <p className="mt-2 text-sm leading-7 text-slate-600">
+                {[item.area, item.age, item.experience].filter(Boolean).join(" ｜ ")}
+              </p> : null}
+              {item.activity ? <p className="mt-1 text-sm leading-7 text-slate-600">{item.activity}</p> : null}
             </div>
             <div className="flex items-center justify-between gap-3 text-sm sm:block">
-              <p className="leading-6"><span className="mr-2 font-bold">締切</span>{item.deadlineLabel || "詳細で確認"}</p>
+              {item.deadlineLabel && !/^(詳細で確認|要確認|不明|未設定|記載なし)$/.test(item.deadlineLabel) ? <p className="leading-6"><span className="mr-2 font-bold">締切</span>{item.deadlineLabel}</p> : null}
               <span className="inline-flex min-h-11 items-center font-bold underline">募集条件を見る →</span>
             </div>
           </Link>
