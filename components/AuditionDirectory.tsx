@@ -2,6 +2,7 @@
 
 import { useId, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { auditionStyles, type AuditionStyle } from "@/lib/auditionStyles";
 
 export type DirectoryItem = {
   slug: string;
@@ -20,6 +21,7 @@ export type DirectoryItem = {
   activity: string;
   deadlineLabel: string;
   recruitmentTypes?: string[];
+  styles: AuditionStyle[];
 };
 
 const regions = [["tokyo", "東京・関東"], ["kanagawa", "神奈川・横浜"], ["osaka", "大阪・関西"], ["nagoya", "名古屋・東海"], ["fukuoka", "福岡・九州"], ["sapporo", "札幌"], ["nationwide", "全国・オンライン"], ["other", "その他の地域"]];
@@ -32,23 +34,39 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
   const [region, setRegion] = useState("");
   const [age, setAge] = useState("");
   const [recruitmentType, setRecruitmentType] = useState("");
+  const [style, setStyle] = useState<AuditionStyle | "">("");
   const [beginner, setBeginner] = useState(false);
   const [free, setFree] = useState(false);
   const [sort, setSort] = useState("new");
   const [view, setView] = useState<"list" | "cards">("list");
-  const filtered = items.filter(item => (!region || item.regions.includes(region))
+  const matchingConditions = items.filter(item => (!region || item.regions.includes(region))
     && (!recruitmentType || item.recruitmentTypes?.includes(recruitmentType))
     && (!age || item.ages.includes(age)) && (!beginner || item.beginner) && (!free || item.free)
-    && normalize(item.search).includes(normalize(query)))
+    && normalize(item.search).includes(normalize(query)));
+  const filtered = matchingConditions.filter(item => !style || item.styles.includes(style))
     .sort((a, b) => sort === "deadline"
       ? (a.deadline ?? Infinity) - (b.deadline ?? Infinity) || b.published - a.published
       : b.published - a.published);
   function reset() {
-    setQuery(""); setRegion(""); setAge(""); setRecruitmentType(""); setBeginner(false); setFree(false); setSort("new");
+    setQuery(""); setRegion(""); setAge(""); setRecruitmentType(""); setStyle(""); setBeginner(false); setFree(false); setSort("new");
   }
   const control = "min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm";
   return <section id="audition-directory" className="scroll-mt-24" aria-labelledby={`${id}-heading`}>
     <h2 id={`${id}-heading`} className="text-2xl font-black">募集中のアイドルオーディションを探す</h2>
+    <fieldset className="mt-5 border-y border-slate-200 py-4">
+      <legend className="px-2 text-sm font-bold">なりたい雰囲気から探す</legend>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" aria-pressed={!style} onClick={() => setStyle("")} className={`min-h-11 rounded-full border px-4 text-sm font-bold transition ${!style ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white"}`}>{!style ? "✓ " : ""}すべて <span className="ml-1 text-xs">{matchingConditions.length}</span></button>
+        {auditionStyles.map(option => {
+          const count = matchingConditions.filter(item => item.styles.includes(option.id)).length;
+          const selected = style === option.id;
+          return <button key={option.id} type="button" aria-pressed={selected} onClick={() => setStyle(selected ? "" : option.id)} className={`min-h-11 rounded-full border px-4 text-sm font-bold transition ${selected ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white hover:bg-pink-50"}`}>
+            {selected ? "✓ " : ""}{option.label}<span className="ml-2 text-xs">{count}</span>
+          </button>;
+        })}
+      </div>
+      <p className="mt-3 text-xs leading-6 text-slate-600">オーディションプラスの掲載分類をもとに表示しています。「東京以外」は地域の分類です。分類を確認できない募集も「すべて」に含まれます。地域・年齢などと組み合わせて探せます。</p>
+    </fieldset>
     <div role="group" aria-label="募集形態で絞り込む" className="mt-4 flex flex-wrap gap-2">
       {[["", "すべての募集"], ["new-group", "新規・初期メンバーの記載あり"], ["additional", "追加・新メンバーの記載あり"]].map(([value, label]) => <button key={value} type="button" aria-pressed={recruitmentType === value} onClick={() => setRecruitmentType(value)} className={`min-h-11 rounded-lg border px-3 text-sm font-bold ${recruitmentType === value ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white"}`}>{label}</button>)}
     </div>
@@ -75,7 +93,7 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
       <p className="mt-2 text-xs leading-6 text-slate-600">募集形態はタイトルに明記されたものを表示します。判別できない募集は「すべての募集」に含まれます。年齢の上限・例外、無料になる費用の範囲、交通費などの自己負担は各募集の詳細でご確認ください。</p>
     </div>
     <div className="my-5 flex flex-wrap items-center justify-between gap-3">
-      <p role="status" aria-live="polite" aria-atomic="true" className="text-sm font-bold">{items.length}件中 {filtered.length}件を表示 · {sort === "new" ? "新着順" : "締切が近い順"}</p>
+      <p role="status" aria-live="polite" aria-atomic="true" className="text-sm font-bold">{style ? `${auditionStyles.find(option => option.id === style)?.label} · ` : ""}{items.length}件中 {filtered.length}件を表示 · {sort === "new" ? "新着順" : "締切が近い順"}</p>
       <div role="group" aria-label="募集の表示方法" className="flex gap-2">
         {([["list", "条件を一覧で見る"], ["cards", "写真付きで見る"]] as const).map(([value, label]) => <button key={value} type="button" aria-pressed={view === value} onClick={() => setView(value)} className={`min-h-11 rounded-lg border px-3 text-sm font-bold ${view === value ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white text-slate-700"}`}>{label}</button>)}
       </div>
@@ -86,6 +104,7 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
           <Link href={`/idol-audition/${item.slug}`} className="group grid min-h-11 gap-3 py-5 transition hover:bg-pink-50 sm:grid-cols-[minmax(0,1fr)_10rem] sm:gap-6">
             <div className="min-w-0">
               <h3 className="font-bold leading-7 text-slate-950 group-hover:text-pink-700">{item.title}</h3>
+              {item.styles.length ? <p className="mt-1 text-xs leading-6 text-slate-500">{auditionStyles.filter(option => item.styles.includes(option.id)).map(option => option.label).join(" / ")}</p> : null}
               {[item.area, item.age, item.experience].some(Boolean) ? <p className="mt-2 text-sm leading-7 text-slate-600">
                 {[item.area, item.age, item.experience].filter(Boolean).join(" ｜ ")}
               </p> : null}

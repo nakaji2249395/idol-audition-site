@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { getAuditionStyles, sourceStylesFromNote, auditionStyles } from '../lib/auditionStyles.ts';
+assert.deepEqual(getAuditionStyles({ sourceStyleCategories: ['正統派','楽曲派'] }), ['classic','music']);
+assert.deepEqual(getAuditionStyles({ title: '王道アイドル', features: ['楽曲派'] }), []);
+assert.deepEqual(getAuditionStyles({ sourceStyleCategories: ['東京以外'] }), ['outside-tokyo']);
+assert.deepEqual(getAuditionStyles({ sourceStyleCategories: ['架空カテゴリ'] }), []);
+assert.deepEqual(sourceStylesFromNote(null), []);
+assert.deepEqual(sourceStylesFromNote('掲載元カテゴリ: アイドル(正統派)'), []);
+assert.deepEqual(sourceStylesFromNote('[audition-plus-styles]{broken'), []);
+assert.deepEqual(sourceStylesFromNote('[audition-plus-styles]{"categories":"正統派"}'), []);
+assert.deepEqual(sourceStylesFromNote('private note\n[audition-plus-styles]{"categories":["正統派","正統派","invalid"]}\nprivate note'), ['正統派']);
+assert.equal(new Set(auditionStyles.map(style=>style.id)).size, 8);
+console.log('Source classification: 10 assertions passed');

@@ -5,6 +5,7 @@ export type ApplicationMethod = {
 };
 
 export type Audition = {
+  sourceStyleCategories?: string[];
   slug: string;
   title: string;
   group: string;

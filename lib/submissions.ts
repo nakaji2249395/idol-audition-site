@@ -1,6 +1,7 @@
 import type { Audition, ApplicationMethod } from "@/lib/auditions";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { splitSubmissionHighlights } from "@/lib/submissionHighlights";
+import { sourceStylesFromNote } from "@/lib/auditionStyles";
 
 export type SubmissionRow = {
   id: string;
@@ -114,6 +115,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
 
   return {
     slug: row.slug || `submission-${row.id}`,
+    sourceStyleCategories: sourceStylesFromNote(row.admin_note),
     title: row.title,
     group: row.group_name,
     imageUrl: row.image_url ?? undefined,

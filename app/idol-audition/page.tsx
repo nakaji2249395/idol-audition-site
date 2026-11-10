@@ -12,6 +12,7 @@ import { isAgeLimitNoneAudition, isBeginnerFriendlyAudition, isHighSchoolFriendl
 import { siteConfig } from "@/lib/site";
 import { recruitmentTypesFromTitle } from "@/lib/auditionRecruitment";
 import { getAuditionListingSummary } from "@/lib/auditionListingSummary";
+import { getAuditionStyles } from "@/lib/auditionStyles";
 
 export const metadata: Metadata = {
   title: "アイドルオーディション一覧【2026年】地域・年齢・未経験から募集を比較",
@@ -278,6 +279,7 @@ export default async function IdolAuditionPage() {
         return {
           slug: item.slug, search: `${item.title} ${item.group} ${item.area}`,
           title: item.title, ...getAuditionListingSummary(item), deadlineLabel: item.deadline,
+          styles: getAuditionStyles(item),
           recruitmentTypes: recruitmentTypesFromTitle(item.title),
           regions: regions.length ? regions : ["other"],
           ages: [isHighSchoolFriendlyAudition(item) ? "high-school" : "", isTwentiesAudition(item) ? "20s" : "", isThirtiesAudition(item) ? "30s" : "", isAgeLimitNoneAudition(item) ? "none" : ""].filter(Boolean),
