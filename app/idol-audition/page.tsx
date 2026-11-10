@@ -10,6 +10,7 @@ import { isOpenAudition, parseAuditionDeadline, sortByPublishedAt } from "@/lib/
 import { auditionRegions, isAuditionInRegion, type AuditionRegion } from "@/lib/auditionDiscovery";
 import { isAgeLimitNoneAudition, isBeginnerFriendlyAudition, isHighSchoolFriendlyAudition, isNoCostAudition, isThirtiesAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
+import { recruitmentTypesFromTitle } from "@/lib/auditionRecruitment";
 
 export const metadata: Metadata = {
   title: "アイドルオーディション一覧【2026年】地域・年齢・未経験から募集を比較",
@@ -260,6 +261,7 @@ export default async function IdolAuditionPage() {
           <Link href="/idol-audition/new" className="inline-flex min-h-11 items-center text-sm font-bold underline">新着募集</Link>
           <Link href="/idol-audition/deadline-soon" className="inline-flex min-h-11 items-center text-sm font-bold underline">締切7日以内</Link>
           <Link href="/idol-audition/deadline-this-month" className="inline-flex min-h-11 items-center text-sm font-bold underline">今月締切</Link>
+          <Link href="/idol-audition/major" className="inline-flex min-h-11 items-center text-sm font-bold underline">大手・注目募集を比較</Link>
           <a href="#find-by-condition" className="inline-flex min-h-11 items-center text-sm font-bold underline">条件別の探し方</a>
         </nav>
       </header>
@@ -275,6 +277,7 @@ export default async function IdolAuditionPage() {
         return {
           slug: item.slug, search: `${item.title} ${item.group} ${item.area}`,
           title: item.title, area: item.area, age: item.age, deadlineLabel: item.deadline,
+          recruitmentTypes: recruitmentTypesFromTitle(item.title),
           regions: regions.length ? regions : ["other"],
           ages: [isHighSchoolFriendlyAudition(item) ? "high-school" : "", isTwentiesAudition(item) ? "20s" : "", isThirtiesAudition(item) ? "30s" : "", isAgeLimitNoneAudition(item) ? "none" : ""].filter(Boolean),
           beginner: isBeginnerFriendlyAudition(item), free: isNoCostAudition(item),
@@ -311,7 +314,7 @@ export default async function IdolAuditionPage() {
           </p>
         </div>
         <Link href="/idol-audition/agency-guide" className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-950 px-5 py-3 text-xs font-black text-slate-950 transition hover:bg-pink-50">
-          アイドル事務所の選び方 →
+          アイドルになりたい方の始め方・事務所選び →
         </Link>
       </aside>
 

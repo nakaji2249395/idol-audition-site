@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 const selections = [
+  { slug: "audition-plus-2026110544", source: "202704/audition-2026110544", point: "J-BEANSは所属グループTA女子のオリコンデイリー1位・豊洲PITやZepp新宿での公演実績を掲載。新グループ自身の実績ではありません。平日週1回程度のレッスンと土日中心のライブ活動を予定しています。", kind: "新規グループ", scope: "所属する他グループの実績" },
+  { slug: "audition-plus-2026101552", source: "202611/audition-2026101552", point: "TIFにデビュー年から6年連続出演し、Zepp Shinjuku・品川ステラボールで単独公演を開催。全国12都市の単独ツアー実績を掲載する既存グループです。", kind: "既存グループの追加募集", scope: "募集グループ自身の活動実績" },
   { slug: "audition-plus-2026110866", source: "202612/audition-2026110866", point: "つんく♂完全プロデュース。TNX株式会社の創立20年プロジェクトとして募集する新グループです。", kind: "新規グループ", scope: "プロデューサー・主催の実績" },
   { slug: "audition-plus-2026070391", source: "202609/audition-2026070391", point: "虹色幻想曲はTIF・@JAMへの出演やLIQUIDROOM・新宿BLAZEでのワンマン実績を掲載。既存グループと新姉妹グループでは年齢条件が異なります。", kind: "既存グループ＋新姉妹グループ", scope: "虹色幻想曲の活動実績" },
   { slug: "audition-plus-2026072047", source: "202608/audition-2026072047", point: "ZeppでのワンマンやSUMMER SONIC出演実績を掲載するグループ。月間20日程度の活動に参加できることが応募条件です。", kind: "既存グループの追加募集", scope: "募集グループ自身の活動実績" },
@@ -32,13 +34,32 @@ export default async function MajorAuditionsPage() {
       <p className="mt-4 font-bold">現在募集中の比較対象：{entries.length}件</p>
     </header>
     <nav aria-label="比較ページの目次" className="my-8 flex flex-wrap gap-4 text-sm font-bold underline">
-      <a href="#list">募集・実績を比較</a><a href="#choose">大手・注目募集の選び方</a><Link href="/idol-audition/how-to-apply">自己PRを準備</Link><Link href="/idol-audition/photos">応募写真を準備</Link>
+      <a href="#comparison">条件比較表</a><a href="#list">募集・実績を見る</a><a href="#choose">大手・注目募集の選び方</a><Link href="/idol-audition/how-to-apply">自己PRを準備</Link><Link href="/idol-audition/photos">応募写真を準備</Link>
     </nav>
+    {entries.length > 0 ? <section id="comparison" className="mb-12 scroll-mt-24" aria-labelledby="comparison-heading">
+      <h2 id="comparison-heading" className="text-2xl font-black">年齢・地域・締切・費用を比較</h2>
+      <p className="mt-3 text-sm leading-7 text-slate-600">スマートフォンでは表を横にスクロールできます。年齢は要項からの抜粋です。姉妹グループとの違い・契約などの条件は詳細で確認してください。</p>
+      <div role="region" aria-label="注目募集の比較表（横スクロール）" tabIndex={0} className="mt-5 overflow-x-auto border-y border-slate-200">
+        <table className="w-full min-w-[900px] text-left text-sm leading-7">
+          <caption className="sr-only">現在募集中の注目アイドルオーディションの比較</caption>
+          <thead className="bg-[#f8f2ef]"><tr>{["募集・募集形態", "年齢条件の抜粋", "活動地域", "締切", "費用・自己負担"].map(label => <th key={label} scope="col" className="p-4">{label}</th>)}</tr></thead>
+          <tbody>{entries.map(({ audition, kind }) => {
+            const ageLines = audition.age.split(/\n/).filter(line => /\d.*[歳才]|年齢制限なし/.test(line));
+            return <tr key={audition.slug} className="border-t border-slate-200 align-top">
+              <th scope="row" className="min-w-56 p-4"><a href={`#${audition.slug}`} className="underline">{audition.title}</a><p className="mt-2 font-normal text-slate-600">{kind}</p></th>
+              <td className="min-w-48 p-4">{ageLines.length ? ageLines.join(" ／ ") : <a href={`#${audition.slug}`} className="underline">応募資格を見る</a>}</td>
+              <td className="min-w-28 p-4">{audition.area}</td><td className="whitespace-nowrap p-4">{audition.deadline}</td>
+              <td className="min-w-60 p-4"><details><summary className="min-h-11 cursor-pointer font-bold underline">参加費・合格後費用を開く</summary><p className="mt-3 whitespace-pre-line">{audition.cost}</p></details></td>
+            </tr>;
+          })}</tbody>
+        </table>
+      </div>
+    </section> : null}
     <section id="list" className="scroll-mt-24">
       <h2 className="text-2xl font-black">注目した理由と募集条件</h2>
       <p className="mt-3 leading-8 text-slate-600">実績は掲載元の募集情報に基づきます。知名度や出演歴だけで契約条件・待遇の良さは判断できません。締切が過ぎた募集はこの比較から外れます。</p>
       <div className="mt-6 grid gap-6">
-        {entries.map(({ audition, point, kind, scope, source }) => <article key={audition.slug} className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+        {entries.map(({ audition, point, kind, scope, source }) => <article id={audition.slug} key={audition.slug} className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
           <p className="text-sm font-bold text-pink-600">{kind}</p>
           <h3 className="mt-2 text-xl font-black"><Link href={`/idol-audition/${audition.slug}`} className="hover:underline">{audition.title}</Link></h3>
           <p className="mt-4 leading-8">{point}</p>

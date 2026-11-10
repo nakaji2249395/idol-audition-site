@@ -17,6 +17,7 @@ export type DirectoryItem = {
   area: string;
   age: string;
   deadlineLabel: string;
+  recruitmentTypes?: string[];
 };
 
 const regions = [["tokyo", "東京・関東"], ["kanagawa", "神奈川・横浜"], ["osaka", "大阪・関西"], ["nagoya", "名古屋・東海"], ["fukuoka", "福岡・九州"], ["sapporo", "札幌"], ["nationwide", "全国・オンライン"], ["other", "その他の地域"]];
@@ -28,22 +29,27 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("");
   const [age, setAge] = useState("");
+  const [recruitmentType, setRecruitmentType] = useState("");
   const [beginner, setBeginner] = useState(false);
   const [free, setFree] = useState(false);
   const [sort, setSort] = useState("new");
   const [view, setView] = useState<"list" | "cards">("list");
   const filtered = items.filter(item => (!region || item.regions.includes(region))
+    && (!recruitmentType || item.recruitmentTypes?.includes(recruitmentType))
     && (!age || item.ages.includes(age)) && (!beginner || item.beginner) && (!free || item.free)
     && normalize(item.search).includes(normalize(query)))
     .sort((a, b) => sort === "deadline"
       ? (a.deadline ?? Infinity) - (b.deadline ?? Infinity) || b.published - a.published
       : b.published - a.published);
   function reset() {
-    setQuery(""); setRegion(""); setAge(""); setBeginner(false); setFree(false); setSort("new");
+    setQuery(""); setRegion(""); setAge(""); setRecruitmentType(""); setBeginner(false); setFree(false); setSort("new");
   }
   const control = "min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm";
   return <section id="audition-directory" className="scroll-mt-24" aria-labelledby={`${id}-heading`}>
     <h2 id={`${id}-heading`} className="text-2xl font-black">募集中のアイドルオーディションを探す</h2>
+    <div role="group" aria-label="募集形態で絞り込む" className="mt-4 flex flex-wrap gap-2">
+      {[["", "すべての募集"], ["new-group", "新規・初期メンバーの記載あり"], ["additional", "追加・新メンバーの記載あり"]].map(([value, label]) => <button key={value} type="button" aria-pressed={recruitmentType === value} onClick={() => setRecruitmentType(value)} className={`min-h-11 rounded-lg border px-3 text-sm font-bold ${recruitmentType === value ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white"}`}>{label}</button>)}
+    </div>
     <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <label className="grid gap-2 text-sm font-bold">募集名・地域のキーワード
@@ -64,7 +70,7 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
         <label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={free} onChange={e => setFree(e.target.checked)} className="h-5 w-5 accent-pink-600" />費用なし・無料の記載あり</label>
         <button type="button" onClick={reset} className="min-h-11 px-2 text-sm font-bold underline hover:text-pink-700">条件を解除</button>
       </div>
-      <p className="mt-2 text-xs leading-6 text-slate-600">募集要項の記載をもとに絞り込みます。年齢の上限・例外、無料になる費用の範囲、交通費などの自己負担は各募集の詳細でご確認ください。</p>
+      <p className="mt-2 text-xs leading-6 text-slate-600">募集形態はタイトルに明記されたものを表示します。判別できない募集は「すべての募集」に含まれます。年齢の上限・例外、無料になる費用の範囲、交通費などの自己負担は各募集の詳細でご確認ください。</p>
     </div>
     <div className="my-5 flex flex-wrap items-center justify-between gap-3">
       <p role="status" aria-live="polite" aria-atomic="true" className="text-sm font-bold">{items.length}件中 {filtered.length}件を表示 · {sort === "new" ? "新着順" : "締切が近い順"}</p>
