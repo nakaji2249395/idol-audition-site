@@ -123,7 +123,7 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
         </h1>
         <p className="mt-5 max-w-3xl leading-8 text-slate-600">{content.lead}</p>
         <p className="mt-4 text-xs font-bold text-slate-500">
-          2026年10月更新・現在応募できる{region.label}の募集を{regionalAuditions.length}件掲載
+          現在応募できる{region.label}の募集を{regionalAuditions.length}件掲載
         </p>
         </div>
         <p className="w-fit rotate-[2deg] rounded-lg border border-slate-950 bg-pink-500 px-5 py-3 text-center font-black text-white shadow-[3px_3px_0_#241b24]">
