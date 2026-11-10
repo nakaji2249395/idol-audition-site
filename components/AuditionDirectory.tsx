@@ -19,7 +19,7 @@ export type DirectoryItem = {
   deadlineLabel: string;
 };
 
-const regions = [["tokyo", "東京・関東"], ["kanagawa", "神奈川・横浜"], ["osaka", "大阪・関西"], ["nagoya", "名古屋・東海"], ["fukuoka", "福岡・九州"], ["nationwide", "全国・オンライン"], ["other", "その他の地域"]];
+const regions = [["tokyo", "東京・関東"], ["kanagawa", "神奈川・横浜"], ["osaka", "大阪・関西"], ["nagoya", "名古屋・東海"], ["fukuoka", "福岡・九州"], ["sapporo", "札幌"], ["nationwide", "全国・オンライン"], ["other", "その他の地域"]];
 const ages = [["high-school", "高校生の記載あり"], ["20s", "20代の条件に該当"], ["30s", "30代の条件に該当"], ["none", "年齢制限なしの記載あり"]];
 const normalize = (value: string) => value.normalize("NFKC").trim().toLowerCase();
 

@@ -69,6 +69,11 @@ const guideLinks = [
     text: "福岡・九州で活動できる募集"
   },
   {
+    href: "/idol-audition/sapporo",
+    title: "札幌のアイドルオーディション",
+    text: "札幌を拠点に活動する新メンバー募集"
+  },
+  {
     href: "/idol-audition/nationwide",
     title: "全国から応募できるオーディション",
     text: "全国から応募できる募集"
