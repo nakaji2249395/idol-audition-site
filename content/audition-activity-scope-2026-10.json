@@ -10,6 +10,12 @@
     {"group": "lonlium", "url": "https://calendar.google.com/calendar/u/0/embed?src=lonlium.official@gmail.com&ctz=Asia/Tokyo&dates=20261001/20261101", "count": 20}
   ],
   "remainingCalendarResearch": [],
+  "withdrawnListings": [{"slug": "submission-8969f0c7-f928-41dd-8b74-530210fb222a", "date": "2026-11-10", "reason": "管理者の依頼によりSupabaseで掲載停止。過去の選定記録のみ残す。"}],
+  "nagoyaReview": {
+    "date": "2026-11-10",
+    "maycryLiz": "公式サイトstax-p.comからリンクされたTimeTreeの10/4『1st ONEMAN LIVE DIVA栄』を、募集本文の2026/10/4・DIVA栄・1stワンマン告知と照合し追加。10/3 BSJシアターは出演者を特定できないため除外。確認できた1件のみであり月間全公演ではない。",
+    "lonlium": "既存の公式カレンダーとXの20件を維持。"
+  },
   "listings": {
     "/idol-audition": ["submission-e73772d0-c921-40ad-965b-2a340a9c67ee", "submission-b50ad5d8-b8fd-49d4-90c0-8bce7d92d10b", "submission-ce4ef5fe-cd8c-4f58-913e-4975d19be670"],
     "/idol-audition/osaka": ["osaka-fille-mimi-melucharm-audition-2026", "osaka-summer-song-unit-member-2026", "osaka-mousou-heroine-new-member-2026"],
@@ -23,7 +29,6 @@
     {"slug": "submission-ce4ef5fe-cd8c-4f58-913e-4975d19be670", "reason": "新グループ募集で、特定の既存グループの10月公演との同一性を確認できず。"},
     {"slug": "osaka-summer-song-unit-member-2026", "reason": "全員新規募集のユニット。掲載情報から10月公演の対象グループを特定できず。"},
     {"slug": "submission-8969f0c7-f928-41dd-8b74-530210fb222a", "reason": "公式運営アカウントには所属者のライブ告知があるが、エンプロトレイニー自身の公演と確認できないため掲載しない。", "source": "https://x.com/ENPRO_2025"},
-    {"slug": "nagoya-maycry-liz-new-member-2026", "reason": "運営公式サイトのTimeTreeに10/4ワンマン告知を確認したが、カレンダー名がSTAXで本文に出演グループの記載がないため、MaycryLizの予定と断定して転用しない。", "source": "https://timetreeapp.com/public_calendars/maycry_liz/events/2991354858567084194?monthly=2026-10-01"},
     {"slug": "culvert-wo-hashiru-shonen-member-2026", "reason": "公式アカウントの10月検索に該当投稿なし。活動なしと断定はしない。", "source": "https://x.com/culvert_idol"}
   ]
 }

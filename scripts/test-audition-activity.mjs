@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { getAuditionActivity, activityDateLabel } from '../lib/auditionActivity.ts';
 
-const slugs = ['hiraeth-tokyo-new-member', 'osaka-fille-mimi-melucharm-audition-2026', 'osaka-mousou-heroine-new-member-2026', 'nagoya-lonlium-new-member-2026'];
+const slugs = ['hiraeth-tokyo-new-member', 'osaka-fille-mimi-melucharm-audition-2026', 'osaka-mousou-heroine-new-member-2026', 'nagoya-lonlium-new-member-2026', 'nagoya-maycry-liz-new-member-2026'];
 test('archives contain only October 2026 events with official provenance and no duplicate events', () => {
   for (const slug of slugs) {
     const archive = getAuditionActivity(slug);
@@ -30,7 +30,13 @@ test('official monthly calendars replace sparse X samples without counting extra
   assert.equal(osaka.filter(e => e.group === 'MeluCharm').length, 26);
 });
 test('no unverified placeholder archive is displayed', () => {
-  for (const slug of ['unknown', 'culvert-wo-hashiru-shonen-member-2026', 'nagoya-maycry-liz-new-member-2026', 'submission-8969f0c7-f928-41dd-8b74-530210fb222a']) assert.equal(getAuditionActivity(slug), undefined);
+  for (const slug of ['unknown', 'culvert-wo-hashiru-shonen-member-2026', 'submission-8969f0c7-f928-41dd-8b74-530210fb222a']) assert.equal(getAuditionActivity(slug), undefined);
+});
+test('Maycry Liz includes the corroborated one-man show, not unattributed agency events', () => {
+  const events = getAuditionActivity('nagoya-maycry-liz-new-member-2026').events;
+  assert.equal(events.length, 1);
+  assert.equal(events[0].date, '2026-10-04');
+  assert.equal(events[0].venue, 'DIVA栄');
 });
 test('Mousou and lonlium official calendars supplement the full month without memo duplicates', () => {
   const m = getAuditionActivity('osaka-mousou-heroine-new-member-2026').events;
