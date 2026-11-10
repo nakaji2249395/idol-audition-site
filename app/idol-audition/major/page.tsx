@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const selections = [
   { slug: "audition-plus-2026110866", source: "202612/audition-2026110866", point: "つんく♂完全プロデュース。TNX株式会社の創立20年プロジェクトとして募集する新グループです。", kind: "新規グループ", scope: "プロデューサー・主催の実績" },
   { slug: "audition-plus-2026070391", source: "202609/audition-2026070391", point: "虹色幻想曲はTIF・@JAMへの出演やLIQUIDROOM・新宿BLAZEでのワンマン実績を掲載。既存グループと新姉妹グループでは年齢条件が異なります。", kind: "既存グループ＋新姉妹グループ", scope: "虹色幻想曲の活動実績" },
-  { slug: "audition-plus-2026072047", source: "202608/audition-2026072047", point: "ZeppでのワンマンやSUMMER SONIC出演実績を掲載するグループ。月20日以上の活動に参加できることが応募条件です。", kind: "既存グループの追加募集", scope: "募集グループ自身の活動実績" },
+  { slug: "audition-plus-2026072047", source: "202608/audition-2026072047", point: "ZeppでのワンマンやSUMMER SONIC出演実績を掲載するグループ。月間20日程度の活動に参加できることが応募条件です。", kind: "既存グループの追加募集", scope: "募集グループ自身の活動実績" },
   { slug: "audition-plus-2026071844", source: "202608/audition-2026071844", point: "武道館公演を行ったグループやTIF出演グループを手がけるKABUKIMONO’DOGsの新規募集。これらは運営の他グループの実績で、新グループ自身の実績ではありません。", kind: "新規グループ", scope: "運営が手がけた他グループの実績" },
 ];
 
