@@ -356,6 +356,7 @@ export async function updateSubmission(formData: FormData) {
     official_x_url: getNullableString(formData, "official_x_url"),
     official_instagram_url: getNullableString(formData, "official_instagram_url"),
     official_tiktok_url: getNullableString(formData, "official_tiktok_url"),
+    official_youtube_url: getNullableString(formData, "official_youtube_url"),
 
     organizer_name: getString(formData, "organizer_name"),
     organizer_email: getString(formData, "organizer_email"),

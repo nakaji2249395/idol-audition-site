@@ -11,6 +11,9 @@ export type Audition = {
   imageUrl?: string;
   officialSiteUrl?: string;
   officialXUrl?: string;
+  officialInstagramUrl?: string;
+  officialTiktokUrl?: string;
+  officialYoutubeUrl?: string;
   summary: string;
   area: string;
   deadline: string;

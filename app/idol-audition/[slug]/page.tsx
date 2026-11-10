@@ -200,31 +200,27 @@ export default async function AuditionDetailPage({ params }: PageProps) {
             </div>
           </section>
 
-          {audition.officialSiteUrl || audition.officialXUrl ? (
+          {audition.officialSiteUrl || audition.officialXUrl || audition.officialInstagramUrl || audition.officialTiktokUrl || audition.officialYoutubeUrl ? (
             <section className="mt-7 border-t border-slate-200 pt-6">
               <h2 className="text-lg font-black text-slate-950">公式リンク</h2>
               <div className="mt-3 flex flex-wrap gap-2">
-                {audition.officialSiteUrl ? (
+                {[
+                  { label: "公式サイト", url: audition.officialSiteUrl },
+                  { label: "公式X", url: audition.officialXUrl },
+                  { label: "Instagram", url: audition.officialInstagramUrl },
+                  { label: "TikTok", url: audition.officialTiktokUrl },
+                  { label: "YouTube", url: audition.officialYoutubeUrl },
+                ].filter((link) => link.url && /^https?:\/\//i.test(link.url)).map((link) => (
                   <a
-                    href={audition.officialSiteUrl}
+                    key={link.label}
+                    href={link.url}
                     target="_blank"
                     rel="noreferrer"
                     className="rounded-full border border-slate-950 bg-white px-4 py-2.5 text-xs font-black text-slate-950 transition hover:bg-pink-50"
                   >
-                    公式サイト
+                    {link.label}
                   </a>
-                ) : null}
-
-                {audition.officialXUrl ? (
-                  <a
-                    href={audition.officialXUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded-full border border-slate-950 bg-white px-4 py-2.5 text-xs font-black text-slate-950 transition hover:bg-pink-50"
-                  >
-                    公式X
-                  </a>
-                ) : null}
+                ))}
               </div>
             </section>
           ) : null}

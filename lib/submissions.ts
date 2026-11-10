@@ -1,5 +1,6 @@
 import type { Audition, ApplicationMethod } from "@/lib/auditions";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { splitSubmissionHighlights } from "@/lib/submissionHighlights";
 
 export type SubmissionRow = {
   id: string;
@@ -44,6 +45,7 @@ export type SubmissionRow = {
   official_x_url: string | null;
   official_instagram_url: string | null;
   official_tiktok_url: string | null;
+  official_youtube_url?: string | null;
 
   organizer_name: string;
   organizer_email: string;
@@ -54,13 +56,6 @@ export type SubmissionRow = {
   image_url: string | null;
   image_path: string | null;
 };
-
-function splitLines(value: string) {
-  return value
-    .split(/\n|、|,|・/)
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
 
 function buildApplicationMethods(row: SubmissionRow): ApplicationMethod[] {
   const methods: ApplicationMethod[] = [];
@@ -124,6 +119,9 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     imageUrl: row.image_url ?? undefined,
     officialSiteUrl: row.official_site_url ?? undefined,
     officialXUrl: row.official_x_url ?? undefined,
+    officialInstagramUrl: row.official_instagram_url ?? undefined,
+    officialTiktokUrl: row.official_tiktok_url ?? undefined,
+    officialYoutubeUrl: row.official_youtube_url ?? undefined,
     summary: row.summary,
     area: row.area,
     deadline: row.deadline,
@@ -136,7 +134,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
     student: row.student,
     description: row.description,
     applicationMethods: buildApplicationMethods(row),
-    highlights: splitLines(row.activity_content),
+    highlights: splitSubmissionHighlights(row.activity_content),
     selectionFlow: row.selection_flow ? [row.selection_flow] : [],
     recruitmentTypes: row.is_pinned
       ? ["注目オーディション", "公式掲載"]
