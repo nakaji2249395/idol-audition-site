@@ -6,6 +6,7 @@ import { PreparationGuideLink } from "@/components/PreparationGuideLink";
 import { preparationRegion } from "@/lib/preparationRegion";
 import { BeginnerDanceOffer } from "@/components/BeginnerDanceOffer";
 import { spotomoDetailRegion } from "@/lib/spotomoEligibility";
+import { usesFocusedVocalCopy } from "@/lib/preparationOfferCopy";
 
 const DANCE_SIGNALS = /ダンス審査|ダンス実技|ダンス経験|振付|振り付け|踊れる|K-?POP/i;
 
@@ -60,14 +61,15 @@ export function AuditionPreparationOffer({ audition }: { audition: Audition }) {
     return <BeginnerDanceOffer region={spotomoRegion} placement={`audition_detail_end_${audition.slug}`} context="audition-detail" />;
   }
   const selectedOffer = selectPreparationOffer(audition);
+  const focusedCopy = usesFocusedVocalCopy(audition.slug, selectedOffer.offer);
   const region = preparationRegion(audition.area);
 
   return (
     <AffiliateImpression as="aside" offer={selectedOffer.offer} placement={`audition_detail_end_${audition.slug}`} className="mt-9 border-y border-slate-200 py-6" labelledBy="audition-preparation-title">
       <h2 id="audition-preparation-title" className="text-lg font-black text-slate-950">
-        応募前に少し準備しておきたい方へ
+        {focusedCopy ? "歌うと音程がずれる・声が出しづらいと感じる方へ" : "応募前に少し準備しておきたい方へ"}
       </h2>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{selectedOffer.lead}</p>
+      <p className="mt-3 text-sm leading-7 text-slate-600">{focusedCopy ? "応募に向けて、自分の歌の課題を整理したいときに。ナユタスのボイトレは、発声や音程についてマンツーマンで相談したい方の比較候補です。無料体験の内容と通える校舎を公式サイトで確認できます。" : selectedOffer.lead}</p>
       {region.label ? <p className="mt-2 text-xs leading-6 text-slate-500">{region.label === "大阪" ? "大阪では梅田校など" : region.label === "名古屋" ? "名古屋では栄校など" : "大阪の梅田校・名古屋の栄校など"}が候補です。リンク先はコース共通の公式案内です。申込画面で希望校舎を選び、対応コース・空き枠・対象年齢をご確認ください。</p> : null}
       <p className="mt-2 text-xs leading-6 text-slate-500">
         スクールの利用は応募条件ではありません。料金・校舎・対象条件は公式サイトでご確認ください。
