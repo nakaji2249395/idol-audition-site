@@ -7,7 +7,6 @@ import { isOpenAudition, parseAuditionDeadline, sortByPublishedAt } from "@/lib/
 import { auditionRegions, isAuditionInRegion, type AuditionRegion } from "@/lib/auditionDiscovery";
 import { isAgeLimitNoneAudition, isBeginnerFriendlyAudition, isHighSchoolFriendlyAudition, isNoCostAudition, isThirtiesAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
-import { recruitmentTypesFromTitle } from "@/lib/auditionRecruitment";
 import { getAuditionListingSummary } from "@/lib/auditionListingSummary";
 import { getAuditionStyles } from "@/lib/auditionStyles";
 
@@ -28,6 +27,7 @@ export const metadata: Metadata = {
 };
 
 const guideLinks = [
+  { href: "/idol-audition/new-members", title: "新規グループ・追加メンバー募集", text: "立ち上げから参加するか、既存グループに加入するかで比較" },
   {
     href: "/idol-audition/major",
     title: "大手・注目募集を比較",
@@ -253,7 +253,7 @@ export default async function IdolAuditionPage() {
           slug: item.slug, search: `${item.title} ${item.group} ${item.area}`,
           title: item.title, ...getAuditionListingSummary(item), deadlineLabel: item.deadline,
           styles: getAuditionStyles(item),
-          recruitmentTypes: recruitmentTypesFromTitle(item.title),
+          recruitmentTypes: item.sourceRecruitmentTypes ?? [],
           regions: regions.length ? regions : ["other"],
           ages: [isHighSchoolFriendlyAudition(item) ? "high-school" : "", isTwentiesAudition(item) ? "20s" : "", isThirtiesAudition(item) ? "30s" : "", isAgeLimitNoneAudition(item) ? "none" : ""].filter(Boolean),
           beginner: isBeginnerFriendlyAudition(item), free: isNoCostAudition(item),

@@ -18,6 +18,7 @@ type FreshAuditionPageProps = {
 };
 
 const relatedLinks = [
+  { href: "/idol-audition/new-members", label: "新規グループ・追加メンバー募集", description: "新着順ではなく、グループの募集形態から比較する" },
   {
     href: "/idol-audition/new",
     label: "新着オーディション",

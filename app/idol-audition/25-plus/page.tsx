@@ -8,6 +8,7 @@ import {
   isWorkingAdultAudition
 } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
+import { isOpenAudition } from "@/lib/auditionFreshness";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TwentyFivePlusAuditionPage() {
-  const auditions = (await getAllAuditions()).filter(isTwentyFivePlusAudition);
+  const auditions = (await getAllAuditions()).filter(audition => isOpenAudition(audition) && isTwentyFivePlusAudition(audition));
   const beginnerCount = auditions.filter(isBeginnerFriendlyAudition).length;
   const workingAdultCount = auditions.filter(isWorkingAdultAudition).length;
   const noCostCount = auditions.filter(isNoCostAudition).length;
@@ -34,9 +35,11 @@ export default async function TwentyFivePlusAuditionPage() {
     <AudienceAuditionPage
       content={{
         canonical: "/idol-audition/25-plus",
+        ageLimitFilter: true,
+        updatedLabel: "募集中の掲載情報を集計",
         eyebrow: "Auditions for 25+",
         title: "25歳以上のアイドルオーディション 未経験・社会人OK",
-        lead: `現在、25歳以上が応募条件に入る募集を${auditions.length}件掲載しています。20代後半、30歳以上、未経験、社会人から応募できる募集を、年齢上限と活動条件で比較できます。`,
+        lead: `現在、25歳以上が応募条件に入る募集を${auditions.length}件掲載しています。年齢上限なし・上限ありで絞り込み、各募集の年齢条件や未経験・社会人の活動条件を比較できます。`,
         listTitle: "25歳以上・20代後半が応募できるオーディション",
         guideTitle: "25歳以上からアイドルを目指す応募先の選び方",
         guideParagraphs: [
@@ -65,7 +68,7 @@ export default async function TwentyFivePlusAuditionPage() {
           { question: "社会人経験は自己PRになりますか？", answer: "責任感、接客、発信、スケジュール管理、継続力などを具体的に伝えると強みになります。" }
         ],
         relatedLinks: [
-          { href: "/idol-audition/20s", label: "20代後半の募集", description: "25〜29歳を含む20代向け募集を確認する" },
+          { href: "/idol-audition/20s", label: "20代全体の募集を見る", description: "20代前半を含め、未経験からの応募準備や活動条件を確認する" },
           { href: "/idol-audition/30s", label: "30代が応募できる募集", description: "30歳以上・年齢上限なしの募集を比較する" },
           { href: "/idol-audition/working-adult", label: "社会人OKの募集", description: "仕事やダブルワークとの両立条件で探す" },
           { href: "/idol-audition/age-limit-none", label: "年齢制限なしの募集", description: "年齢不問・上限なしの募集を確認する" }

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { DirectoryLink } from "@/components/DirectoryLink";
 import { AuditionComparison } from "@/components/AuditionComparison";
 import { AuditionCard } from "@/components/AuditionCard";
+import { AgeLimitAuditionList } from "@/components/AgeLimitAuditionList";
+import { ageLimitKind } from "@/lib/auditionAgeLimit";
 import { SearchIntentLinks, type SearchIntentLink } from "@/components/SearchIntentLinks";
 import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { TrainingGuidePromo } from "@/components/TrainingGuidePromo";
@@ -19,6 +21,7 @@ export type AudiencePageContent = {
   checks: string[];
   faq: { question: string; answer: string }[];
   updatedLabel?: string;
+  ageLimitFilter?: boolean;
   segmentsEyebrow?: string;
   segmentsTitle?: string;
   relatedLinks?: SearchIntentLink[];
@@ -226,7 +229,9 @@ export function AudienceAuditionPage({
         <p className="mt-3 text-sm leading-7 text-slate-600">
           各募集の年齢条件は、必ず詳細ページと主催者の最新案内で確認してください。
         </p>
-        {auditions.length > 0 ? (
+        {content.ageLimitFilter ? (
+          <AgeLimitAuditionList items={auditions.map(audition => ({ slug: audition.slug, kind: ageLimitKind(audition.age), card: <AuditionCard audition={audition} /> }))} />
+        ) : auditions.length > 0 ? (
           <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {auditions.map((audition) => (
               <AuditionCard key={audition.slug} audition={audition} />

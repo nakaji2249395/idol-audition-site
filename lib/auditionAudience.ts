@@ -110,7 +110,16 @@ export function isUniversityStudentFriendlyAudition(audition: Audition) {
 }
 
 export function isTwentyFivePlusAudition(audition: Audition) {
-  return [25, 27, 29, 30].some((age) => isEligibleAtAge(audition, age));
+  const age = normalizeAgeText(audition.age);
+  if (isAgeLimitNoneAudition(audition)) return true;
+  const ranges = ageRanges(age);
+  const maxima = Array.from(age.matchAll(/(\d{2})\s*(?:歳|才)?\s*(以下|まで|未満)/g),
+    match => Number(match[1]) - (match[2] === "未満" ? 1 : 0));
+  const upperBounds = [...ranges.map(range => range.max), ...maxima];
+  if (upperBounds.length) return upperBounds.some(max => max >= 25);
+  if (/20代|30代|40代/.test(age)) return true;
+  // Explicit lower-bound-only conditions may qualify, but are NOT labelled upper-limit-free.
+  return /\d{2}\s*(?:歳|才)\s*以上/.test(age);
 }
 
 export type AudienceLink = {

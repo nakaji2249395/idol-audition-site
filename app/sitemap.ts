@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "",
     "/idol-audition",
     "/idol-audition/new",
+    "/idol-audition/new-members",
     "/idol-audition/deadline-this-month",
     "/idol-audition/deadline-soon",
     "/idol-audition/tokyo",

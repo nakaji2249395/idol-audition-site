@@ -3,6 +3,7 @@
 import { useId, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { auditionStyles, type AuditionStyle } from "@/lib/auditionStyles";
+import { recruitmentOptions } from "@/lib/auditionRecruitment";
 
 export type DirectoryItem = {
   slug: string;
@@ -66,8 +67,9 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
       </div>
     </fieldset>
     <div role="group" aria-label="募集形態で絞り込む" className="mt-4 flex flex-wrap gap-2">
-      {[["", "すべての募集"], ["new-group", "新規・初期メンバーの記載あり"], ["additional", "追加・新メンバーの記載あり"]].map(([value, label]) => <button key={value} type="button" aria-pressed={recruitmentType === value} onClick={() => setRecruitmentType(value)} className={`min-h-11 rounded-lg border px-3 text-sm font-bold ${recruitmentType === value ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white"}`}>{label}</button>)}
+      {[["", "すべての募集"], ...recruitmentOptions.map(option => [option.id, option.label])].map(([value, label]) => <button key={value} type="button" aria-pressed={recruitmentType === value} onClick={() => setRecruitmentType(value)} className={`min-h-11 rounded-lg border px-3 text-sm font-bold ${recruitmentType === value ? "border-slate-950 bg-slate-950 text-white" : "border-slate-300 bg-white"}`}>{recruitmentType === value ? "✓ " : ""}{label}</button>)}
     </div>
+    <Link href="/idol-audition/new-members" className="mt-3 inline-block text-sm font-bold underline underline-offset-4">新規グループ・追加メンバー募集を比較する →</Link>
     <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <label className="grid gap-2 text-sm font-bold">募集名・地域のキーワード

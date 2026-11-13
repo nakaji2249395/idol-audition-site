@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {ageLimitKind} from '../lib/auditionAgeLimit.ts';
+import {isTwentyFivePlusAudition} from '../lib/auditionAudience.ts';
+import {sourceRecruitmentFromNote} from '../lib/auditionRecruitment.ts';
+for (const [text,kind] of [['18〜29歳','limited'],['25歳まで','limited'],['年齢不問','none'],['18歳以上・上限なし','none'],['18歳以上','unspecified'],['応相談','unspecified'],['18〜25歳、経験者は年齢不問','unspecified']]) assert.equal(ageLimitKind(text),kind,text);
+for (const [age,result] of [['18〜24歳',false],['25歳未満',false],['18〜29歳',true],['年齢不問',true],['18歳以上',true],['応相談',false],['20代',true]]) assert.equal(isTwentyFivePlusAudition({age}),result,age);
+const source='https://audition.nerim.info/audition-202611/audition-2026102744.html';
+assert.deepEqual(sourceRecruitmentFromNote(`[audition-plus-recruitment]${JSON.stringify({source,types:['new-group','additional','invalid','additional']})}`),['new-group','additional']);
+assert.deepEqual(sourceRecruitmentFromNote('新メンバー募集'),[]);
+assert.deepEqual(sourceRecruitmentFromNote('[audition-plus-recruitment]{broken'),[]);
+assert.deepEqual(sourceRecruitmentFromNote('[audition-plus-recruitment]{"types":["new-group"]}'),[]);
+console.log('Age and source recruitment checks passed');

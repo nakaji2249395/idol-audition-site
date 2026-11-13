@@ -5,9 +5,11 @@ import {
   isBeginnerFriendlyAudition,
   isEligibleAtAge,
   isNoCostAudition,
+  isTwentyFivePlusAudition,
   isTwentiesAudition
 } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
+import { isOpenAudition } from "@/lib/auditionFreshness";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +29,7 @@ export const metadata: Metadata = {
 const baseContent = {
   canonical: "/idol-audition/20s",
   eyebrow: "Auditions for 20s",
+  updatedLabel: "募集中の掲載情報を集計",
   title: "20代のアイドルオーディション 未経験・社会人OKの募集",
   listTitle: "20代未経験・社会人が応募できる募集中のオーディション",
   guideTitle: "20代後半・未経験からアイドルや歌手を目指す方法",
@@ -102,8 +105,13 @@ const baseContent = {
   ],
   relatedLinks: [
     {
+      href: "/idol-audition/25-plus",
+      label: "25歳以上・20代後半の募集を探す",
+      description: "年齢上限なし・上限ありで絞り込んで比較する"
+    },
+    {
       href: "/idol-audition/mikeiken",
-      label: "20代・未経験から応募できる募集",
+      label: "全年齢の未経験歓迎募集を見る",
       description: "歌やダンスが初めてでも応募しやすいオーディションを比較する"
     },
     {
@@ -130,9 +138,9 @@ const baseContent = {
 };
 
 export default async function TwentiesAuditionPage() {
-  const auditions = (await getAllAuditions()).filter(isTwentiesAudition);
+  const auditions = (await getAllAuditions()).filter(audition => isOpenAudition(audition) && isTwentiesAudition(audition));
   const earlyTwenties = auditions.filter((audition) => isEligibleAtAge(audition, 22));
-  const lateTwenties = auditions.filter((audition) => isEligibleAtAge(audition, 27));
+  const lateTwenties = auditions.filter(isTwentyFivePlusAudition);
   const beginnerAuditions = auditions.filter(isBeginnerFriendlyAudition);
   const noCostAuditions = auditions.filter(isNoCostAudition);
   const freeLessonAuditions = auditions.filter((audition) =>
@@ -142,7 +150,7 @@ export default async function TwentiesAuditionPage() {
   );
   const content = {
     ...baseContent,
-    lead: `現在、20代が応募条件に入る募集を${auditions.length}件掲載しています。20代未経験、20代後半、25歳以上、社会人から応募できる募集を、費用なし・レッスン無料などの条件と一緒に比較できます。`
+    lead: `現在、20代が応募条件に入る募集を${auditions.length}件掲載しています。20代前半を含む20代全体の募集を、未経験・費用・活動条件から比較できます。25歳以上で年齢上限を重視したい方は、25歳以上の専用ページから絞り込めます。`
   };
 
   return (
@@ -151,7 +159,7 @@ export default async function TwentiesAuditionPage() {
       auditions={auditions}
       stats={[
         { value: beginnerAuditions.length, label: "20代・未経験OK" },
-        { value: lateTwenties.length, label: "25歳以上・20代後半" },
+        { value: lateTwenties.length, label: "25歳以上の募集を詳しく探す", href: "/idol-audition/25-plus" },
         { value: noCostAuditions.length, label: `費用負担が少ない（レッスン無料 ${freeLessonAuditions.length}件）` }
       ]}
       segments={[
