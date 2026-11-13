@@ -80,8 +80,8 @@ const guideLinks = [
   },
   {
     href: "/idol-audition/sapporo",
-    title: "札幌のアイドルオーディション",
-    text: "札幌を拠点に活動する新メンバー募集"
+    title: "札幌・北海道のアイドルオーディション",
+    text: "札幌・北海道の活動拠点と条件から探す"
   },
   {
     href: "/idol-audition/nationwide",

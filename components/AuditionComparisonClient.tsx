@@ -50,6 +50,11 @@ function ComparisonContent({ rows, title, initialBeginner, regional, showGroup, 
   const [highSchool, setHighSchool] = useState(condition === "high-school");
   const [noCost, setNoCost] = useState(condition === "free");
   const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    if (regional && condition) {
+      document.getElementById(`regional-${condition}`)?.scrollIntoView({ block: "start" });
+    }
+  }, [regional, condition]);
   const filtered = rows.filter((row) => (!beginner || row.beginner) && (!working || row.working)
     && (!highSchool || row.highSchool) && (!noCost || row.noCost)
     && `${row.title} ${showGroup ? row.group : ""} ${row.area} ${row.age}`.normalize("NFKC").toLowerCase().includes(query.trim().normalize("NFKC").toLowerCase()));

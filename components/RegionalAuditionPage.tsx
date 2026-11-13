@@ -47,7 +47,7 @@ export async function RegionalAuditionPage({ content }: { content: RegionPageCon
     isOpenAudition(audition) && isAuditionInRegion(audition, content.region)
   );
   const region = auditionRegions[content.region];
-  const localConditions = content.region === "osaka" || content.region === "nagoya";
+  const localConditions = content.region === "osaka" || content.region === "nagoya" || content.region === "sapporo";
   const conditionLinks: Record<string, string> = {
     "/idol-audition/mikeiken": "#regional-beginner",
     "/idol-audition/high-school": "#regional-high-school",

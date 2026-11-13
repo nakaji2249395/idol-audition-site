@@ -87,11 +87,11 @@ export function isThirtiesAudition(audition: Audition) {
 }
 
 export function isWorkingAdultAudition(audition: Audition) {
-  const text = [audition.age, audition.student, audition.description].join(" ");
-
-  return /社会人|会社員|ダブルワーク|仕事.{0,8}両立|就業者|フルタイム勤務者.{0,5}OK|アルバイト.{0,8}両立/.test(
-    text
-  );
+  const text = [audition.age, audition.student, audition.description, ...audition.features]
+    .join(" ").normalize("NFKC");
+  // A request for professional manners is not permission to keep a day job.
+  const eligible = /(?:社会人|会社員|就業者|フルタイム勤務者)[^。\n]{0,18}(?:OK|歓迎|相談可|応募可能|応募可|両立|参加可能)|(?:社会人|会社員)(?:も)?可|(?:仕事|本業|アルバイト)[^。\n]{0,12}両立|(?:仕事|本業)があっても|働きながら[^。\n]{0,12}(?:活動|参加|応募)|ダブルワーク[^。\n]{0,8}(?:OK|可|歓迎|相談)/i;
+  return eligible.test(text.replace(/社会人として[^。\n]*/g, ""));
 }
 
 export function isTeenAudition(audition: Audition) {

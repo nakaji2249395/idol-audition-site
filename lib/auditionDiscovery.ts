@@ -33,8 +33,8 @@ export const auditionRegions: Record<
   },
   sapporo: {
     href: "/idol-audition/sapporo",
-    label: "札幌",
-    keywords: ["札幌"]
+    label: "札幌・北海道",
+    keywords: ["札幌", "北海道", "釧路"]
   },
   nationwide: {
     href: "/idol-audition/nationwide",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AudienceAuditionPage } from "@/components/AudienceAuditionPage";
 import { getAllAuditions } from "@/lib/auditionData";
+import { isOpenAudition } from "@/lib/auditionFreshness";
 import {
   isAgeLimitNoneAudition,
   isBeginnerFriendlyAudition,
@@ -12,12 +13,12 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "社会人OKのアイドルオーディション【2026年10月】未経験・仕事と両立",
+  title: "社会人OKのアイドルオーディション｜未経験・仕事との両立で比較",
   description:
     "社会人・会社員・ダブルワークでも相談できるアイドルオーディションを掲載。平日夜・土日の活動、年齢、費用などを比較できます。",
   alternates: { canonical: "/idol-audition/working-adult" },
   openGraph: {
-    title: "社会人OKのアイドルオーディション【2026年10月】未経験・仕事と両立",
+    title: "社会人OKのアイドルオーディション｜未経験・仕事との両立で比較",
     description: "社会人・会社員・未経験から、仕事とアイドル活動の両立を相談できる募集を比較できます。",
     url: `${siteConfig.url}/idol-audition/working-adult`,
     type: "article"
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
 const content = {
   canonical: "/idol-audition/working-adult",
   eyebrow: "Working adult",
+  updatedLabel: "社会人・仕事との両立について記載のある募集を掲載",
   title: "社会人OKのアイドルオーディション 未経験・仕事と両立できる募集",
   listTitle: "社会人・仕事との両立を相談できる募集",
   guideTitle: "社会人がアイドル活動と仕事を両立するには",
@@ -97,7 +99,7 @@ const content = {
   ],
   relatedLinks: [
     {
-      href: "/idol-audition/mikeiken",
+      href: "#working-beginner",
       label: "社会人・未経験OKのアイドル募集",
       description: "初めてでも応募しやすい募集とレッスン条件を比較する"
     },
@@ -125,7 +127,7 @@ const content = {
 };
 
 export default async function WorkingAdultAuditionPage() {
-  const auditions = (await getAllAuditions()).filter(isWorkingAdultAudition);
+  const auditions = (await getAllAuditions()).filter((audition) => isOpenAudition(audition) && isWorkingAdultAudition(audition));
   const beginnerAuditions = auditions.filter(isBeginnerFriendlyAudition);
   const noCostAuditions = auditions.filter(isNoCostAudition);
   const noAgeLimitAuditions = auditions.filter(isAgeLimitNoneAudition);
@@ -139,15 +141,15 @@ export default async function WorkingAdultAuditionPage() {
       content={pageContent}
       auditions={auditions}
       stats={[
-        { value: beginnerAuditions.length, label: "社会人・未経験OK", href: "/idol-audition/mikeiken" },
-        { value: noCostAuditions.length, label: "費用負担が少ない", href: "/idol-audition/free" },
-        { value: noAgeLimitAuditions.length, label: "年齢制限なし", href: "/idol-audition/age-limit-none" }
+        { value: beginnerAuditions.length, label: "社会人・未経験OK", href: "#working-beginner" },
+        { value: noCostAuditions.length, label: "費用負担が少ない", href: "#working-low-cost" },
+        { value: noAgeLimitAuditions.length, label: "年齢制限なし" }
       ]}
       segments={[
         {
           id: "working-beginner",
           title: "社会人・未経験から応募できる募集",
-          description: "仕事を続けながら初めて挑戦しやすい募集を確認できます。",
+          description: "未経験OKかつ仕事との両立を相談できる募集です。活動時間は各募集で確認できます。",
           auditions: beginnerAuditions
         },
         {
