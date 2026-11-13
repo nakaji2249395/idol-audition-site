@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuditionCard } from "@/components/AuditionCard";
 import { AuditionDirectory } from "@/components/AuditionDirectory";
-import { FeaturedHiraeth } from "@/components/FeaturedHiraeth";
-import { PriorityAuditionLinks } from "@/components/PriorityAuditionLinks";
-import { FreshnessLinks } from "@/components/FreshnessLinks";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isOpenAudition, parseAuditionDeadline, sortByPublishedAt } from "@/lib/auditionFreshness";
 import { auditionRegions, isAuditionInRegion, type AuditionRegion } from "@/lib/auditionDiscovery";
@@ -163,17 +160,6 @@ const guideLinks = [
   }
 ];
 
-const checks = [
-  "活動地域は通える範囲か",
-  "未経験OKか、経験者向けか",
-  "登録料・レッスン費・衣装代などの費用が明記されているか",
-  "高校生・未成年の場合、保護者同意が必要か",
-  "応募方法がLINE・フォーム・メールなどで明確か",
-  "運営会社や公式SNS、活動実績が確認できるか",
-  "合格後の活動内容や選考フローが分かるか",
-  "報酬や物販バックの考え方が説明されているか"
-];
-
 const faq = [
   {
     question: "アイドルオーディションはどう選べばいいですか？",
@@ -259,21 +245,8 @@ export default async function IdolAuditionPage() {
         </p>
         </div>
         <p className="mt-4 text-sm font-bold">現在募集中 <strong className="text-2xl text-pink-700">{allAuditions.length}</strong> 件 <span className="font-normal text-slate-500">（締切未設定・随時募集を含む）</span></p>
-        <nav aria-label="新着・締切から探す" className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
-          <Link href="/idol-audition/new" className="inline-flex min-h-11 items-center text-sm font-bold underline">新着募集</Link>
-          <Link href="/idol-audition/deadline-soon" className="inline-flex min-h-11 items-center text-sm font-bold underline">締切7日以内</Link>
-          <Link href="/idol-audition/deadline-this-month" className="inline-flex min-h-11 items-center text-sm font-bold underline">今月締切</Link>
-          <Link href="/idol-audition/major" className="inline-flex min-h-11 items-center text-sm font-bold underline">大手・注目募集を比較</Link>
-          <a href="#find-by-condition" className="inline-flex min-h-11 items-center text-sm font-bold underline">条件別の探し方</a>
-        </nav>
       </header>
 
-      <nav aria-label="地域・応募条件別の募集一覧" className="mb-6 flex flex-wrap gap-x-5 gap-y-1 border-b border-slate-200 pb-5">
-        {[
-          ["tokyo", "東京・関東"], ["osaka", "大阪・関西"], ["nagoya", "名古屋・東海"],
-          ["mikeiken", "未経験・初心者OK"], ["high-school", "高校生"], ["20s", "20代"], ["free", "費用条件から探す"]
-        ].map(([slug, label]) => <Link key={slug} href={`/idol-audition/${slug}`} className="inline-flex min-h-11 items-center text-sm font-bold underline">{label}</Link>)}
-      </nav>
       <AuditionDirectory items={allAuditions.map(item => {
         const regions = (Object.keys(auditionRegions) as AuditionRegion[]).filter(region => isAuditionInRegion(item, region));
         return {
@@ -289,101 +262,44 @@ export default async function IdolAuditionPage() {
           card: <AuditionCard audition={item} compare />
         };
       })} />
-      <section aria-labelledby="women-audition-guide" className="my-10 border-y border-slate-200 py-6">
-        <h2 id="women-audition-guide" className="text-lg font-bold">初めての方へ：募集を選んでから応募するまで</h2>
-        <ol className="mt-4 grid gap-5 text-sm leading-7 text-slate-600 sm:grid-cols-3">
-          <li><h3 className="font-bold text-slate-950">1. 年齢と活動地域を確認</h3><p>応募できる年齢や、合格後に通う地域は募集ごとに異なります。学生・社会人の方は活動時間も確認しましょう。</p></li>
-          <li><h3 className="font-bold text-slate-950">2. 費用と選考内容を比較</h3><p>参加費と合格後のレッスン費・衣装代・交通費は別々に確認。<Link href="/idol-audition/mikeiken" className="font-bold underline">未経験の方の募集探しと応募準備</Link>も参考にしてください。</p></li>
-          <li><h3 className="font-bold text-slate-950">3. 募集先へ必要事項を送信</h3><p>詳細ページの案内に沿って応募します。当サイトのLINE友だち追加だけでは応募完了になりません。<Link href="/idol-audition/how-to-apply" className="font-bold underline">応募文・写真の準備を見る</Link>。</p></li>
-        </ol>
-        <details className="mt-5 border-t border-slate-200 pt-3 text-xs leading-6 text-slate-600">
-          <summary className="flex min-h-11 cursor-pointer items-center font-bold">この一覧の掲載範囲・条件表示について ＋</summary>
+      <section id="find-by-condition" aria-labelledby="directory-guides" className="mt-12 border-t border-slate-200 pt-6">
+        <h2 id="directory-guides" className="text-lg font-bold">条件別の募集・応募ガイド</h2>
+        <nav aria-label="条件別の募集と応募準備" className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+          {[
+            { title: "地域から探す", slugs: ["tokyo", "kanagawa", "osaka", "nagoya", "fukuoka", "sapporo", "nationwide"] },
+            { title: "年齢・応募条件から探す", slugs: ["mikeiken", "free", "high-school", "teens", "university-student", "age", "20s", "30s", "25-plus", "age-limit-none", "working-adult"] },
+            { title: "新着・締切・注目募集", slugs: ["new", "deadline-this-month", "deadline-soon", "major"] },
+            { title: "応募の準備", slugs: ["photos", "agency-guide", "suspicious", "how-to-apply"] }
+          ].map(group => (
+            <div key={group.title}>
+              <h3 className="text-sm font-bold text-slate-600">{group.title}</h3>
+              <ul className="mt-2 flex flex-wrap gap-x-5">
+                {group.slugs.map(slug => {
+                  const guide = guideLinks.find(item => item.href === `/idol-audition/${slug}`)!;
+                  return <li key={slug}><Link href={guide.href} className="inline-flex min-h-11 items-center text-sm underline underline-offset-4 hover:text-pink-700">{guide.title}</Link></li>;
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+        <p className="mt-5 text-xs leading-6 text-slate-600">
+          年齢・活動地域・費用と選考内容は各募集の詳細でご確認ください。当サイトのLINE友だち追加だけでは応募完了になりません。
+        </p>
+        <details className="mt-3 border-t border-slate-200 py-2 text-xs leading-6 text-slate-600">
+          <summary className="min-h-11 cursor-pointer py-3 font-bold">この一覧の掲載範囲・条件表示について</summary>
           <p>女性メンバーの募集を中心に、新規グループ・追加メンバーなどを掲載しています。登録されている締切が過ぎた募集は一覧から除外し、締切未設定・随時募集は含めています。募集終了や条件変更がある場合は、募集主の最新案内もご確認ください。</p>
           <p className="mt-2">絞り込みは募集要項の記載をもとにしています。「無料」の対象や年齢の例外は募集ごとに異なり、すべての費用が無料であることや合格を保証するものではありません。<Link href="/about" className="underline">運営情報</Link></p>
         </details>
       </section>
-      <div className="mt-12" />
-      <FeaturedHiraeth />
 
-      <FreshnessLinks className="mb-10" />
-
-      <PriorityAuditionLinks auditions={allAuditions} />
-
-      <aside className="mb-14 grid gap-5 border-y border-slate-200 bg-white px-5 py-6 sm:grid-cols-[1fr_auto] sm:items-center sm:px-7" aria-label="女性向けオーディションの案内">
-        <div>
-          <p className="text-sm font-black text-slate-950">女性向けの募集条件を確認してから応募しましょう</p>
-          <p className="mt-2 text-sm leading-7 text-slate-600">
-            募集ごとに対象年齢、活動地域、レッスン費、所属条件が異なります。事務所や運営会社まで比較したい方は、選び方ガイドも確認できます。
-          </p>
-        </div>
-        <Link href="/idol-audition/agency-guide" className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-950 px-5 py-3 text-xs font-black text-slate-950 transition hover:bg-pink-50">
-          アイドルになりたい方の始め方・事務所選び →
-        </Link>
-      </aside>
-
-      <section id="find-by-condition" className="mb-20 scroll-mt-24 border-y border-slate-200 py-12 sm:py-16">
-        <p className="editorial-kicker">Find by condition</p>
-        <h2 className="section-heading mt-2">
-          条件別にアイドルオーディションを探す
-        </h2>
-        <div className="mt-7 grid gap-px overflow-hidden rounded-[18px] border border-slate-200 bg-slate-200 md:grid-cols-2 lg:grid-cols-3">
-          {guideLinks.map((guide, index) => (
-            <Link
-              key={guide.href}
-              href={guide.href}
-              className="group bg-white p-6 transition hover:bg-pink-50"
-            >
-              <span className="text-[10px] font-black tracking-[0.16em] text-pink-600">{String(index + 1).padStart(2, "0")}</span>
-              <h3 className="text-lg font-black text-slate-950">{guide.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{guide.text}</p>
-              <span className="mt-4 inline-block font-black transition group-hover:translate-x-1">→</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <article className="paper-panel mb-16 p-6 sm:p-10">
-        <p className="editorial-kicker">Before you apply</p>
-        <h2 className="section-heading mt-3">
-          アイドルオーディションを選ぶときのチェックポイント
-        </h2>
-
-        <p className="mt-6 leading-8 text-slate-600">
-          アイドルオーディションを選ぶときは、募集タイトルだけで判断せず、活動地域、費用、応募条件、運営会社、選考フローを確認することが大切です。
-          特に未経験者、高校生、未成年の方は、合格後にどのような活動があるのか、費用や保護者同意が必要かを確認しましょう。
-        </p>
-
-        <div className="mt-6 grid gap-3">
-          {checks.map((check) => (
-            <div key={check} className="flex gap-3 border-t border-slate-200 py-4 leading-8 text-slate-700">
-              <span className="mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-pink-100 text-xs font-black text-pink-700">✓</span>
-              {check}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 rounded-3xl bg-pink-50 p-6">
-          <h3 className="text-xl font-black text-slate-950">
-            迷ったら「費用・運営情報・活動地域」を先に確認
-          </h3>
-          <p className="mt-3 leading-8 text-slate-700">
-            どのオーディションに応募するか迷ったら、まずは費用の有無、運営会社や公式SNS、活動地域を確認しましょう。
-            条件が明確な募集ほど、応募前に判断しやすくなります。
-          </p>
-        </div>
-      </article>
-
-      <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-bold text-pink-600">FAQ</p>
-        <h2 className="mt-2 text-3xl font-black text-slate-950">
-          女性アイドルオーディションのよくある質問
-        </h2>
-        <div className="mt-6 grid gap-4">
-          {faq.map((item) => (
-            <div key={item.question} className="rounded-2xl bg-slate-50 p-5">
-              <h3 className="font-black text-slate-950">Q. {item.question}</h3>
-              <p className="mt-3 leading-8 text-slate-600">A. {item.answer}</p>
-            </div>
+      <section aria-labelledby="directory-faq" className="mt-8 border-t border-slate-200 pt-6">
+        <h2 id="directory-faq" className="text-lg font-bold">女性アイドルオーディションのよくある質問</h2>
+        <div className="mt-3 divide-y divide-slate-200">
+          {faq.map(item => (
+            <details key={item.question} className="py-2">
+              <summary className="min-h-11 cursor-pointer py-3 text-sm font-bold">{item.question}</summary>
+              <p className="pb-3 text-sm leading-7 text-slate-600">{item.answer}</p>
+            </details>
           ))}
         </div>
       </section>
