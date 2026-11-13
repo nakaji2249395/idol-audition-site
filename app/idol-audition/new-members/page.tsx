@@ -23,7 +23,6 @@ export default async function NewMembersPage() {
     <header className="mt-8 border-b border-slate-200 pb-7">
       <p className="editorial-kicker">New & additional members</p>
       <h1 className="mt-3 text-3xl font-black leading-tight sm:text-5xl">アイドル新メンバー募集<br /><span className="text-2xl sm:text-3xl">新規グループ・初期メンバー／既存グループの追加募集</span></h1>
-      <p className="mt-5 max-w-3xl leading-8 text-slate-600">現在募集中の{auditions.length}件を、グループの立ち上げから参加する募集と、既存グループへ加入する募集に分けて探せます。両方を同時に募集している案件は、どちらの条件からも確認できます。</p>
     </header>
     <RecruitmentAuditionList items={auditions.map(item => ({ slug: item.slug, types: item.sourceRecruitmentTypes ?? [], card: <AuditionCard audition={item} /> }))} />
     <section className="mt-14 border-t border-slate-200 pt-8">
