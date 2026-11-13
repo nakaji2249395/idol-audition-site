@@ -115,6 +115,7 @@ export function submissionToAudition(row: SubmissionRow): Audition {
   ].filter(Boolean);
 
   return {
+    category: row.admin_note?.includes("[audition-category:mens]") || row.slug?.startsWith("mens-plus-") ? "mens" : "women",
     slug: row.slug || `submission-${row.id}`,
     sourceStyleCategories: sourceStylesFromNote(row.admin_note),
     sourceRecruitmentTypes: sourceRecruitmentFromNote(row.admin_note),
@@ -181,6 +182,7 @@ export async function fetchApprovedAuditions(): Promise<Audition[]> {
 
 export type ApprovedSitemapEntry = {
   slug: string;
+  admin_note: string | null;
   updated_at: string;
   image_url: string | null;
 };
@@ -188,7 +190,7 @@ export type ApprovedSitemapEntry = {
 export async function fetchApprovedSitemapEntries(): Promise<ApprovedSitemapEntry[]> {
   const { data, error } = await supabaseAdmin
     .from("audition_submissions")
-    .select("slug, updated_at, image_url")
+    .select("slug, updated_at, image_url, admin_note")
     .eq("status", "approved")
     .not("slug", "is", null)
     .order("updated_at", { ascending: false });

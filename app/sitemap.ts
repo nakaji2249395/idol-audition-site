@@ -15,6 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/idol-audition",
+    "/mens-idol-audition",
     "/idol-audition/new",
     "/idol-audition/new-members",
     "/idol-audition/deadline-this-month",
@@ -68,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
   const approvedEntries: MetadataRoute.Sitemap = approvedAuditions.map((audition) => ({
-    url: `${siteConfig.url}/idol-audition/${audition.slug}`,
+    url: `${siteConfig.url}/${audition.slug.startsWith("mens-plus-") || audition.admin_note?.includes("[audition-category:mens]") ? "mens-idol-audition" : "idol-audition"}/${audition.slug}`,
     lastModified: audition.updated_at,
     changeFrequency: "daily",
     priority: 0.8,

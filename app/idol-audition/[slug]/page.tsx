@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DirectoryLink } from "@/components/DirectoryLink";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 import { AuditionCard } from "@/components/AuditionCard";
 import { AuditionPreparationOffer } from "@/components/AuditionPreparationOffer";
@@ -32,6 +32,7 @@ const getAudition = cache(async (slug: string) => {
   const dbAudition = await fetchApprovedAuditionBySlug(slug);
 
   if (dbAudition) {
+    if (dbAudition.category === "mens") permanentRedirect(`/mens-idol-audition/${dbAudition.slug}`);
     return dbAudition;
   }
 

@@ -5,6 +5,7 @@ export type ApplicationMethod = {
 };
 
 export type Audition = {
+  category?: "women" | "mens";
   sourceRecruitmentTypes?: ("new-group" | "additional")[];
   sourceStyleCategories?: string[];
   slug: string;

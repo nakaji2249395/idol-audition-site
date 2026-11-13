@@ -255,7 +255,7 @@ export function ApplyClient({
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-10">
-      <Link href="/idol-audition" className="text-sm font-bold text-slate-500 hover:text-pink-600">
+      <Link href={(audition?.slug || initialAuditionSlug)?.startsWith("mens-plus-") ? "/mens-idol-audition" : "/idol-audition"} className="text-sm font-bold text-slate-500 hover:text-pink-600">
         ← オーディション一覧へ戻る
       </Link>
 
@@ -334,7 +334,7 @@ export function ApplyClient({
 
 
               <Link
-                href="/idol-audition"
+                href={(audition?.slug || initialAuditionSlug)?.startsWith("mens-plus-") ? "/mens-idol-audition" : "/idol-audition"}
                 className="rounded-full border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-700"
               >
                 他のオーディションも見る
