@@ -29,7 +29,6 @@ export default function MensDirectory({ items }: { items: Item[] }) {
         <h2>{a.title}</h2>
         <p className={styles.cardSummary}>{a.summary}</p>
         <div className={styles.tags}>{a.age ? <span>{a.age}</span> : null}{a.beginner ? <span>未経験歓迎</span> : null}</div>
-        {a.activity ? <p className={styles.activity}>{a.activity}</p> : null}
         <div className={styles.deadline}><span>締切 {a.deadline}</span><span aria-hidden="true">→</span></div>
       </div>
     </Link>)}</div>
