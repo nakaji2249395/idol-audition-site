@@ -5,6 +5,7 @@ import { cache } from "react";
 import { fetchApprovedAuditionBySlug } from "@/lib/submissions";
 import { getApplyUrl } from "@/lib/applyUrl";
 import { isOpenAudition } from "@/lib/auditionFreshness";
+import { getMensAuditions } from "@/lib/auditionData";
 import { TrackedApplyLink } from "@/components/TrackedApplyLink";
 import styles from "../mens.module.css";
 
@@ -23,6 +24,12 @@ export default async function MensDetail({ params }: Props) {
   const a = await getAudition((await params).slug);
   if (!a) notFound();
   const open = isOpenAudition(a);
+  const regionWords = a.area.match(/東京|大阪|名古屋|福岡|札幌|関東|関西|愛知|北海道/g) ?? [];
+  const related = (await getMensAuditions())
+    .filter(item => item.slug !== a.slug && isOpenAudition(item))
+    .map(item => ({ item, score: regionWords.some(region => item.area.includes(region)) ? 1 : 0 }))
+    .sort((left, right) => right.score - left.score)
+    .slice(0, 3).map(({ item }) => item);
   const sections = [
     ["募集内容", a.description], ["応募資格", a.age],
     ["オーディションの流れ", a.selectionFlow?.join("\n\n")],
@@ -38,5 +45,15 @@ export default async function MensDetail({ params }: Props) {
       {sections.map(([heading, body]) => <section className={styles.section} key={heading}><h2>{heading}</h2><p>{body}</p></section>)}
       {official.length ? <section className={styles.section}><h2>公式リンク</h2><div className={styles.official}>{official.map(([label, url]) => <a href={url!} key={label} target="_blank" rel="noopener noreferrer">{label} ↗</a>)}</div></section> : null}
     </article><aside className={styles.sidebar}><div className={styles.applyBox}><p className={styles.eyebrow}>{open ? "NEXT STEP" : "CLOSED"}</p><h2>{open ? "応募案内を受け取る" : "募集期間が終了しました"}</h2>{open ? <><p>ナビ公式LINEで応募先をご案内します。友だち追加だけでは応募は完了しません。</p><TrackedApplyLink href={getApplyUrl(a.slug)} auditionSlug={a.slug} surface="detail_sidebar" className={styles.lineButton}>この募集にLINEで応募する →</TrackedApplyLink></> : <Link href="/mens-idol-audition">募集中のオーディションを見る →</Link>}</div></aside></div>
+    {related.length > 0 ? <section className={styles.section} aria-labelledby="related-mens-heading">
+      <h2 id="related-mens-heading">ほかの募集中メンズオーディション</h2>
+      <ul className={styles.relatedList}>{related.map(item => <li key={item.slug}>
+        <Link href={`/mens-idol-audition/${item.slug}`}>
+          <strong>{item.title}</strong>
+          <span>{item.area}｜締切 {item.deadline}</span>
+        </Link>
+      </li>)}</ul>
+      <Link className={styles.back} href="/mens-idol-audition">メンズの募集を条件から探す →</Link>
+    </section> : null}
   </main>;
 }

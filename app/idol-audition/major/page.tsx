@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllAuditions } from "@/lib/auditionData";
 import { isOpenAudition } from "@/lib/auditionFreshness";
+import { getAuditionListingSummary } from "@/lib/auditionListingSummary";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -18,6 +19,16 @@ const selections = [
   { slug: "audition-plus-2026072047", source: "202608/audition-2026072047", point: "ZeppでのワンマンやSUMMER SONIC出演実績を掲載するグループ。月間20日程度の活動に参加できることが応募条件です。", kind: "既存グループの追加募集", scope: "募集グループ自身の活動実績" },
   { slug: "audition-plus-2026071844", source: "202608/audition-2026071844", point: "武道館公演を行ったグループやTIF出演グループを手がけるKABUKIMONO’DOGsの新規募集。これらは運営の他グループの実績で、新グループ自身の実績ではありません。", kind: "新規グループ", scope: "運営が手がけた他グループの実績" },
 ];
+
+// Editorial excerpts checked against each linked listing; the full terms remain below.
+const costSummaries: Record<string, string> = {
+  "audition-plus-2026110544": "所属・衣装・レッスン等は無料。売上が一定水準に達するまで交通費は原則自己負担。",
+  "audition-plus-2026101552": "所属・レッスン費なし。審査会場までの交通費は自己負担。",
+  "audition-plus-2026110866": "合格後費用なし。審査の交通費は自己負担、活動交通費は支給。",
+  "audition-plus-2026070391": "参加・所属・レッスン等は無料。面接交通費は自己負担。活動交通費は原則支給（一部例外あり）。",
+  "audition-plus-2026072047": "衣装・レッスン等は無料。面接・関東圏の活動交通費、消耗品・食費・上京生活費は自己負担。",
+  "audition-plus-2026071844": "衣装・レッスン等は無料。面接・関東圏の活動交通費、消耗品・食費・上京生活費は自己負担。",
+};
 
 export default async function MajorAuditionsPage() {
   const auditions = await getAllAuditions();
@@ -37,19 +48,21 @@ export default async function MajorAuditionsPage() {
       <a href="#comparison">条件比較表</a><a href="#list">募集・実績を見る</a><a href="#choose">大手・注目募集の選び方</a><Link href="/idol-audition/how-to-apply">自己PRを準備</Link><Link href="/idol-audition/photos">応募写真を準備</Link>
     </nav>
     {entries.length > 0 ? <section id="comparison" className="mb-12 scroll-mt-24" aria-labelledby="comparison-heading">
-      <h2 id="comparison-heading" className="text-2xl font-black">年齢・地域・締切・費用を比較</h2>
+      <h2 id="comparison-heading" className="text-2xl font-black">年齢・活動日程・費用を比較</h2>
       <p className="mt-3 text-sm leading-7 text-slate-600">スマートフォンでは表を横にスクロールできます。年齢は要項からの抜粋です。姉妹グループとの違い・契約などの条件は詳細で確認してください。</p>
       <div role="region" aria-label="注目募集の比較表（横スクロール）" tabIndex={0} className="mt-5 overflow-x-auto border-y border-slate-200">
         <table className="w-full min-w-[900px] text-left text-sm leading-7">
           <caption className="sr-only">現在募集中の注目アイドルオーディションの比較</caption>
-          <thead className="bg-[#f8f2ef]"><tr>{["募集・募集形態", "年齢条件の抜粋", "活動地域", "締切", "費用・自己負担"].map(label => <th key={label} scope="col" className="p-4">{label}</th>)}</tr></thead>
+          <thead className="bg-[#f8f2ef]"><tr>{["募集・募集形態", "年齢条件", "活動地域・日程", "締切", "費用・自己負担"].map(label => <th key={label} scope="col" className="p-4">{label}</th>)}</tr></thead>
           <tbody>{entries.map(({ audition, kind }) => {
+            const summary = getAuditionListingSummary(audition);
             const ageLines = audition.age.split(/\n/).filter(line => /\d.*[歳才]|年齢制限なし/.test(line));
+            const ageExcerpt = summary.age || (ageLines.length === 1 ? ageLines[0].replace(/^[・\s]+/, "") : "");
             return <tr key={audition.slug} className="border-t border-slate-200 align-top">
               <th scope="row" className="min-w-56 p-4"><a href={`#${audition.slug}`} className="underline">{audition.title}</a><p className="mt-2 font-normal text-slate-600">{kind}</p></th>
-              <td className="min-w-48 p-4">{ageLines.length ? ageLines.join(" ／ ") : <a href={`#${audition.slug}`} className="underline">応募資格を見る</a>}</td>
-              <td className="min-w-28 p-4">{audition.area}</td><td className="whitespace-nowrap p-4">{audition.deadline}</td>
-              <td className="min-w-60 p-4"><details><summary className="min-h-11 cursor-pointer font-bold underline">参加費・合格後費用を開く</summary><p className="mt-3 whitespace-pre-line">{audition.cost}</p></details></td>
+              <td className="min-w-48 p-4">{ageExcerpt || <a href={`#${audition.slug}`} className="underline">募集別の年齢条件を見る</a>}</td>
+              <td className="min-w-48 p-4">{audition.area}{summary.activity ? <p className="mt-2 text-slate-600">{summary.activity}</p> : null}</td><td className="whitespace-nowrap p-4">{audition.deadline}</td>
+              <td className="min-w-60 p-4"><p>{costSummaries[audition.slug]}</p><details className="mt-3"><summary className="min-h-11 cursor-pointer font-bold underline">費用条件の全文</summary><p className="mt-3 whitespace-pre-line">{audition.cost}</p></details></td>
             </tr>;
           })}</tbody>
         </table>
