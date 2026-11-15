@@ -113,6 +113,7 @@ export default function HowToApplyPage() {
     description:
       "アイドルオーディションの応募文、志望動機、自己PRの書き方を未経験向けに解説します。",
     mainEntityOfPage: `${siteConfig.url}/idol-audition/how-to-apply`,
+    dateModified: "2026-11-15T00:00:00+09:00",
     author: {
       "@type": "Organization",
       name: "アイドルオーディションナビ"
@@ -138,7 +139,7 @@ export default function HowToApplyPage() {
         ← トップへ戻る
       </Link>
 
-      <article className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
+      <article className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 sm:p-10">
         <p className="text-sm font-bold text-pink-600">How to Apply</p>
         <h1 className="mt-2 text-4xl font-black leading-tight text-slate-950">
           アイドルオーディションの応募文・自己PRの書き方
@@ -160,9 +161,13 @@ export default function HowToApplyPage() {
           </h2>
           <p className="mt-3 leading-8 text-slate-700">
             「頑張ります」だけではなく、なぜアイドルをやりたいのか、なぜそのグループなのか、活動を続けられる環境があるのかを書きましょう。
-            運営側は、今の完成度だけでなく、今後一緒に活動できるかを見ています。
+            以下は編集部による準備の提案です。応募先によって審査基準は異なるため、募集要項の質問・文字数・時間の指定を優先してください。
           </p>
         </div>
+
+        <nav aria-label="自己PRガイドの目次" className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-bold underline">
+          <a href="#self-pr-template">自己PRの例文</a><a href="#pr-workbook">書くことがないとき</a><a href="#spoken-pr">30秒・1分の自己PR</a><a href="#motivation">志望動機の作り方</a>
+        </nav>
 
         <section className="mt-10" id="self-pr-template">
           <h2 className="text-2xl font-black">自己PRと志望動機は分けて考える</h2>
@@ -177,12 +182,37 @@ export default function HowToApplyPage() {
           <h3 className="mt-6 text-xl font-bold">社会人・20代の自己PR例</h3>
           <blockquote className="mt-4 border-l-2 border-pink-500 bg-slate-50 p-5 leading-8">接客の仕事で、相手の様子を見て言葉を選ぶことを大切にしてきました。忙しい時間も周囲と声を掛け合い、担当業務を最後まで行っています。この経験を、メンバーとの協力やファンの方とのコミュニケーションに生かしたいです。歌とダンスは未経験なので、練習を記録しながら改善していきたいと考えています。</blockquote>
           <p className="mt-3 text-sm leading-7 text-slate-600">いずれも編集部作成の架空の例文です。自分にない経験を足さず、実際のエピソードに置き換えてください。仕事・学校と両立できる時間や転居の可否は、応募先から聞かれた項目に具体的に記載します。</p>
-          <h3 className="mt-6 text-xl font-bold">面接で30秒・1分の自己PRを求められたら</h3>
+          <h3 id="spoken-pr" className="mt-6 scroll-mt-24 text-xl font-bold">面接で30秒・1分の自己PRを求められたら</h3>
           <p className="mt-3 leading-8 text-slate-600">30秒なら「強み→短いエピソード→活動で生かしたいこと」に絞ります。1分なら、その行動で工夫した点を加えましょう。文字数だけで時間を決めず、声に出して測り、早口にならない長さに調整します。</p>
+          <blockquote className="mt-4 border-l-2 border-pink-500 bg-slate-50 p-5 leading-8">私の強みは、苦手なことも振り返って練習できることです。文化祭では、振付を覚えるために自分の動画を撮り、友人と動きを確認しました。この姿勢をレッスンでも生かし、一つずつできることを増やしたいです。</blockquote>
+          <p className="mt-3 text-sm leading-7 text-slate-600">30秒用に調整するための架空の例です。1分なら「どの動きが苦手だったか」「どのように練習方法を変えたか」を、自分の経験に合わせて補います。指定時間に収まるか録音して確かめてください。</p>
           <h3 className="mt-6 text-xl font-bold">募集によって評価する点も違う</h3>
           <p className="mt-3 leading-8 text-slate-600">例えば、つんく♂プロデュースの新グループ募集では「笑顔」「努力する自信」が挙げられています。一方、虹色幻想曲・新姉妹グループの募集では未経験者に実技審査を行わないと記載されています。「歌が上手くないと応募できない」と一律に考えず、まず各募集の応募資格と選考方法を確認しましょう。</p>
           <p className="mt-3 text-sm leading-7 text-slate-600">掲載元：<a href="https://audition.nerim.info/audition-202612/audition-2026110866.html" className="underline">つんく♂プロデュース募集</a> ／ <a href="https://audition.nerim.info/audition-202609/audition-2026070391.html" className="underline">虹色幻想曲・新姉妹グループ募集</a>。個別募集の例であり、他の募集の審査基準を示すものではありません。</p>
           <p className="mt-5"><Link href="/idol-audition/major" className="font-bold text-pink-600 underline">注目募集の応募資格・費用を比較する →</Link></p>
+        </section>
+
+        <section id="pr-workbook" className="mt-10 scroll-mt-24">
+          <h2 className="text-2xl font-black">自己PRに書くことがないときの、材料の見つけ方</h2>
+          <p className="mt-4 leading-8 text-slate-600">受賞歴や芸能経験がなくても、普段の行動は材料になります。「いつ・何をしたか」が説明できる経験を一つ選びます。下の例に合わせて、経験を作り足す必要はありません。</p>
+          <dl className="mt-5 divide-y divide-slate-200">{[
+            ["趣味・自主練習", "好きな曲の振付を覚えた → 苦手な部分をどう練習したか → 学び続ける姿勢を伝える。"],
+            ["学校・部活・委員会", "みんなで発表を準備した → 自分が担当したことを書く → 周囲との協力につなげる。"],
+            ["仕事・アルバイト", "接客や引き継ぎを工夫した → 相手に合わせて変えた行動を書く → 伝える力につなげる。"],
+            ["日常で続けていること", "短い練習や記録を続けた → 実際の期間・頻度を書く → 無理なく継続する工夫を伝える。"],
+          ].map(([title, text]) => <div key={title} className="py-4"><dt className="font-bold">{title}</dt><dd className="mt-2 leading-8 text-slate-600">{text}</dd></div>)}</dl>
+          <h3 className="mt-6 text-xl font-bold">自分の経験で埋めるテンプレート</h3>
+          <blockquote className="mt-4 border-l-2 border-pink-500 bg-slate-50 p-5 leading-8">私の強みは【強みを一つ】です。【場面】で、【自分がした行動】に取り組みました。その際、【工夫したこと】を大切にしました。この経験を、アイドル活動の【生かしたい場面】につなげたいです。</blockquote>
+          <h3 className="mt-6 text-xl font-bold">「頑張ります」を具体的に直す例</h3>
+          <p className="mt-3 leading-8 text-slate-600">たとえば「ダンスを頑張れます」だけなら、「好きな曲の振付を動画で確認し、覚えにくい部分を分けて練習しています」と、実際にしている行動を加えます。まだ始めていなければ「今後取り組みたい」と書き、現在の経験と予定を分けましょう。</p>
+          <p className="mt-3 leading-8 text-slate-600">文字数が短い場合は、強みを増やすより一つのエピソードを残します。「200字以内」などの上限があれば、応募フォームで改行・記号を含む数え方も確認してください。</p>
+        </section>
+
+        <section id="motivation" className="mt-10 scroll-mt-24">
+          <h2 className="text-2xl font-black">志望動機は「なぜこの募集か」を具体的に</h2>
+          <p className="mt-4 leading-8 text-slate-600">「憧れています」から一歩進めて、実際に見た楽曲・ライブ・公式発表のどの部分に惹かれたのかを記します。まだ公演を見ていない場合に「ライブを見た」と書く必要はありません。</p>
+          <blockquote className="mt-4 border-l-2 border-pink-500 bg-slate-50 p-5 leading-8">公式に公開されている【楽曲・映像・活動方針】の【具体的に惹かれた点】を見て応募しました。私は【実際の経験・目指す表現】を大切にしており、貴グループで【挑戦したいこと】に取り組みたいと考えています。</blockquote>
+          <p className="mt-3 leading-8 text-slate-600">新規グループで楽曲やライブがない場合は、募集文のコンセプトや活動方針を材料にできます。活動可能な曜日・地域や保護者の同意は、希望ではなく現在の状況を書き、未調整の事項は相談が必要だと伝えましょう。</p>
         </section>
 
         <section className="mt-10">

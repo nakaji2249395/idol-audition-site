@@ -57,7 +57,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${siteConfig.url}${route}`,
     lastModified: route === "/idol-audition/agency-guide"
       ? new Date(Math.max(Date.parse(becomeIdolGuideUpdated), Date.parse(latestListingUpdate)))
-      : latestListingUpdate,
+      : ["/idol-audition/how-to-apply", "/idol-audition/photos"].includes(route)
+        ? "2026-11-15T00:00:00+09:00"
+        : latestListingUpdate,
     changeFrequency: route === "" || route.startsWith("/idol-audition") ? "daily" : "weekly",
     priority: route === "" ? 1 : route === "/idol-audition" ? 0.9 : 0.7
   }));
