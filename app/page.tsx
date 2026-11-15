@@ -95,9 +95,9 @@ const categories = [
     text: "仕事・会社員・ダブルワークとの両立で探す"
   },
   {
-    title: "アイドル事務所の選び方",
+    title: "アイドルになりたい人へ",
     href: "/idol-audition/agency-guide",
-    text: "アイドルになりたい人が所属先を比較するポイント"
+    text: "未経験・年齢・費用の不安から、最初の応募まで"
   },
   {
     title: "怪しい募集の見分け方",
@@ -217,7 +217,7 @@ export default async function Home() {
                 href="/idol-audition/agency-guide"
                 className="min-h-12 rounded-full border border-slate-950 bg-transparent px-7 py-4 text-center text-sm font-black text-slate-950 transition hover:bg-white"
               >
-                アイドル事務所の選び方
+                アイドルになりたい人へ
               </Link>
             </div>
 

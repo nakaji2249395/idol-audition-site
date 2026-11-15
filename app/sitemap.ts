@@ -4,6 +4,7 @@ import { journalArticleIndex } from "@/lib/organizerArticles";
 import { auditions } from "@/lib/auditions";
 import { siteConfig } from "@/lib/site";
 import { fetchApprovedSitemapEntries } from "@/lib/submissions";
+import { becomeIdolGuideUpdated } from "@/lib/becomeIdolGuide";
 
 export const dynamic = "force-dynamic";
 
@@ -54,7 +55,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${siteConfig.url}${route}`,
-    lastModified: latestListingUpdate,
+    lastModified: route === "/idol-audition/agency-guide"
+      ? new Date(Math.max(Date.parse(becomeIdolGuideUpdated), Date.parse(latestListingUpdate)))
+      : latestListingUpdate,
     changeFrequency: route === "" || route.startsWith("/idol-audition") ? "daily" : "weekly",
     priority: route === "" ? 1 : route === "/idol-audition" ? 0.9 : 0.7
   }));

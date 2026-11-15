@@ -145,8 +145,8 @@ const guideLinks = [
   },
   {
     href: "/idol-audition/agency-guide",
-    title: "アイドル事務所の選び方",
-    text: "アイドルになりたい人が所属先を比較するポイント"
+    title: "アイドルになりたい人へ",
+    text: "未経験からの始め方・費用・応募準備"
   },
   {
     href: "/idol-audition/suspicious",
