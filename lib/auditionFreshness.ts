@@ -1,4 +1,5 @@
 import type { Audition } from "@/lib/auditions";
+import { compareAuditionPriority } from "@/lib/auditionPriority";
 
 const DATE_PATTERN = /(20\d{2})\D{0,3}(1[0-2]|0?[1-9])\D{0,3}(3[01]|[12]\d|0?[1-9])/u;
 
@@ -76,7 +77,7 @@ export function sortByDeadline(auditions: Audition[]) {
   return [...auditions].sort((left, right) => {
     const leftDeadline = parseAuditionDeadline(left.deadline)?.dayNumber ?? Number.MAX_SAFE_INTEGER;
     const rightDeadline = parseAuditionDeadline(right.deadline)?.dayNumber ?? Number.MAX_SAFE_INTEGER;
-    return leftDeadline - rightDeadline;
+    return compareAuditionPriority(left, right) || leftDeadline - rightDeadline;
   });
 }
 
@@ -84,7 +85,7 @@ export function sortByPublishedAt(auditions: Audition[]) {
   return [...auditions].sort((left, right) => {
     const leftTime = left.publishedAt ? Date.parse(left.publishedAt) : 0;
     const rightTime = right.publishedAt ? Date.parse(right.publishedAt) : 0;
-    return rightTime - leftTime;
+    return compareAuditionPriority(left, right) || rightTime - leftTime;
   });
 }
 

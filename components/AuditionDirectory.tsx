@@ -4,6 +4,7 @@ import { useId, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { auditionStyles, type AuditionStyle } from "@/lib/auditionStyles";
 import { recruitmentOptions } from "@/lib/auditionRecruitment";
+import { compareAuditionPriority } from "@/lib/auditionPriority";
 
 export type DirectoryItem = {
   slug: string;
@@ -45,9 +46,9 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
     && (!age || item.ages.includes(age)) && (!beginner || item.beginner) && (!free || item.free)
     && normalize(item.search).includes(normalize(query)));
   const filtered = matchingConditions.filter(item => !style || item.styles.includes(style))
-    .sort((a, b) => sort === "deadline"
+    .sort((a, b) => compareAuditionPriority(a, b) || (sort === "deadline"
       ? (a.deadline ?? Infinity) - (b.deadline ?? Infinity) || b.published - a.published
-      : b.published - a.published);
+      : b.published - a.published));
   function reset() {
     setQuery(""); setRegion(""); setAge(""); setRecruitmentType(""); setStyle(""); setBeginner(false); setFree(false); setSort("new");
   }
