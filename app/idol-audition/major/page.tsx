@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 };
 
 const selections = [
+  { slug: "audition-plus-2026110652", source: "202611/audition-2026110652", point: "MAZEはタイ公演、中国・台湾でのワンマンライブなど国内外で活動する既存グループ。月約20日の活動と、平日16時以降・土日休日のスケジュール確保が条件です。", kind: "既存グループの追加募集", scope: "募集グループ自身の活動実績" },
   { slug: "audition-plus-2026110980", source: "202703/audition-2026110980", point: "アイドルファッション誌「IDOL FILE」の出版やイベント事業を展開する運営。既存グループGREAT MONKEYSと新規グループなどのメンバーを募集しています。Zepp・アリーナ公演は今後の目標です。", kind: "既存グループ＋新規グループ", scope: "主催会社の出版・イベント事業" },
   { slug: "audition-plus-2026090148", source: "202612/audition-2026111102", point: "大阪・梅田の常設イベント会場「アイドルテラス」で定期公演・レッスンを実施。2027年1〜2月の新体制始動に向けてメンバーを募集しています。", kind: "既存グループの新体制募集", scope: "募集グループの定期公演・活動基盤" },
   { slug: "audition-plus-2026080824", source: "202612/audition-2026110867", point: "元NMB48の石塚朱莉がプロデュースする新規グループ。2027年4月のデビューを予定しています。NMB48のメンバー募集ではありません。", kind: "新規グループ", scope: "プロデューサーの経歴" },
@@ -26,6 +27,7 @@ const selections = [
 
 // Company size is not inferred from venues, famous collaborators or group history.
 const evidence: Record<string, { organizer: string; track: string; group: "production" | "live" }> = {
+  "audition-plus-2026110652": { organizer: "MAZE", track: "タイ公演、中国・台湾でのワンマンライブ", group: "live" },
   "audition-plus-2026110980": { organizer: "ロックスエンタテインメント合同会社", track: "IDOL FILEの出版・イベント事業、the mishmashのプロデュース", group: "production" },
   "audition-plus-2026090148": { organizer: "天空音パレード事務局", track: "大阪・梅田の常設会場「アイドルテラス」で定期公演", group: "live" },
   "audition-plus-2026080824": { organizer: "株式会社B.Ambi", track: "元NMB48・石塚朱莉プロデュース", group: "production" },
@@ -44,6 +46,7 @@ const groups = [
 
 // Editorial excerpts checked against each linked listing; the full terms remain below.
 const costSummaries: Record<string, string> = {
+  "audition-plus-2026110652": "参加・レッスン費無料。面接交通費、関東圏の活動交通費、消耗品・食費は自己負担。制作費・遠征交通費と宿泊費は運営負担。",
   "audition-plus-2026110980": "参加料なし。審査交通費等は自己負担。合格後のレッスン・衣装・遠征・活動交通費は事務所負担。",
   "audition-plus-2026090148": "参加費なし。合格後の衣装代・楽曲代等の負担なし。",
   "audition-plus-2026080824": "参加・所属・レッスン・宣材撮影費なし。交通費は自己負担。",

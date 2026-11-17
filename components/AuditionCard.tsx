@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Audition } from "@/lib/auditions";
+import { auditionOrganizerHighlights } from "@/lib/auditionOrganizerHighlights";
 
 export function AuditionCard({ audition: displayAudition, compare = false }: { audition: Audition; compare?: boolean }) {
   return (
@@ -58,6 +59,7 @@ export function AuditionCard({ audition: displayAudition, compare = false }: { a
         <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
           {displayAudition.summary}
         </p>
+        {auditionOrganizerHighlights[displayAudition.slug] ? <p className="mt-2 text-xs leading-6 text-[var(--muted-ink)]">{auditionOrganizerHighlights[displayAudition.slug].text}</p> : null}
 
         {compare ? <dl className="my-4 grid grid-cols-[3rem_1fr] gap-x-3 gap-y-2 text-xs leading-6">
           <dt className="font-bold">年齢</dt><dd className="line-clamp-3">{displayAudition.age || "詳細で確認"}</dd>

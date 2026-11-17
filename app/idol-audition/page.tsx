@@ -8,6 +8,7 @@ import { auditionRegions, isAuditionInRegion, type AuditionRegion } from "@/lib/
 import { isAgeLimitNoneAudition, isBeginnerFriendlyAudition, isHighSchoolFriendlyAudition, isNoCostAudition, isThirtiesAudition, isTwentiesAudition } from "@/lib/auditionAudience";
 import { siteConfig } from "@/lib/site";
 import { getAuditionListingSummary } from "@/lib/auditionListingSummary";
+import { auditionOrganizerHighlights } from "@/lib/auditionOrganizerHighlights";
 import { getAuditionStyles } from "@/lib/auditionStyles";
 
 export const metadata: Metadata = {
@@ -252,6 +253,7 @@ export default async function IdolAuditionPage() {
         return {
           slug: item.slug, search: `${item.title} ${item.group} ${item.area}`,
           title: item.title, ...getAuditionListingSummary(item), deadlineLabel: item.deadline,
+          organizerHighlight: auditionOrganizerHighlights[item.slug]?.text,
           styles: getAuditionStyles(item),
           recruitmentTypes: item.sourceRecruitmentTypes ?? [],
           regions: regions.length ? regions : ["other"],

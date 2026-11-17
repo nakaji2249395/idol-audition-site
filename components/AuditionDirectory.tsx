@@ -22,6 +22,7 @@ export type DirectoryItem = {
   experience: string;
   activity: string;
   deadlineLabel: string;
+  organizerHighlight?: string;
   recruitmentTypes?: string[];
   styles: AuditionStyle[];
 };
@@ -110,6 +111,7 @@ export function AuditionDirectory({ items }: { items: DirectoryItem[] }) {
                 {[item.area, item.age, item.experience].filter(Boolean).join(" ｜ ")}
               </p> : null}
               {item.activity ? <p className="mt-1 text-sm leading-7 text-slate-600">{item.activity}</p> : null}
+              {item.organizerHighlight ? <p className="mt-1 text-xs leading-6 text-[var(--muted-ink)]">{item.organizerHighlight}</p> : null}
             </div>
             <div className="flex items-center justify-between gap-3 text-sm sm:block">
               {item.deadlineLabel && !/^(詳細で確認|要確認|不明|未設定|記載なし)$/.test(item.deadlineLabel) ? <p className="leading-6"><span className="mr-2 font-bold">締切</span>{item.deadlineLabel}</p> : null}
