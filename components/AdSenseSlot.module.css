@@ -1,0 +1,17 @@
+.slot {
+  margin: 48px auto;
+  padding: 20px 0;
+  width: 100%;
+  min-height: 300px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.label {
+  margin: 0 0 16px;
+  color: var(--muted-ink);
+  font-size: 11px;
+  text-align: center;
+}
+.slot[hidden], .slot:has(ins[data-ad-status="unfilled"]) {
+  display: none;
+}

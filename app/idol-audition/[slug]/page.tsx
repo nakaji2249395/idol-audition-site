@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
+import { AdSenseSlot } from "@/components/AdSenseSlot";
 import { DirectoryLink } from "@/components/DirectoryLink";
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
@@ -99,6 +101,9 @@ export default async function AuditionDetailPage({ params }: PageProps) {
   const region = auditionRegion ? auditionRegions[auditionRegion] : null;
   const audienceLinks = getAudienceLinks(audition);
   const activityArchive = getAuditionActivity(audition.slug);
+  // Start with Japan only. Do not load Google ads for unknown/overseas
+  // locations until the relevant consent-management setup is in place.
+  const showDisplayAd = (await headers()).get("x-vercel-ip-country") === "JP";
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -288,6 +293,8 @@ export default async function AuditionDetailPage({ params }: PageProps) {
           <p className="mt-3 text-center text-[11px] leading-5 text-slate-500">検索・応募は無料です</p>
         </aside>
       </article>
+
+      {showDisplayAd ? <AdSenseSlot key={audition.slug} /> : null}
 
       {audienceLinks.length > 0 ? (
         <nav className="mt-10 border-y border-slate-200 py-6" aria-label="年齢・生活条件が近い募集">

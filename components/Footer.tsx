@@ -63,6 +63,7 @@ export function Footer() {
           <div className="mt-4 grid gap-2.5 text-sm font-semibold text-slate-300">
             <Link href="/post" className="hover:text-pink-300">無料で掲載する</Link>
             <Link href="/about" className="hover:text-pink-300">このサイトについて</Link>
+            <Link href="/privacy" className="hover:text-pink-300">広告・プライバシー</Link>
           </div>
         </div>
       </div>
