@@ -190,28 +190,22 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
 
-      <section className="mx-auto max-w-[1180px] px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
-        <header className="grid items-center gap-10 border-b border-slate-200 pb-16 pt-6 lg:grid-cols-[1.04fr_0.96fr] lg:gap-16 lg:pb-20 lg:pt-12">
+      <section className="mx-auto max-w-[1180px] px-4 pb-16 pt-6 sm:px-6 sm:pt-8">
+        <header className="grid items-center gap-8 border-b border-slate-200 pb-10 pt-2 lg:grid-cols-[1.04fr_0.96fr] lg:gap-12 lg:pb-12 lg:pt-4">
           <div>
-            <p className="editorial-kicker">Find your next stage</p>
-            <h1 className="display-heading mt-5">
-              アイドルに
-              <br />
-              なりたい。その一歩を、
-              <br />
-              <span className="border-b-[6px] border-pink-200 text-pink-500">ちゃんと選ぶ。</span>
+            <h1 className="text-3xl font-black leading-snug tracking-[-0.04em] text-slate-950 sm:text-4xl">
+              アイドルオーディションを探す
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
-              募集中のアイドルオーディションを、地域・費用・年齢・未経験可否で比較。
-              応募前に知りたい条件を整理して、あなたに合う募集を見つけられます。
+            <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
+              地域・年齢・未経験OKなど、条件から募集中のオーディションを比較。
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/idol-audition"
                 className="min-h-12 rounded-full bg-pink-500 px-7 py-4 text-center text-sm font-black text-white transition hover:bg-pink-700"
               >
-                全国のアイドルオーディションを探す →
+                募集を探す →
               </Link>
               <Link
                 href="/idol-audition/agency-guide"
@@ -221,7 +215,7 @@ export default async function Home() {
               </Link>
             </div>
 
-            <dl className="mt-10 grid max-w-lg grid-cols-3 border-y border-slate-200 py-5">
+            <dl className="mt-6 grid max-w-lg grid-cols-3 border-y border-slate-200 py-5">
               <div>
                 <dt className="text-2xl font-black tracking-[-0.05em] text-slate-950">{allAuditions.length}</dt>
                 <dd className="mt-1 text-[10px] font-bold text-slate-500">掲載中</dd>
