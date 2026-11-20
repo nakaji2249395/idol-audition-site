@@ -6,8 +6,8 @@ import { getAuditionListingSummary } from "@/lib/auditionListingSummary";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "大手・注目アイドルオーディションを探す｜実績・年齢・費用で比較",
-  description: "大手や実績のある運営のアイドルオーディションを探している方へ。プロデューサー・ライブ出演実績のある注目募集を、年齢条件・費用・選考の流れで比較。新規グループと既存グループの違いも解説します。",
+  title: "大手・注目アイドルオーディション一覧｜募集中の案件・年齢・費用を比較",
+  description: "現在応募できる大手・注目アイドルオーディションを比較。運営・プロデューサーの実績、対象年齢、活動地域、費用、締切を確認できます。大手事務所と実績のある注目募集を区別し、新規・追加メンバー募集を紹介します。",
   alternates: { canonical: "/idol-audition/major" },
 };
 

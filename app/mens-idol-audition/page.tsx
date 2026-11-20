@@ -7,8 +7,8 @@ import styles from "./mens.module.css";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "メンズアイドルオーディション・男性メンバー募集一覧",
-  description: "メンズアイドル・メン地下・男性ダンスボーカルのオーディションを探す。地域、未経験歓迎、新規グループ・追加メンバーの条件から、募集中の情報を比較できます。",
+  title: "メンズアイドルオーディション一覧｜未経験歓迎・新規＆追加メンバー募集",
+  description: "募集中のメンズアイドル・メン地下・男性ダンスボーカルのオーディション一覧。地域や未経験歓迎、新規・追加メンバーの条件で絞り込み、対象年齢・費用・締切を比較して応募先を探せます。",
   alternates: { canonical: "/mens-idol-audition" },
 };
 
