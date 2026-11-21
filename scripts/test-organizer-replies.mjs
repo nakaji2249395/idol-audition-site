@@ -3,9 +3,9 @@ import { readFile } from 'node:fs/promises';
 import { organizerReplySlot } from '../lib/organizerReplySchedule.ts';
 const queue = JSON.parse(await readFile(new URL('../content/organizer-posts/replies-2026-10-24.json', import.meta.url)));
 const previous = JSON.parse(await readFile(new URL('../content/organizer-posts/replies-2026-10-23.json', import.meta.url)));
-assert.equal(queue.batches.length, 247);
-assert.equal(new Set(queue.sources.map(s => s.postId)).size, 247);
-assert.equal(new Set(queue.sources.map(s => s.account)).size, 247);
+assert.equal(queue.batches.length, 257);
+assert.equal(new Set(queue.sources.map(s => s.postId)).size, 257);
+assert.equal(new Set(queue.sources.map(s => s.account)).size, 257);
 assert.ok(!queue.sources.some(s => s.account === 'Mirai_FandL' || previous.sources.some(p => p.postId === s.postId)));
 queue.batches.forEach((b, i) => {
  const source = queue.sources[i];
@@ -29,9 +29,9 @@ assert.equal(slot('2026-10-29T22:00:00+09:00').index,46);
 assert.equal(slot('2026-10-30T00:00:00+09:00').index,47);
 assert.equal(slot('2026-10-30T09:00:00+09:00').index,48);
 assert.equal(queue.sources.length, queue.batches.length);
-assert.equal(new Set(queue.batches.map(b => b[1])).size, 247);
+assert.equal(new Set(queue.batches.map(b => b[1])).size, 257);
 assert.ok(queue.sources.slice(23).every(s => Number.isFinite(Date.parse(s.postedAt)) && Number.isFinite(Date.parse(s.verifiedAt))));
-console.log('247 unique targets; initial skipped midnight, JST rollover and queue end passed');
+console.log('257 unique targets; initial skipped midnight, JST rollover and queue end passed');
 // Exercise idempotent delivery without contacting LINE or the database.
 import ts from 'typescript';
 import {randomUUID} from 'node:crypto';
@@ -54,8 +54,8 @@ assert.equal(preview.index,0);assert.equal(preview.exhausted,false);assert.equal
 await deliver(false,new Date('2026-10-23T15:00:00Z'));assert.equal(requests,0);
 await Promise.all([deliver(false,new Date('2026-10-24T00:00:00Z')),deliver(false,new Date('2026-10-24T00:00:00Z'))]);assert.equal(accepted,1);
 await deliver(false,new Date('2026-10-24T00:10:00Z'));assert.equal(accepted,1);
-await deliver(false,new Date('2026-11-24T00:00:00Z'));
-await deliver(false,new Date('2026-11-24T05:00:00Z'));assert.equal(accepted,2);
+await deliver(false,new Date('2026-11-25T05:00:00Z'));
+await deliver(false,new Date('2026-11-25T09:00:00Z'));assert.equal(accepted,2);
 console.log('Dry run, off-schedule, concurrent deduplication, and single exhaustion notice passed');
 
 assert.equal(slot('2026-10-31T09:00:00+09:00').index,56);
@@ -153,4 +153,10 @@ assert.equal(slot('2026-11-23T00:00:00+09:00'),null);
 assert.equal(slot('2026-11-23T22:00:00+09:00').index,246);
 assert.ok(queue.batches[246]);
 assert.equal(slot('2026-11-24T09:00:00+09:00').index,248);
-assert.equal(queue.batches[248],undefined);
+assert.ok(queue.batches[248]);
+
+assert.equal(slot('2026-11-25T00:00:00+09:00'),null);
+assert.equal(slot('2026-11-25T09:00:00+09:00').index,256);
+assert.ok(queue.batches[256]);
+assert.equal(slot('2026-11-25T14:00:00+09:00').index,258);
+assert.equal(queue.batches[258],undefined);
